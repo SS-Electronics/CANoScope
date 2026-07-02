@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+# Debian packaging rules for CANoScope (Taksys).
+# Build with:  dpkg-buildpackage -us -uc -b
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/buildflags.mk
+
+%:
+	dh $@
+
+# The project Makefile owns its own flags; inject the distro hardening flags via
+# the EXTRA_CFLAGS / EXTRA_LDFLAGS hooks instead of letting debhelper drive make.
+override_dh_auto_build:
+	$(MAKE) EXTRA_CFLAGS="$(CFLAGS) $(CPPFLAGS)" EXTRA_LDFLAGS="$(LDFLAGS)"
+
+# Stage the application into debian/canoscope using the Makefile's install-files
+# target (no dependency installation, no icon-cache generation).
+override_dh_auto_install:
+	$(MAKE) install-files PREFIX=/usr DESTDIR=$(CURDIR)/debian/canoscope
+
+# The Makefile's "clean" only removes build/; let dh clean the rest too.
+override_dh_auto_clean:
+	$(MAKE) clean

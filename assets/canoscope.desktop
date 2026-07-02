@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.1
+Name=CANoScope
+GenericName=CAN Bus Monitor
+Comment=CAN / CAN FD bus monitor and analyser (by Taksys)
+Exec=canoscope
+Icon=canoscope
+Terminal=false
+Categories=Development;Electronics;
+Keywords=CAN;CANFD;SocketCAN;CANbus;Automotive;Bus;Trace;
+StartupNotify=true

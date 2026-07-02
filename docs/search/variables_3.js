@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['data_0',['data',['../structcan__msg__t.html#afc5eb20c3bf07105b25e16703e4b3de0',1,'can_msg_t']]],
+  ['data_5fbitrate_1',['data_bitrate',['../structapp__state__t.html#afc00c452566ffde93bdf12829c9063f4',1,'app_state_t::data_bitrate'],['../structsocketcan__ctx__t.html#ab952ebfda61e83e91e12e26361d5c84a',1,'socketcan_ctx_t::data_bitrate']]],
+  ['data_5fbox_2',['data_box',['../structtx__panel__row__t.html#a881dc79542cce9b01c8bf66be035a4fe',1,'tx_panel_row_t']]],
+  ['data_5fentry_3',['data_entry',['../structtx__panel__row__t.html#a1617f0f2c3c00e60357984c9eea43868',1,'tx_panel_row_t::data_entry'],['../structtx__win__t.html#a89824c2aeb63030f30e086ffc04ec367',1,'tx_win_t::data_entry']]],
+  ['data_5fformat_4',['data_format',['../structapp__state__t.html#adb7e9b44aed5e2a7b134eb1ea1052ece',1,'app_state_t']]],
+  ['data_5fgrid_5',['data_grid',['../structtx__win__t.html#a3f29cf481e7d721cc3d7586a199fbbbe',1,'tx_win_t']]],
+  ['dedup_5fmode_6',['dedup_mode',['../structapp__state__t.html#a4cdaef5d9b371fdad7c3c4cc886bc78c',1,'app_state_t']]],
+  ['dedup_5fmutex_7',['dedup_mutex',['../structapp__state__t.html#af10e1a9011fc0c1fd69cfbc9880ad83c',1,'app_state_t']]],
+  ['dedup_5ftable_8',['dedup_table',['../structapp__state__t.html#a38e744200f3c3cc5b5d097c77065d9b0',1,'app_state_t']]],
+  ['deinit_9',['deinit',['../structcan__driver.html#a3cc7a651e218478fd305aa8029978d8d',1,'can_driver']]],
+  ['direction_10',['direction',['../structcan__msg__t.html#a0d82250238f531ecbdca14d51532dcb3',1,'can_msg_t']]],
+  ['dlc_11',['dlc',['../structcan__msg__t.html#a5486c4fe15bf2a1f321d971ef332c815',1,'can_msg_t::dlc'],['../structdbc__message__t.html#a001f69b2022a50eea20d634782b99da0',1,'dbc_message_t::dlc']]],
+  ['dlc_5fspin_12',['dlc_spin',['../structtx__panel__row__t.html#a30ecd1d1b615e7ef7138d1731e283f43',1,'tx_panel_row_t::dlc_spin'],['../structtx__win__t.html#ac5ce8e1025fcc1392b56991f2a18a04c',1,'tx_win_t::dlc_spin']]],
+  ['dmax_13',['dmax',['../structplot__signal__t.html#abdaa5146d485e0dd8c3598527d7c80a9',1,'plot_signal_t']]],
+  ['dmin_14',['dmin',['../structplot__signal__t.html#aba298a5bf576a2398e471f8036878ce7',1,'plot_signal_t']]],
+  ['driver_15',['driver',['../structapp__state__t.html#a130a6311acc5bd619bd4ecedb4eeb597',1,'app_state_t']]]
+];

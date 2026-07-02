@@ -1,0 +1,52 @@
+.TH CANOSCOPE 1 "June 2026" "canoscope 2.0.0" "User Commands"
+.SH NAME
+canoscope \- GTK CAN / CAN FD bus monitor using Linux SocketCAN
+.SH SYNOPSIS
+.B canoscope
+.RI [ OPTION ]
+.SH DESCRIPTION
+.B canoscope
+(CANoScope, by Taksys) is a GTK3 desktop application for monitoring,
+transmitting, and recording CAN and CAN FD traffic via the Linux SocketCAN
+subsystem (PF_CAN).
+.PP
+It provides a live statistics bar, a real-time receive trace, one-shot and
+cyclic message transmission, CAN FD payloads up to 64 bytes, and CSV trace
+export. Missing virtual CAN interfaces can be created and brought up
+automatically through a graphical authentication prompt.
+.SH OPTIONS
+.TP
+.BR \-v ", " \-\-version
+Show version information and exit.
+.TP
+.BR \-h ", " \-\-help
+Show a short usage summary and exit.
+.PP
+With no options, the graphical application is launched.
+.SH USAGE
+Start the application and choose
+.B File > Connect
+(or press
+.BR F5 )
+to open the connection dialog. Select an interface (for example
+.BR vcan0 ),
+the nominal bit rate, and optionally CAN FD, then connect. Use the
+.B Trace
+menu to record traffic and export it as CSV.
+.SH "VIRTUAL CAN TESTING"
+To test without hardware:
+.PP
+.nf
+    sudo modprobe vcan
+    sudo ip link add dev vcan0 type vcan
+    sudo ip link set up vcan0
+    cansend vcan0 123#DEADBEEF
+.fi
+.SH AUTHOR
+Subhajit Roy <subhajitroy005@gmail.com>
+.SH COPYRIGHT
+Copyright \(co 2026 Taksys. Licensed under the Apache License, Version 2.0.
+.SH "SEE ALSO"
+.BR cansend (1),
+.BR candump (1),
+.BR ip (8)

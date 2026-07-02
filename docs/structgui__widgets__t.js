@@ -1,0 +1,26 @@
+var structgui__widgets__t =
+[
+    [ "window", "structgui__widgets__t.html#a19d5fe2179a79fcee534b8fa33317d83", null ],
+    [ "toolbar_connect", "structgui__widgets__t.html#ad1aa0c5a6e7c5232ff952cf3783dcf38", null ],
+    [ "toolbar_disconnect", "structgui__widgets__t.html#ace73dc89f15637116596bb5e3612c58d", null ],
+    [ "toolbar_clear", "structgui__widgets__t.html#a32ec6778744950601db4a28bf6db970a", null ],
+    [ "toolbar_trace_start", "structgui__widgets__t.html#a5f38c0dbaf48123a6ada65be95c7e95d", null ],
+    [ "toolbar_trace_stop", "structgui__widgets__t.html#a239993dac40979c689de0d517945acf5", null ],
+    [ "trace_view", "structgui__widgets__t.html#ad2883383bd59f934b8c5d6cf220ee2d7", null ],
+    [ "trace_store", "structgui__widgets__t.html#affe32cb3476f5b8f059a0bf6b2088c66", null ],
+    [ "trace_row_seq", "structgui__widgets__t.html#a5aa42641e08e460e0f3ee6789f9b6b0d", null ],
+    [ "lbl_connection", "structgui__widgets__t.html#a43e3c23a1f70b84a40532f45ccd5a5f8", null ],
+    [ "lbl_bitrate", "structgui__widgets__t.html#aca8bec5edbfc65c25b7dc8b9529ed913", null ],
+    [ "lbl_stats_summary", "structgui__widgets__t.html#a25f2a6c2171eb24c39266f3604e45322", null ],
+    [ "lbl_bus_load", "structgui__widgets__t.html#ad099100b532f5978c02bb560fb3b5cb3", null ],
+    [ "lbl_rx", "structgui__widgets__t.html#a85949326f8006ea849a2d62a2a76b312", null ],
+    [ "lbl_tx", "structgui__widgets__t.html#a6caf9b0e9c45a3577ff94e7742c1a80b", null ],
+    [ "lbl_err", "structgui__widgets__t.html#a29d3f0846b0d9f4950a595585c1a7e64", null ],
+    [ "lbl_bus_state", "structgui__widgets__t.html#aa217a529b28765ab375c0f05d2e99609", null ],
+    [ "progress_bus_load", "structgui__widgets__t.html#a2ac208b013a2c2d79e8f1f961433212d", null ],
+    [ "statusbar", "structgui__widgets__t.html#a98e6fb2ed394e58d41c08d3348297434", null ],
+    [ "statusbar_ctx", "structgui__widgets__t.html#ad46c0c78360c3ab0cd12d9cea88746ea", null ],
+    [ "sig_view", "structgui__widgets__t.html#a3d2a822ba610ce57eab29a240ce79823", null ],
+    [ "sig_store", "structgui__widgets__t.html#a5c9d8cd1dcc0f60315652d08fce258ce", null ],
+    [ "lbl_dbc", "structgui__widgets__t.html#ac96a9ce602e336d1d2cab1980b05eac2", null ]
+];

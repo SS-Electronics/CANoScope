@@ -1,0 +1,35 @@
+Source: canoscope
+Section: electronics
+Priority: optional
+Maintainer: Subhajit Roy <subhajitroy005@gmail.com>
+Build-Depends: debhelper-compat (= 13),
+               pkgconf | pkg-config,
+               libgtk-3-dev,
+               libglib2.0-dev
+Standards-Version: 4.6.2
+Homepage: https://taksys.in
+Rules-Requires-Root: no
+Vcs-Browser: https://github.com/SS-Electronics/CANoScope
+Vcs-Git: https://github.com/SS-Electronics/CANoScope.git
+
+Package: canoscope
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Recommends: can-utils,
+            iproute2,
+            polkitd | policykit-1
+Description: GTK CAN / CAN FD bus monitor using SocketCAN
+ CANoScope is a GTK3 desktop application for monitoring, transmitting,
+ and recording CAN and CAN FD traffic via the Linux SocketCAN subsystem
+ (PF_CAN). It is inspired by PEAK-System PCAN-View.
+ .
+ Features:
+  * Live statistics bar (interface, bitrate, bus load, Rx/Tx/Err, bus state).
+  * Real-time receive trace with timestamp, ID, type, DLC and data.
+  * One-shot and cyclic transmission; CAN FD payloads up to 64 bytes.
+  * DBC signal decoding with a multi-window signal-analysis viewer.
+  * Trace capture with CSV export.
+  * Listen-only mode and configurable nominal / data bit rates.
+ .
+ Distributed by Taksys.

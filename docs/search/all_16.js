@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['raw_5fdata_5fmax_0',['RAW_DATA_MAX',['../message__view_8c.html#a06e098701bbe4b6668d7e5e8a0d37d81',1,'message_view.c']]],
+  ['readme_2emd_1',['README.md',['../README_8md.html',1,'']]],
+  ['real_20peak_20hardware_2',['6. Run with real PEAK hardware',['../index.html#autotoc_md32',1,'']]],
+  ['rebrand_3',['v2.0.0 — CANoScope rebrand',['../index.html#autotoc_md7',1,'']]],
+  ['recommended_4',['Install (recommended)',['../index.html#autotoc_md22',1,'']]],
+  ['recv_5',['recv',['../structcan__driver.html#a7d3d3bf3b3ebfe3a69e7b4876af02854',1,'can_driver']]],
+  ['references_6',['References',['../index.html#autotoc_md48',1,'']]],
+  ['release_7',['v1.1.0 — Taksys customer release',['../index.html#autotoc_md10',1,'']]],
+  ['release_20notes_8',['Release Notes',['../index.html#autotoc_md6',1,'']]],
+  ['reset_9',['reset',['../structcan__driver.html#afa7f4fde71dad1bc652fe00b27d81b86',1,'can_driver']]],
+  ['row_10',['row',['../structwin__series__t.html#a05ac2ef4ffbddc5954e84d4381dbac29',1,'win_series_t']]],
+  ['row_5ffg_11',['row_fg',['../message__view_8c.html#afbe2a8a7550bf2ab07ea97a267a225cd',1,'message_view.c']]],
+  ['rows_12',['rows',['../main__window_8c.html#a0209b77037c24489d182d753e8809cc2',1,'main_window.c']]],
+  ['rows_5fbox_13',['rows_box',['../main__window_8c.html#aab76191caec810fe694b4626e688f56c',1,'main_window.c']]],
+  ['rtr_5fcheck_14',['rtr_check',['../structtx__win__t.html#a880dfcdfe6513ce5d54cec5cfd824735',1,'tx_win_t::rtr_check'],['../structtx__panel__row__t.html#aaa5aa747fe1296bb26bee6b1189dad0d',1,'tx_panel_row_t::rtr_check']]],
+  ['run_15',['3. Run',['../index.html#autotoc_md29',1,'']]],
+  ['run_20from_20source_16',['Build &amp; Run (from source)',['../index.html#autotoc_md26',1,'']]],
+  ['run_20test_20scripts_17',['2. Run test scripts',['../index.html#autotoc_md36',1,'']]],
+  ['run_20with_20real_20peak_20hardware_18',['6. Run with real PEAK hardware',['../index.html#autotoc_md32',1,'']]],
+  ['run_5fargv_19',['run_argv',['../socketcan_8c.html#adf5866c10c6e20af34c8fb8ec3c4aaeb',1,'socketcan.c']]],
+  ['run_5fip_5fpriv_20',['run_ip_priv',['../socketcan_8c.html#ac83e63e6905affb12bbd97152ca2ef7c',1,'socketcan.c']]],
+  ['rx_5fcount_21',['rx_count',['../structcan__stats__t.html#a217e899a867354603c2caa3b82c86af3',1,'can_stats_t::rx_count'],['../structapp__state__t.html#a68d43d386451c982eede303e8c24180e',1,'app_state_t::rx_count']]],
+  ['rx_5fqueue_22',['rx_queue',['../structapp__state__t.html#a19ea4f3a9265d31363fdd8f789c75f82',1,'app_state_t']]],
+  ['rx_5frunning_23',['rx_running',['../structapp__state__t.html#ad739d6bb6352a755f912886b1273e370',1,'app_state_t']]],
+  ['rx_5fthread_24',['rx_thread',['../structapp__state__t.html#a35772fe3fa3240e13ce5d4116901cbff',1,'app_state_t']]]
+];

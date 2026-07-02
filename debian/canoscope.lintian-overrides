@@ -1,0 +1,3 @@
+# This package is distributed via a PPA / direct .deb, not the Debian bug
+# tracker, so the initial changelog entry intentionally closes no bug reports.
+canoscope: initial-upload-closes-no-bugs

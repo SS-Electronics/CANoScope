@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['a_20test_20frame_20another_20terminal_0',['4. Send a test frame (another terminal)',['../index.html#autotoc_md30',1,'']]],
+  ['a_20tt_20deb_20tt_20package_1',['Install from a &lt;tt&gt;.deb&lt;/tt&gt; package',['../index.html#autotoc_md23',1,'']]],
+  ['add_5frow_2',['ADD_ROW',['../message__view_8c.html#a10b6e46c4eff38c389688aaddd0bffb1',1,'message_view.c']]],
+  ['analysis_20viewer_3',['v1.2.0 — Multi-window Signal Analysis Viewer',['../index.html#autotoc_md8',1,'']]],
+  ['another_20terminal_4',['4. Send a test frame (another terminal)',['../index.html#autotoc_md30',1,'']]],
+  ['api_20documentation_5',['API Documentation',['../index.html#autotoc_md42',1,'']]],
+  ['app_5fdata_5fformat_5fascii_6',['APP_DATA_FORMAT_ASCII',['../app__state_8h.html#ae51a88a1d8d281e9a111c531df6a7797a64099304947565d43c95e52d90611f1d',1,'app_state.h']]],
+  ['app_5fdata_5fformat_5fdec_7',['APP_DATA_FORMAT_DEC',['../app__state_8h.html#ae51a88a1d8d281e9a111c531df6a7797afffe71ed5469e2ddc5a8575c93d81ad0',1,'app_state.h']]],
+  ['app_5fdata_5fformat_5fhex_8',['APP_DATA_FORMAT_HEX',['../app__state_8h.html#ae51a88a1d8d281e9a111c531df6a7797a66620696eaa544f45122248c818dc0d2',1,'app_state.h']]],
+  ['app_5fdata_5fformat_5ft_9',['app_data_format_t',['../app__state_8h.html#ae51a88a1d8d281e9a111c531df6a7797',1,'app_state.h']]],
+  ['app_5fdo_5fconnect_10',['app_do_connect',['../gui_8h.html#a37312b03edaa76b2a82019d4afff8bac',1,'app_do_connect(void):&#160;threads.c'],['../threads_8c.html#a37312b03edaa76b2a82019d4afff8bac',1,'app_do_connect(void):&#160;threads.c']]],
+  ['app_5fdo_5fdisconnect_11',['app_do_disconnect',['../gui_8h.html#af0289d49f1a5c4eae028c8d848006e42',1,'app_do_disconnect(void):&#160;threads.c'],['../threads_8c.html#af0289d49f1a5c4eae028c8d848006e42',1,'app_do_disconnect(void):&#160;threads.c']]],
+  ['app_5fid_5fformat_5fdec_12',['APP_ID_FORMAT_DEC',['../app__state_8h.html#ae2bb8e9549f0928b6414ff6453a69572aa09e514305b6247b69a63108ce40376d',1,'app_state.h']]],
+  ['app_5fid_5fformat_5fhex_13',['APP_ID_FORMAT_HEX',['../app__state_8h.html#ae2bb8e9549f0928b6414ff6453a69572a981ac0b67ed3105770ef3878ef5fd952',1,'app_state.h']]],
+  ['app_5fid_5fformat_5ft_14',['app_id_format_t',['../app__state_8h.html#ae2bb8e9549f0928b6414ff6453a69572',1,'app_state.h']]],
+  ['app_5fmax_5fiface_5flen_15',['APP_MAX_IFACE_LEN',['../app__state_8h.html#aafc8c2e9b0e278a7f7d397f531ffd8cc',1,'app_state.h']]],
+  ['app_5fstate_2eh_16',['app_state.h',['../app__state_8h.html',1,'']]],
+  ['app_5fstate_5fcleanup_17',['app_state_cleanup',['../app__state_8h.html#a2f8f2e8b64a6eefb43fa34827037b92c',1,'app_state_cleanup(void):&#160;threads.c'],['../threads_8c.html#a2f8f2e8b64a6eefb43fa34827037b92c',1,'app_state_cleanup(void):&#160;threads.c']]],
+  ['app_5fstate_5finit_18',['app_state_init',['../app__state_8h.html#a47f5487683990de8747e03d3c78b763b',1,'app_state_init(void):&#160;threads.c'],['../threads_8c.html#a47f5487683990de8747e03d3c78b763b',1,'app_state_init(void):&#160;threads.c']]],
+  ['app_5fstate_5ft_19',['app_state_t',['../structapp__state__t.html',1,'']]],
+  ['app_5ftrace_5ffile_5flen_20',['APP_TRACE_FILE_LEN',['../app__state_8h.html#a4b50811a4535223fb9c44cc7f3075857',1,'app_state.h']]],
+  ['architecture_21',['Driver Architecture',['../index.html#autotoc_md14',1,'']]],
+  ['area_22',['area',['../structplot__window__t.html#a8b848ea3b471ac3f3a2faff36490b367',1,'plot_window_t']]]
+];

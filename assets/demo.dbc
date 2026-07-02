@@ -1,0 +1,46 @@
+VERSION "CANoScope demo database (Taksys)"
+
+
+NS_ :
+	BA_
+	BA_DEF_
+	BA_DEF_DEF_
+	BO_TX_BU_
+	CM_
+	SG_MUL_VAL_
+	VAL_
+	VAL_TABLE_
+
+BS_:
+
+BU_ ECU Tester
+
+
+BO_ 256 EngineData: 8 ECU
+ SG_ EngineSpeed : 0|16@1+ (0.25,0) [0|16383.75] "rpm" Tester
+ SG_ EngineTemp : 16|8@1+ (1,-40) [-40|215] "degC" Tester
+ SG_ ThrottlePosition : 24|8@1+ (0.392157,0) [0|100] "%" Tester
+ SG_ EngineLoad : 32|8@1+ (0.5,0) [0|127.5] "%" Tester
+
+BO_ 257 VehicleStatus: 8 ECU
+ SG_ VehicleSpeed : 0|16@1+ (0.01,0) [0|655.35] "km/h" Tester
+ SG_ Gear : 16|4@1+ (1,0) [0|15] "" Tester
+ SG_ BrakeActive : 20|1@1+ (1,0) [0|1] "" Tester
+ SG_ SteeringAngle : 24|16@1- (0.1,0) [-3276.8|3276.7] "deg" Tester
+ SG_ Odometer : 40|24@1+ (0.1,0) [0|1677721.5] "km" Tester
+
+BO_ 258 SensorMotorola: 8 ECU
+ SG_ PressureBar : 7|16@0+ (0.1,0) [0|6553.5] "bar" Tester
+ SG_ AmbientTemp : 23|8@0- (1,0) [-128|127] "degC" Tester
+
+BO_ 2566844672 EngineExtended: 8 ECU
+ SG_ FuelLevel : 0|8@1+ (0.4,0) [0|102] "%" Tester
+ SG_ OilPressure : 8|16@1+ (0.1,0) [0|6553.5] "kPa" Tester
+ SG_ CoolantLevel : 24|8@1+ (0.5,0) [0|127.5] "%" Tester
+
+
+
+CM_ BO_ 256 "Primary engine telemetry frame.";
+CM_ BO_ 257 "Vehicle dynamics and status.";
+CM_ BO_ 258 "Big-endian (Motorola) sensor frame.";
+CM_ BO_ 2566844672 "Extended-ID (29-bit) engine data frame.";

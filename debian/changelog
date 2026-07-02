@@ -1,0 +1,42 @@
+canoscope (2.0.0-1) noble; urgency=medium
+
+  * Rebrand: the application is now CANoScope (formerly "PCAN-View Linux").
+    The binary, package, desktop entry, icon, share directory and all
+    user-facing strings have been renamed accordingly.
+  * The application icon and About-dialog logo now use the Taksys brand mark.
+  * Receive trace "#" column now numbers rows compactly by unique CAN ID and
+    restarts from 1 each time the trace is cleared.
+  * Connection dialog gains a Refresh-interfaces button, an optional acceptance
+    filter (ID + mask), and clearer hardware/virtual interface handling on top
+    of the existing SocketCAN backend (classic CAN, CAN FD, listen-only,
+    automatic vcan creation via polkit).
+  * Signal Analysis Viewer graphs now draw one coloured per-signal Y axis with
+    real physical-value tick labels and units instead of a shared 0-100% scale.
+
+ -- Subhajit Roy <subhajitroy005@gmail.com>  Sun, 28 Jun 2026 16:00:00 +0530
+
+pcan-view (1.2.0-1) noble; urgency=medium
+
+  * Signal Analysis Viewer redesigned around detachable analysis windows: each
+    "Add Analysis Window" opens an independent, detached graph window.
+  * Per-window searchable signal dropdown (type-to-filter) selects which signals
+    that window plots.
+  * Load a DBC database any time after launch via "Load DBC…"; all open analysis
+    windows refresh and repopulate against the new database.
+  * Graphs drop the on-plot legend: hovering a trace shows that point's value and
+    signal information, while per-signal colours live in the window's side pane.
+  * Verified smooth at 1 kHz traffic across multiple windows with mixed standard
+    and extended-ID frames over a sustained run with zero frame loss.
+
+ -- Subhajit Roy <subhajitroy005@gmail.com>  Sun, 28 Jun 2026 12:40:00 +0530
+
+pcan-view (1.1.0-1) noble; urgency=medium
+
+  * Initial Debian packaging for the Taksys customer release.
+  * Statistics bar below the menu bar.
+  * Trace menu with Start/Stop and CSV export.
+  * CAN FD transmit with per-row DLC up to 64 bytes and dynamic data fields.
+  * Taksys branding (About dialog, footer, application icon) and desktop entry.
+  * Full Doxygen API documentation.
+
+ -- Subhajit Roy <subhajitroy005@gmail.com>  Fri, 26 Jun 2026 23:13:35 +0530

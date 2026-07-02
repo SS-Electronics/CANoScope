@@ -1,0 +1,129 @@
+name: Release & PPA
+
+# On a version tag (vX.Y.Z) or manual dispatch:
+#   * build a binary .deb and attach it to the GitHub Release;
+#   * build a signed source package per Ubuntu series and upload it to a
+#     Launchpad PPA (only when the required secrets are configured).
+#
+# Required repository secrets for the PPA upload (all optional — the upload step
+# is skipped when PPA_GPG_PRIVATE_KEY is absent):
+#   PPA_GPG_PRIVATE_KEY  ASCII-armoured GPG private key (matches the Maintainer).
+#   PPA_GPG_KEY_ID       Key id / fingerprint used to sign.
+#   PPA_GPG_PASSPHRASE   Passphrase for the key (optional).
+#   PPA_TARGET           dput target, e.g. "ppa:subhajitroy/canoscope".
+on:
+  push:
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release-deb:
+    name: Build .deb & attach to release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build/packaging dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential pkgconf libgtk-3-dev libglib2.0-dev \
+            debhelper devscripts lintian
+
+      - name: Build binary .deb
+        run: dpkg-buildpackage -us -uc -b
+
+      - name: Collect & lint
+        run: |
+          mkdir -p dist && mv ../canoscope_*_*.deb dist/
+          lintian dist/canoscope_*_*.deb || true
+          ls -l dist
+
+      - name: Upload .deb to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.deb
+
+      - name: Upload .deb artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-deb
+          path: dist/*.deb
+
+  ppa-source:
+    name: Source upload to Launchpad PPA
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        series: [ noble, jammy ]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install source-packaging dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            debhelper devscripts dput rsync gnupg lintian
+
+      - name: Import GPG signing key
+        id: gpg
+        env:
+          PPA_GPG_PRIVATE_KEY: ${{ secrets.PPA_GPG_PRIVATE_KEY }}
+          PPA_TARGET: ${{ secrets.PPA_TARGET }}
+        run: |
+          if [ -z "$PPA_GPG_PRIVATE_KEY" ]; then
+            echo "have_key=false" >> "$GITHUB_OUTPUT"
+            echo "No PPA_GPG_PRIVATE_KEY secret — will build the source package but skip upload."
+          else
+            echo "$PPA_GPG_PRIVATE_KEY" | gpg --batch --import
+            echo "have_key=true" >> "$GITHUB_OUTPUT"
+          fi
+          if [ -n "$PPA_TARGET" ]; then
+            echo "have_target=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "have_target=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build signed source package for ${{ matrix.series }}
+        env:
+          SERIES: ${{ matrix.series }}
+          KEY_ID: ${{ secrets.PPA_GPG_KEY_ID }}
+          HAVE_KEY: ${{ steps.gpg.outputs.have_key }}
+        run: |
+          set -e
+          export DEBEMAIL="subhajitroy005@gmail.com"
+          export DEBFULLNAME="Subhajit Roy"
+          UPSTREAM=$(dpkg-parsechangelog -S Version | sed 's/-[^-]*$//')
+          BASE=$(dpkg-parsechangelog -S Version)
+          PPA_VER="${BASE}~ppa${GITHUB_RUN_NUMBER}~${SERIES}1"
+
+          # Clean copy → orig tarball → retarget changelog → build source.
+          rm -rf ../src && mkdir -p "../src/canoscope-${UPSTREAM}"
+          rsync -a --exclude='.git' --exclude='.github' --exclude='build' \
+                --exclude='docs' --exclude='debian/.debhelper' \
+                --exclude='debian/canoscope' ./ "../src/canoscope-${UPSTREAM}/"
+          ( cd ../src && tar --exclude=debian -caf "canoscope_${UPSTREAM}.orig.tar.xz" \
+                -C "canoscope-${UPSTREAM}" . )
+
+          cd "../src/canoscope-${UPSTREAM}"
+          dch -b -v "$PPA_VER" --distribution "$SERIES" \
+              "Automated source build for ${SERIES}."
+
+          if [ "$HAVE_KEY" = "true" ] && [ -n "$KEY_ID" ]; then
+            debuild -S -sa -k"$KEY_ID"
+          else
+            dpkg-buildpackage -S -us -uc -d
+          fi
+          lintian ../canoscope_*.dsc || true
+
+      - name: dput to PPA
+        if: steps.gpg.outputs.have_key == 'true' && steps.gpg.outputs.have_target == 'true'
+        env:
+          PPA_TARGET: ${{ secrets.PPA_TARGET }}
+        run: |
+          dput --unchecked "$PPA_TARGET" ../src/canoscope_*_source.changes

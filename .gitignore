@@ -1,48 +1,57 @@
-# Prerequisites
-*.d
+# ------------------------------------------------------------------ #
+# CANoScope – .gitignore                                         #
+# ------------------------------------------------------------------ #
 
-# Object files
+# Build output (all compiler artefacts live here)
+/build/
+
+# Local-only docs (kept out of commits)
+/ISSUES.md
+/PROJECT_CONTEXT.md
+
+# ------------------------------------------------------------------ #
+# C / GCC                                                              #
+# ------------------------------------------------------------------ #
+*.d
 *.o
 *.ko
 *.obj
 *.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
 *.gch
 *.pch
+*.su
+*.i*86
+*.x86_64
 
 # Libraries
 *.lib
 *.a
 *.la
 *.lo
-
-# Shared objects (inc. Windows DLLs)
 *.dll
 *.so
 *.so.*
 *.dylib
 
-# Executables
+# Linker output
+*.ilk
+*.map
+*.exp
+
+# Executables (catch stray binaries outside build/)
 *.exe
 *.out
 *.app
-*.i*86
-*.x86_64
 *.hex
 
-# Debug files
+# Debug symbols
 *.dSYM/
-*.su
 *.idb
 *.pdb
 
-# Kernel Module Compile Results
+# ------------------------------------------------------------------ #
+# Kernel module artefacts                                              #
+# ------------------------------------------------------------------ #
 *.mod*
 *.cmd
 .tmp_versions/
@@ -51,5 +60,83 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-# debug information files
-*.dwo
+# ------------------------------------------------------------------ #
+# Editors & IDEs                                                       #
+# ------------------------------------------------------------------ #
+# VS Code – keep c_cpp_properties.json (IntelliSense config), ignore workspace state
+.vscode/settings.json
+.vscode/*.code-workspace
+.vscode/.browse.VC.db*
+
+# CLion / JetBrains
+.idea/
+cmake-build-*/
+
+# Vim / Neovim
+*.swp
+*.swo
+*~
+
+# Emacs
+\#*\#
+.\#*
+
+# ------------------------------------------------------------------ #
+# OS                                                                   #
+# ------------------------------------------------------------------ #
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ------------------------------------------------------------------ #
+# Trace files (user-generated, not part of the repo)                  #
+# ------------------------------------------------------------------ #
+*.csv
+*.trc
+
+# ------------------------------------------------------------------ #
+# Tooling / language-server caches                                    #
+# ------------------------------------------------------------------ #
+compile_commands.json
+.cache/
+.clangd/
+.ccls-cache/
+tags
+TAGS
+cscope.*
+
+
+# ------------------------------------------------------------------ #
+# Debian / package build artefacts                                    #
+# ------------------------------------------------------------------ #
+/debian/.debhelper/
+/debian/canoscope/
+/debian/files
+/debian/*.substvars
+/debian/*.debhelper.log
+/debian/debhelper-build-stamp
+/obj-*/
+../canoscope_*.deb
+../canoscope_*.changes
+../canoscope_*.buildinfo
+../canoscope_*.dsc
+../canoscope_*.tar.*
+
+# ------------------------------------------------------------------ #
+# Logs & local scratch                                                #
+# ------------------------------------------------------------------ #
+*.log
+*.xwd
+/stage/
+/staging/
+/dist/
+
+# ------------------------------------------------------------------ #
+# Packaging output                                                    #
+# ------------------------------------------------------------------ #
+*.deb
+*.rpm
+*.AppImage
+*.tar.gz
+*.tar.xz
+*.zip
