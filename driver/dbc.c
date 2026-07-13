@@ -22,12 +22,30 @@
 #include "../inc/dbc.h"
 
 #include <ctype.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 /* DBC encodes an extended (29-bit) identifier by setting bit 31 of the BO_ id. */
 #define DBC_EXT_FLAG  0x80000000u
+
+static void dbc_set_err(char *err, size_t errsz, const char *msg)
+{
+    if (err && errsz > 0)
+        snprintf(err, errsz, "%s", msg ? msg : "DBC error.");
+}
+
+static void dbc_set_errno(char *err, size_t errsz,
+                          const char *prefix, const char *path)
+{
+    if (err && errsz > 0) {
+        snprintf(err, errsz, "%s '%s': %s",
+                 prefix ? prefix : "I/O error",
+                 path ? path : "",
+                 strerror(errno));
+    }
+}
 
 /**
  * @brief Append an empty message slot to the database, growing as needed.
@@ -47,6 +65,16 @@ static dbc_message_t *dbc_push_message(dbc_db_t *db)
     dbc_message_t *m = &db->messages[db->message_count++];
     memset(m, 0, sizeof(*m));
     return m;
+}
+
+dbc_db_t *dbc_create_empty(const char *path)
+{
+    dbc_db_t *db = calloc(1, sizeof(*db));
+    if (!db)
+        return NULL;
+    if (path)
+        strncpy(db->path, path, sizeof(db->path) - 1);
+    return db;
 }
 
 /**
@@ -197,6 +225,173 @@ const dbc_message_t *dbc_find_message(const dbc_db_t *db,
             return m;
     }
     return NULL;
+}
+
+dbc_message_t *dbc_find_message_mut(dbc_db_t *db,
+                                    uint32_t id, int is_extended)
+{
+    if (!db)
+        return NULL;
+    for (size_t i = 0; i < db->message_count; i++) {
+        dbc_message_t *m = &db->messages[i];
+        if (m->id == id && (int)m->is_extended == (is_extended ? 1 : 0))
+            return m;
+    }
+    return NULL;
+}
+
+dbc_message_t *dbc_upsert_message(dbc_db_t *db,
+                                  uint32_t id, int is_extended,
+                                  uint8_t dlc, const char *name,
+                                  char *err, size_t errsz)
+{
+    if (!db) {
+        dbc_set_err(err, errsz, "No database is open.");
+        return NULL;
+    }
+    if (!name || !*name) {
+        dbc_set_err(err, errsz, "Message name is empty.");
+        return NULL;
+    }
+
+    dbc_message_t *m = dbc_find_message_mut(db, id, is_extended);
+    if (!m) {
+        m = dbc_push_message(db);
+        if (!m) {
+            dbc_set_err(err, errsz, "Out of memory while adding message.");
+            return NULL;
+        }
+        m->id          = id;
+        m->is_extended = is_extended ? 1 : 0;
+    }
+
+    m->dlc = dlc > 64 ? 64 : dlc;
+    snprintf(m->name, sizeof(m->name), "%s", name);
+    return m;
+}
+
+int dbc_upsert_signal(dbc_db_t *db, dbc_message_t *msg,
+                      const dbc_signal_t *sig, int *replaced,
+                      char *err, size_t errsz)
+{
+    if (replaced)
+        *replaced = 0;
+    if (!db || !msg || !sig) {
+        dbc_set_err(err, errsz, "Invalid database, message, or signal.");
+        return -1;
+    }
+    if (!sig->name[0]) {
+        dbc_set_err(err, errsz, "Signal name is empty.");
+        return -1;
+    }
+    if (sig->length == 0 || sig->length > 64) {
+        dbc_set_err(err, errsz, "Signal length must be 1..64 bits.");
+        return -1;
+    }
+
+    for (uint16_t i = 0; i < msg->signal_count; i++) {
+        if (strcmp(msg->signals[i].name, sig->name) == 0) {
+            msg->signals[i] = *sig;
+            if (replaced)
+                *replaced = 1;
+            return 0;
+        }
+    }
+
+    if (msg->signal_count >= DBC_MAX_SIGNALS_PER_MSG) {
+        dbc_set_err(err, errsz, "Message already has the maximum number of signals.");
+        return -1;
+    }
+
+    msg->signals[msg->signal_count++] = *sig;
+    db->signal_count++;
+    return 0;
+}
+
+int dbc_save_file(const dbc_db_t *db, const char *path,
+                  char *err, size_t errsz)
+{
+    if (!db || !path || !*path) {
+        dbc_set_err(err, errsz, "No database path was selected.");
+        return -1;
+    }
+
+    char tmp[sizeof(db->path) + 16];
+    int n = snprintf(tmp, sizeof(tmp), "%s.tmp", path);
+    if (n < 0 || (size_t)n >= sizeof(tmp)) {
+        dbc_set_err(err, errsz, "Database path is too long.");
+        return -1;
+    }
+
+    FILE *fp = fopen(tmp, "w");
+    if (!fp) {
+        dbc_set_errno(err, errsz, "Cannot write", path);
+        return -1;
+    }
+
+    fprintf(fp, "VERSION \"CANoScope generated database\"\n\n\n");
+    fprintf(fp, "NS_ :\n");
+    fprintf(fp, "\tBA_\n");
+    fprintf(fp, "\tBA_DEF_\n");
+    fprintf(fp, "\tBA_DEF_DEF_\n");
+    fprintf(fp, "\tBO_TX_BU_\n");
+    fprintf(fp, "\tCM_\n");
+    fprintf(fp, "\tSG_MUL_VAL_\n");
+    fprintf(fp, "\tVAL_\n");
+    fprintf(fp, "\tVAL_TABLE_\n\n");
+    fprintf(fp, "BS_:\n\n");
+    fprintf(fp, "BU_: Vector__XXX\n\n");
+
+    for (size_t mi = 0; mi < db->message_count; mi++) {
+        const dbc_message_t *m = &db->messages[mi];
+        unsigned long raw_id = (unsigned long)m->id;
+        if (m->is_extended)
+            raw_id |= DBC_EXT_FLAG;
+
+        fprintf(fp, "BO_ %lu %s: %u Vector__XXX\n",
+                raw_id, m->name, (unsigned)m->dlc);
+
+        for (uint16_t si = 0; si < m->signal_count; si++) {
+            const dbc_signal_t *s = &m->signals[si];
+            char unit[DBC_UNIT_MAX * 2];
+            size_t up = 0;
+            for (size_t i = 0; s->unit[i] && up + 1 < sizeof(unit); i++) {
+                unsigned char c = (unsigned char)s->unit[i];
+                if (c == '"' || c == '\\')
+                    continue;
+                unit[up++] = (char)c;
+            }
+            unit[up] = '\0';
+
+            fprintf(fp,
+                    " SG_ %s : %u|%u@%u%c (%.15g,%.15g) [%.15g|%.15g] \"%s\" Vector__XXX\n",
+                    s->name,
+                    (unsigned)s->start_bit,
+                    (unsigned)s->length,
+                    s->little_endian ? 1u : 0u,
+                    s->is_signed ? '-' : '+',
+                    s->factor,
+                    s->offset,
+                    s->min,
+                    s->max,
+                    unit);
+        }
+        fprintf(fp, "\n");
+    }
+
+    if (fclose(fp) != 0) {
+        dbc_set_errno(err, errsz, "Cannot finish writing", path);
+        remove(tmp);
+        return -1;
+    }
+
+    if (rename(tmp, path) != 0) {
+        dbc_set_errno(err, errsz, "Cannot replace", path);
+        remove(tmp);
+        return -1;
+    }
+
+    return 0;
 }
 
 uint64_t dbc_extract_raw(const uint8_t *data, uint8_t dlc,

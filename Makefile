@@ -68,6 +68,7 @@ SRCS := main.c \
         gui/main_window.c \
         gui/signal_view.c \
         gui/signal_plot.c \
+        gui/db_creation.c \
         gui/settings_dialog.c \
         gui/transmit_dialog.c
 

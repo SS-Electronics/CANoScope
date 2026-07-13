@@ -16,6 +16,7 @@
 #ifndef GUI_H
 #define GUI_H
 
+#include <stddef.h>
 #include <gtk/gtk.h>
 #include "can_message.h"
 #include "app_state.h"
@@ -46,6 +47,22 @@ enum {
     TCOL_TS_NS,     /**< Hidden last timestamp in nanoseconds.                */
     TCOL_NUM        /**< Number of columns (model width).                     */
 };
+
+#define GUI_TRACE_ID_TEXT_MAX   16
+#define GUI_TRACE_DATA_TEXT_MAX 512
+
+/**
+ * @brief Snapshot of one RX row from the main trace table.
+ */
+typedef struct {
+    uint32_t     id;           /**< Raw 11-/29-bit identifier.                */
+    uint8_t      is_extended;  /**< Non-zero for a 29-bit extended ID.        */
+    uint8_t      dlc;          /**< Payload length.                           */
+    uint8_t      data[CANFD_DATA_MAX]; /**< Latest payload bytes.             */
+    unsigned int count;        /**< Trace row hit count.                      */
+    char         id_text[GUI_TRACE_ID_TEXT_MAX];     /**< Display ID text.    */
+    char         data_text[GUI_TRACE_DATA_TEXT_MAX]; /**< Display payload.    */
+} gui_trace_rx_message_t;
 
 /**
  * @brief Bundle of long-lived widgets, populated by @ref gui_create_main_window.
@@ -108,6 +125,14 @@ void gui_clear_trace(void);
 /** @brief Re-render existing trace rows after a display-format change. */
 void gui_refresh_trace_display(void);
 
+/**
+ * @brief Collect current RX rows from the Receive/Transmit trace.
+ * @param out  Optional output array. Pass NULL to count only.
+ * @param max  Capacity of @p out.
+ * @return Total RX rows available, even when greater than @p max.
+ */
+size_t gui_trace_collect_rx_messages(gui_trace_rx_message_t *out, size_t max);
+
 /* ---- Signal Analysis (DBC-decoded) ---------------------------------------- */
 
 /**
@@ -135,6 +160,24 @@ void gui_signal_clear_dbc(void);
  * @param msg  Frame (RX or TX); ignored when no database is loaded.
  */
 void gui_signal_decode_message(const can_msg_t *msg);
+
+/**
+ * @brief Return the active DBC path used by Signal Analysis, or NULL.
+ */
+const char *gui_signal_get_dbc_path(void);
+
+/* ---- DB Creation ---------------------------------------------------------- */
+
+/**
+ * @brief Build the DB Creation tab for creating/updating DBC files from RX rows.
+ * @return A container widget for use as a notebook page.
+ */
+GtkWidget *gui_create_db_creation_view(void);
+
+/**
+ * @brief Notify the DB Creation tab that the trace RX list may have changed.
+ */
+void gui_db_creation_trace_changed(void);
 
 /* ---- Signal Analysis Viewer (signal-vs-time graph) ------------------------ */
 

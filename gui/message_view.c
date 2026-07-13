@@ -452,7 +452,11 @@ void gui_add_message(const can_msg_t *msg)
             } while (gtk_tree_model_iter_next(
                          GTK_TREE_MODEL(g_gui.trace_store), &iter));
         }
-        if (found) return;
+        if (found) {
+            if (msg->direction == CAN_DIR_RX)
+                gui_db_creation_trace_changed();
+            return;
+        }
     }
 
     /* Enforce max rows only when a new visible row is appended. */
@@ -506,6 +510,9 @@ void gui_add_message(const can_msg_t *msg)
         TCOL_TS_NS, ts_ns,
         -1);
 
+    if (msg->direction == CAN_DIR_RX)
+        gui_db_creation_trace_changed();
+
     /* Auto-scroll to bottom */
     GtkTreePath *path = gtk_tree_model_get_path(
         GTK_TREE_MODEL(g_gui.trace_store), &iter);
@@ -524,6 +531,7 @@ void gui_clear_trace(void)
         gtk_list_store_clear(g_gui.trace_store);
     /* Restart the #-column numbering so the next frames begin again at 1. */
     g_gui.trace_row_seq = 0;
+    gui_db_creation_trace_changed();
 }
 
 void gui_refresh_trace_display(void)
@@ -566,6 +574,64 @@ void gui_refresh_trace_display(void)
         g_free(raw);
     } while (gtk_tree_model_iter_next(
                  GTK_TREE_MODEL(g_gui.trace_store), &iter));
+}
+
+size_t gui_trace_collect_rx_messages(gui_trace_rx_message_t *out, size_t max)
+{
+    if (!g_gui.trace_store)
+        return 0;
+
+    GtkTreeIter iter;
+    if (!gtk_tree_model_get_iter_first(
+            GTK_TREE_MODEL(g_gui.trace_store), &iter))
+        return 0;
+
+    size_t n = 0;
+    do {
+        guint id = 0;
+        guint dir = 0;
+        guint dlc = 0;
+        guint count = 0;
+        gboolean is_ext = FALSE;
+        gchar *id_text = NULL;
+        gchar *data_text = NULL;
+        gchar *raw = NULL;
+
+        gtk_tree_model_get(GTK_TREE_MODEL(g_gui.trace_store), &iter,
+                           TCOL_ID_RAW, &id,
+                           TCOL_EXT_RAW, &is_ext,
+                           TCOL_DIR_RAW, &dir,
+                           TCOL_DLC, &dlc,
+                           TCOL_COUNT, &count,
+                           TCOL_ID, &id_text,
+                           TCOL_DATA, &data_text,
+                           TCOL_DATA_RAW, &raw,
+                           -1);
+
+        if (dir == CAN_DIR_RX) {
+            if (out && n < max) {
+                gui_trace_rx_message_t *rx = &out[n];
+                memset(rx, 0, sizeof(*rx));
+                rx->id = id;
+                rx->is_extended = is_ext ? 1 : 0;
+                rx->dlc = (uint8_t)(dlc > CANFD_DATA_MAX ? CANFD_DATA_MAX : dlc);
+                rx->count = count;
+                snprintf(rx->id_text, sizeof(rx->id_text), "%s",
+                         id_text ? id_text : "");
+                snprintf(rx->data_text, sizeof(rx->data_text), "%s",
+                         data_text ? data_text : "");
+                parse_raw_data(raw, rx->data, rx->dlc);
+            }
+            n++;
+        }
+
+        g_free(id_text);
+        g_free(data_text);
+        g_free(raw);
+    } while (gtk_tree_model_iter_next(
+                 GTK_TREE_MODEL(g_gui.trace_store), &iter));
+
+    return n;
 }
 
 /* ------------------------------------------------------------------ */

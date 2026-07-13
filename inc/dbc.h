@@ -83,6 +83,13 @@ typedef struct {
 dbc_db_t *dbc_load_file(const char *path, char *err, size_t errsz);
 
 /**
+ * @brief Create an empty in-memory DBC database.
+ * @param path  Optional path to remember as the database source.
+ * @return A new empty database (free with @ref dbc_free), or NULL.
+ */
+dbc_db_t *dbc_create_empty(const char *path);
+
+/**
  * @brief Release a database returned by @ref dbc_load_file. @param db Database.
  */
 void dbc_free(dbc_db_t *db);
@@ -96,6 +103,57 @@ void dbc_free(dbc_db_t *db);
  */
 const dbc_message_t *dbc_find_message(const dbc_db_t *db,
                                       uint32_t id, int is_extended);
+
+/**
+ * @brief Mutable variant of @ref dbc_find_message.
+ * @param db           Database (may be NULL).
+ * @param id           Raw 11-/29-bit identifier.
+ * @param is_extended  Non-zero to match an extended-ID message.
+ * @return The message, or NULL if not present.
+ */
+dbc_message_t *dbc_find_message_mut(dbc_db_t *db,
+                                    uint32_t id, int is_extended);
+
+/**
+ * @brief Add a message or update the metadata of an existing one.
+ * @param db           Database to modify.
+ * @param id           Raw 11-/29-bit identifier.
+ * @param is_extended  Non-zero for an extended-ID message.
+ * @param dlc          Declared payload length.
+ * @param name         Message name.
+ * @param err          Optional error buffer.
+ * @param errsz        Size of @p err.
+ * @return The added/updated message, or NULL on failure.
+ */
+dbc_message_t *dbc_upsert_message(dbc_db_t *db,
+                                  uint32_t id, int is_extended,
+                                  uint8_t dlc, const char *name,
+                                  char *err, size_t errsz);
+
+/**
+ * @brief Add or replace a signal in a message.
+ * @param db        Database owning @p msg; used to maintain signal_count.
+ * @param msg       Message to modify.
+ * @param sig       Signal definition to copy in.
+ * @param replaced  Optional out: non-zero if an existing signal was replaced.
+ * @param err       Optional error buffer.
+ * @param errsz     Size of @p err.
+ * @return 0 on success, -1 on failure.
+ */
+int dbc_upsert_signal(dbc_db_t *db, dbc_message_t *msg,
+                      const dbc_signal_t *sig, int *replaced,
+                      char *err, size_t errsz);
+
+/**
+ * @brief Write a database to disk as a DBC file.
+ * @param db     Database to serialise.
+ * @param path   Destination path.
+ * @param err    Optional error buffer.
+ * @param errsz  Size of @p err.
+ * @return 0 on success, -1 on failure.
+ */
+int dbc_save_file(const dbc_db_t *db, const char *path,
+                  char *err, size_t errsz);
 
 /**
  * @brief Extract a signal's raw (unscaled) bit field from a payload.

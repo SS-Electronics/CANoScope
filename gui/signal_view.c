@@ -194,6 +194,11 @@ void gui_signal_load_default_dbc(void)
         sig_update_dbc_label();
 }
 
+const char *gui_signal_get_dbc_path(void)
+{
+    return s_db && s_db->path[0] ? s_db->path : NULL;
+}
+
 /* ------------------------------------------------------------------ */
 /* Live decode                                                          */
 /* ------------------------------------------------------------------ */

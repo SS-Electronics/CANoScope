@@ -24,7 +24,8 @@
  *      ├─ GtkNotebook
  *      │  ├─ "Receive / Transmit" page     (GtkPaned: trace + transmit panel)
  *      │  ├─ "Signal Analysis" page        (DBC-decoded signal table)
- *      │  └─ "Signal Analysis Viewer" page (multi-signal time graph)
+ *      │  ├─ "Signal Analysis Viewer" page (multi-signal time graph)
+ *      │  └─ "DB Creation" page            (DBC generator/updater)
  *      ├─ GtkStatusbar
  *      └─ footer  (Taksys logo + credits)
  * @endverbatim
@@ -1506,6 +1507,11 @@ GtkWidget *gui_create_main_window(GtkApplication *app)
     GtkWidget *plot_page = gui_create_signal_plot();
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), plot_page,
                              gtk_label_new("Signal Analysis Viewer"));
+
+    /* Page 4 — DB Creation (generate/update DBC files from RX rows). */
+    GtkWidget *db_page = gui_create_db_creation_view();
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), db_page,
+                             gtk_label_new("DB Creation"));
 
     /* Status bar */
     g_gui.statusbar    = gtk_statusbar_new();
