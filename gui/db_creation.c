@@ -15,6 +15,13 @@
 #include "../inc/dbc.h"
 
 #define RAW_TEXT_MAX ((CANFD_DATA_MAX * 2u) + 1u)
+#define GRAPH_MAX_SAMPLES 2048
+#define GRAPH_WINDOW_SEC  20.0
+
+typedef struct {
+    double t;
+    double value;
+} graph_sample_t;
 
 enum {
     MCOL_LABEL = 0,
@@ -44,13 +51,23 @@ static struct {
     GtkWidget    *sample_data_label;
     GtkWidget    *sample_raw_label;
     GtkWidget    *sample_value_label;
+    GtkWidget    *graph_area;
     GtkWidget    *status_label;
     guint         refresh_source;
     gboolean      preserve_form_on_refresh;
+    gboolean      refreshing_messages;
+    graph_sample_t graph_samples[GRAPH_MAX_SAMPLES];
+    int           graph_head;
+    int           graph_count;
+    gint64        graph_start_us;
+    uint32_t      selected_id;
+    int           selected_ext;
+    gboolean      selected_valid;
 } s_tab;
 
 static void db_creation_refresh_messages(void);
 static void update_sample_preview(void);
+static void graph_clear(void);
 
 static void set_status(const char *fmt, ...)
 {
@@ -218,19 +235,229 @@ static gboolean signal_fits_payload(uint16_t start_bit, uint16_t length,
     return TRUE;
 }
 
+static void read_decode_signal(dbc_signal_t *sig)
+{
+    memset(sig, 0, sizeof(*sig));
+    sig->start_bit = (uint16_t)gtk_spin_button_get_value_as_int(
+        GTK_SPIN_BUTTON(s_tab.start_spin));
+    sig->length = (uint16_t)gtk_spin_button_get_value_as_int(
+        GTK_SPIN_BUTTON(s_tab.length_spin));
+    sig->little_endian = gtk_combo_box_get_active(
+        GTK_COMBO_BOX(s_tab.endian_combo)) == 0;
+    sig->is_signed = gtk_toggle_button_get_active(
+        GTK_TOGGLE_BUTTON(s_tab.signed_check)) ? 1 : 0;
+    sig->factor = gtk_spin_button_get_value(
+        GTK_SPIN_BUTTON(s_tab.factor_spin));
+    sig->offset = gtk_spin_button_get_value(
+        GTK_SPIN_BUTTON(s_tab.offset_spin));
+}
+
+static int graph_sample_index(int logical)
+{
+    return (s_tab.graph_head - s_tab.graph_count + logical +
+            GRAPH_MAX_SAMPLES) % GRAPH_MAX_SAMPLES;
+}
+
+static void graph_clear(void)
+{
+    s_tab.graph_head = 0;
+    s_tab.graph_count = 0;
+    s_tab.graph_start_us = 0;
+    if (s_tab.graph_area)
+        gtk_widget_queue_draw(s_tab.graph_area);
+}
+
+static void graph_append(double value)
+{
+    gint64 now_us = g_get_monotonic_time();
+    if (s_tab.graph_start_us == 0)
+        s_tab.graph_start_us = now_us;
+
+    int idx = s_tab.graph_head;
+    s_tab.graph_samples[idx].t =
+        (double)(now_us - s_tab.graph_start_us) / 1000000.0;
+    s_tab.graph_samples[idx].value = value;
+    s_tab.graph_head = (s_tab.graph_head + 1) % GRAPH_MAX_SAMPLES;
+    if (s_tab.graph_count < GRAPH_MAX_SAMPLES)
+        s_tab.graph_count++;
+
+    if (s_tab.graph_area)
+        gtk_widget_queue_draw(s_tab.graph_area);
+}
+
+static void graph_draw_text(cairo_t *cr, const char *text, double x, double y)
+{
+    cairo_move_to(cr, x, y);
+    cairo_show_text(cr, text);
+}
+
+static gboolean on_graph_draw(GtkWidget *widget, cairo_t *cr, gpointer data)
+{
+    (void)data;
+
+    GtkAllocation a;
+    gtk_widget_get_allocation(widget, &a);
+    double W = a.width;
+    double H = a.height;
+
+    cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
+    cairo_rectangle(cr, 0, 0, W, H);
+    cairo_fill(cr);
+
+    double left = 58.0;
+    double right = 12.0;
+    double top = 16.0;
+    double bottom = 34.0;
+    double x0 = left;
+    double x1 = W - right;
+    double y0 = top;
+    double y1 = H - bottom;
+    if (x1 <= x0 + 20.0 || y1 <= y0 + 20.0)
+        return FALSE;
+
+    cairo_select_font_face(cr, "Sans",
+                           CAIRO_FONT_SLANT_NORMAL,
+                           CAIRO_FONT_WEIGHT_NORMAL);
+    cairo_set_font_size(cr, 10.0);
+    cairo_set_line_width(cr, 1.0);
+
+    double last_t = 0.0;
+    if (s_tab.graph_count > 0) {
+        int last_idx = graph_sample_index(s_tab.graph_count - 1);
+        last_t = s_tab.graph_samples[last_idx].t;
+    }
+    double t_start = last_t > GRAPH_WINDOW_SEC ?
+                     last_t - GRAPH_WINDOW_SEC : 0.0;
+    double t_end = t_start + GRAPH_WINDOW_SEC;
+    if (last_t > t_end)
+        t_end = last_t;
+
+    double y_min = gtk_spin_button_get_value(GTK_SPIN_BUTTON(s_tab.min_spin));
+    double y_max = gtk_spin_button_get_value(GTK_SPIN_BUTTON(s_tab.max_spin));
+    if (y_max <= y_min) {
+        y_min = 0.0;
+        y_max = 1.0;
+        gboolean found = FALSE;
+        for (int i = 0; i < s_tab.graph_count; i++) {
+            int idx = graph_sample_index(i);
+            graph_sample_t *s = &s_tab.graph_samples[idx];
+            if (s->t < t_start)
+                continue;
+            if (!found) {
+                y_min = y_max = s->value;
+                found = TRUE;
+            } else {
+                if (s->value < y_min) y_min = s->value;
+                if (s->value > y_max) y_max = s->value;
+            }
+        }
+        if (y_max <= y_min) {
+            y_min -= 0.5;
+            y_max += 0.5;
+        }
+    }
+    double y_span = y_max - y_min;
+    if (y_span <= 0.0)
+        y_span = 1.0;
+
+    cairo_set_source_rgb(cr, 0.88, 0.88, 0.88);
+    for (int i = 0; i <= 5; i++) {
+        double x = x0 + (x1 - x0) * i / 5.0;
+        cairo_move_to(cr, x, y0);
+        cairo_line_to(cr, x, y1);
+        cairo_stroke(cr);
+    }
+    for (int i = 0; i <= 4; i++) {
+        double y = y1 - (y1 - y0) * i / 4.0;
+        cairo_move_to(cr, x0, y);
+        cairo_line_to(cr, x1, y);
+        cairo_stroke(cr);
+    }
+
+    cairo_set_source_rgb(cr, 0.2, 0.2, 0.2);
+    cairo_rectangle(cr, x0, y0, x1 - x0, y1 - y0);
+    cairo_stroke(cr);
+
+    for (int i = 0; i <= 5; i++) {
+        double t = t_start + (t_end - t_start) * i / 5.0;
+        double x = x0 + (x1 - x0) * i / 5.0;
+        char label[32];
+        snprintf(label, sizeof(label), "%.1fs", t);
+        graph_draw_text(cr, label, x - 12.0, H - 12.0);
+    }
+    for (int i = 0; i <= 4; i++) {
+        double v = y_min + y_span * i / 4.0;
+        double y = y1 - (y1 - y0) * i / 4.0;
+        char label[32];
+        snprintf(label, sizeof(label), "%.4g", v);
+        graph_draw_text(cr, label, 5.0, y + 3.0);
+    }
+
+    if (s_tab.graph_count == 0) {
+        cairo_set_source_rgb(cr, 0.45, 0.45, 0.45);
+        graph_draw_text(cr, "No samples", x0 + 12.0, y0 + 22.0);
+        return FALSE;
+    }
+
+    cairo_set_source_rgb(cr, 0.10, 0.42, 0.78);
+    cairo_set_line_width(cr, 1.8);
+    gboolean started = FALSE;
+    double last_x = 0.0, last_y = 0.0;
+    for (int i = 0; i < s_tab.graph_count; i++) {
+        int idx = graph_sample_index(i);
+        graph_sample_t *s = &s_tab.graph_samples[idx];
+        if (s->t < t_start)
+            continue;
+        double x = x0 + ((s->t - t_start) / (t_end - t_start)) * (x1 - x0);
+        double norm = (s->value - y_min) / y_span;
+        if (norm < 0.0) norm = 0.0;
+        if (norm > 1.0) norm = 1.0;
+        double y = y1 - norm * (y1 - y0);
+        if (!started) {
+            cairo_move_to(cr, x, y);
+            started = TRUE;
+        } else {
+            cairo_line_to(cr, x, y);
+        }
+        last_x = x;
+        last_y = y;
+    }
+    if (started)
+        cairo_stroke(cr);
+
+    cairo_arc(cr, last_x, last_y, 3.0, 0, 2.0 * G_PI);
+    cairo_fill(cr);
+
+    return FALSE;
+}
+
 static void selected_message_changed(GtkComboBox *combo, gpointer data)
 {
     (void)combo;
     (void)data;
+
+    if (s_tab.refreshing_messages)
+        return;
 
     uint32_t id = 0;
     int is_ext = 0;
     uint8_t dlc = 0;
     if (!get_selected_message(&id, &is_ext, &dlc, NULL, NULL, 0)) {
         gtk_label_set_text(GTK_LABEL(s_tab.sample_data_label), "-");
+        if (s_tab.selected_valid)
+            graph_clear();
+        s_tab.selected_valid = FALSE;
         update_sample_preview();
         return;
     }
+
+    gboolean selection_changed =
+        !s_tab.selected_valid ||
+        s_tab.selected_id != id ||
+        s_tab.selected_ext != is_ext;
+    s_tab.selected_id = id;
+    s_tab.selected_ext = is_ext;
+    s_tab.selected_valid = TRUE;
 
     guint total_bits = dlc ? (guint)dlc * 8u : 1u;
     GtkAdjustment *start_adj = gtk_spin_button_get_adjustment(
@@ -268,6 +495,8 @@ static void selected_message_changed(GtkComboBox *combo, gpointer data)
             gtk_entry_set_text(GTK_ENTRY(s_tab.message_name_entry), fallback);
     }
 
+    if (selection_changed)
+        graph_clear();
     update_sample_preview();
 }
 
@@ -293,19 +522,7 @@ static void update_sample_preview(void)
     gtk_label_set_text(GTK_LABEL(s_tab.sample_data_label), label);
 
     dbc_signal_t sig;
-    memset(&sig, 0, sizeof(sig));
-    sig.start_bit = (uint16_t)gtk_spin_button_get_value_as_int(
-        GTK_SPIN_BUTTON(s_tab.start_spin));
-    sig.length = (uint16_t)gtk_spin_button_get_value_as_int(
-        GTK_SPIN_BUTTON(s_tab.length_spin));
-    sig.little_endian = gtk_combo_box_get_active(
-        GTK_COMBO_BOX(s_tab.endian_combo)) == 0;
-    sig.is_signed = gtk_toggle_button_get_active(
-        GTK_TOGGLE_BUTTON(s_tab.signed_check)) ? 1 : 0;
-    sig.factor = gtk_spin_button_get_value(
-        GTK_SPIN_BUTTON(s_tab.factor_spin));
-    sig.offset = gtk_spin_button_get_value(
-        GTK_SPIN_BUTTON(s_tab.offset_spin));
+    read_decode_signal(&sig);
 
     if (!signal_fits_payload(sig.start_bit, sig.length,
                              sig.little_endian, dlc)) {
@@ -330,6 +547,7 @@ static void signal_form_changed(GtkWidget *w, gpointer data)
 {
     (void)w;
     (void)data;
+    graph_clear();
     update_sample_preview();
 }
 
@@ -349,6 +567,51 @@ void gui_db_creation_trace_changed(void)
         s_tab.refresh_source = g_timeout_add(250, refresh_timer_cb, NULL);
 }
 
+void gui_db_creation_handle_message(const can_msg_t *msg)
+{
+    if (!s_tab.graph_area || !msg || msg->is_error ||
+        msg->direction != CAN_DIR_RX)
+        return;
+
+    uint32_t id = 0;
+    int is_ext = 0;
+    if (!get_selected_message(&id, &is_ext, NULL, NULL, NULL, 0))
+        return;
+    if (id != msg->id || is_ext != (msg->is_extended ? 1 : 0))
+        return;
+
+    dbc_signal_t sig;
+    read_decode_signal(&sig);
+    if (!signal_fits_payload(sig.start_bit, sig.length,
+                             sig.little_endian, msg->dlc))
+        return;
+
+    int64_t sraw = 0;
+    uint64_t raw = dbc_extract_raw(msg->data, msg->dlc, &sig);
+    double phys = dbc_decode_physical(&sig, raw, &sraw);
+
+    char id_buf[GUI_TRACE_ID_TEXT_MAX];
+    char data_buf[GUI_TRACE_DATA_TEXT_MAX];
+    char latest[GUI_TRACE_DATA_TEXT_MAX + 96];
+    gui_format_id(id_buf, sizeof(id_buf), msg->id, msg->is_extended);
+    gui_format_data(data_buf, sizeof(data_buf), msg->data, msg->dlc);
+    snprintf(latest, sizeof(latest), "%s  %s  DLC %u  Data %s",
+             id_buf,
+             msg->is_extended ? "Ext" : "Std",
+             msg->dlc,
+             data_buf[0] ? data_buf : "-");
+    gtk_label_set_text(GTK_LABEL(s_tab.sample_data_label), latest);
+
+    char raw_buf[32];
+    char val_buf[64];
+    snprintf(raw_buf, sizeof(raw_buf), "%lld", (long long)sraw);
+    fmt_double(val_buf, sizeof(val_buf), phys);
+    gtk_label_set_text(GTK_LABEL(s_tab.sample_raw_label), raw_buf);
+    gtk_label_set_text(GTK_LABEL(s_tab.sample_value_label), val_buf);
+
+    graph_append(phys);
+}
+
 static void db_creation_refresh_messages(void)
 {
     if (!s_tab.msg_store)
@@ -366,6 +629,7 @@ static void db_creation_refresh_messages(void)
         gui_trace_collect_rx_messages(rows, total);
     }
 
+    s_tab.refreshing_messages = TRUE;
     gtk_list_store_clear(s_tab.msg_store);
 
     int active = -1;
@@ -409,11 +673,17 @@ static void db_creation_refresh_messages(void)
         s_tab.preserve_form_on_refresh = had_selection;
         gtk_combo_box_set_active(GTK_COMBO_BOX(s_tab.msg_combo),
                                  active >= 0 ? active : 0);
+        s_tab.refreshing_messages = FALSE;
+        selected_message_changed(GTK_COMBO_BOX(s_tab.msg_combo), NULL);
         s_tab.preserve_form_on_refresh = FALSE;
     } else {
+        s_tab.refreshing_messages = FALSE;
         gtk_label_set_text(GTK_LABEL(s_tab.sample_data_label), "-");
         gtk_label_set_text(GTK_LABEL(s_tab.sample_raw_label), "-");
         gtk_label_set_text(GTK_LABEL(s_tab.sample_value_label), "-");
+        if (s_tab.selected_valid)
+            graph_clear();
+        s_tab.selected_valid = FALSE;
     }
 
     g_free(rows);
@@ -731,14 +1001,31 @@ GtkWidget *gui_create_db_creation_view(void)
     gtk_widget_set_vexpand(edit_frame, TRUE);
     gtk_box_pack_start(GTK_BOX(outer), edit_frame, TRUE, TRUE, 0);
 
+    GtkWidget *edit_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 8);
+    gtk_widget_set_margin_start(edit_body, 8);
+    gtk_widget_set_margin_end(edit_body, 8);
+    gtk_widget_set_margin_top(edit_body, 8);
+    gtk_widget_set_margin_bottom(edit_body, 8);
+    gtk_container_add(GTK_CONTAINER(edit_frame), edit_body);
+
     GtkWidget *grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 7);
-    gtk_widget_set_margin_start(grid, 8);
-    gtk_widget_set_margin_end(grid, 8);
-    gtk_widget_set_margin_top(grid, 8);
-    gtk_widget_set_margin_bottom(grid, 8);
-    gtk_container_add(GTK_CONTAINER(edit_frame), grid);
+    gtk_widget_set_hexpand(grid, TRUE);
+    gtk_widget_set_vexpand(grid, TRUE);
+    gtk_box_pack_start(GTK_BOX(edit_body), grid, TRUE, TRUE, 0);
+
+    GtkWidget *graph_frame = gtk_frame_new("Sample Value vs Time");
+    gtk_widget_set_hexpand(graph_frame, TRUE);
+    gtk_widget_set_vexpand(graph_frame, TRUE);
+    gtk_box_pack_start(GTK_BOX(edit_body), graph_frame, TRUE, TRUE, 0);
+
+    s_tab.graph_area = gtk_drawing_area_new();
+    gtk_widget_set_size_request(s_tab.graph_area, 360, 240);
+    gtk_widget_set_hexpand(s_tab.graph_area, TRUE);
+    gtk_widget_set_vexpand(s_tab.graph_area, TRUE);
+    g_signal_connect(s_tab.graph_area, "draw", G_CALLBACK(on_graph_draw), NULL);
+    gtk_container_add(GTK_CONTAINER(graph_frame), s_tab.graph_area);
 
     s_tab.message_name_entry = gtk_entry_new();
     gtk_widget_set_hexpand(s_tab.message_name_entry, TRUE);

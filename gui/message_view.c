@@ -386,6 +386,8 @@ void gui_add_message(const can_msg_t *msg)
 
     /* Feed the Signal Analysis tab (decodes against the loaded DBC, if any). */
     gui_signal_decode_message(msg);
+    if (msg->direction == CAN_DIR_RX)
+        gui_db_creation_handle_message(msg);
 
     /* RX rows roll up by CAN ID; optional dedup mode applies the same to TX. */
     if (should_rollup_message(msg)) {

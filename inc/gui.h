@@ -179,6 +179,12 @@ GtkWidget *gui_create_db_creation_view(void);
  */
 void gui_db_creation_trace_changed(void);
 
+/**
+ * @brief Feed one received frame to the DB Creation live preview graph.
+ * @param msg  RX frame; ignored unless it matches the selected source message.
+ */
+void gui_db_creation_handle_message(const can_msg_t *msg);
+
 /* ---- Signal Analysis Viewer (signal-vs-time graph) ------------------------ */
 
 /**
