@@ -630,6 +630,28 @@ void gui_math_set_database(const dbc_db_t *db)
     math_clear_samples();
 }
 
+static void set_paned_ratio_on_allocate(GtkWidget *widget,
+                                        GtkAllocation *allocation,
+                                        gpointer data)
+{
+    int per_mille = GPOINTER_TO_INT(data);
+    if (per_mille <= 0 || per_mille >= 1000)
+        return;
+
+    GtkOrientation orientation =
+        gtk_orientable_get_orientation(GTK_ORIENTABLE(widget));
+    int span = orientation == GTK_ORIENTATION_HORIZONTAL ?
+               allocation->width : allocation->height;
+    int last_span = GPOINTER_TO_INT(
+        g_object_get_data(G_OBJECT(widget), "canoscope-paned-span"));
+    if (span <= 0 || span == last_span)
+        return;
+
+    g_object_set_data(G_OBJECT(widget), "canoscope-paned-span",
+                      GINT_TO_POINTER(span));
+    gtk_paned_set_position(GTK_PANED(widget), span * per_mille / 1000);
+}
+
 GtkWidget *gui_create_math_view(void)
 {
     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
@@ -677,12 +699,18 @@ GtkWidget *gui_create_math_view(void)
     gtk_box_pack_start(GTK_BOX(box), s_math.stats_label, FALSE, FALSE, 0);
 
     GtkWidget *paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
+    gtk_widget_set_hexpand(paned, TRUE);
     gtk_widget_set_vexpand(paned, TRUE);
+    g_signal_connect(paned, "size-allocate",
+                     G_CALLBACK(set_paned_ratio_on_allocate),
+                     GINT_TO_POINTER(500));
     gtk_box_pack_start(GTK_BOX(box), paned, TRUE, TRUE, 0);
 
     GtkWidget *time_frame = gtk_frame_new("Signals vs Time");
     s_math.time_area = gtk_drawing_area_new();
     gtk_widget_set_size_request(s_math.time_area, 420, 280);
+    gtk_widget_set_hexpand(s_math.time_area, TRUE);
+    gtk_widget_set_vexpand(s_math.time_area, TRUE);
     g_signal_connect(s_math.time_area, "draw", G_CALLBACK(on_time_draw), NULL);
     gtk_container_add(GTK_CONTAINER(time_frame), s_math.time_area);
     gtk_paned_pack1(GTK_PANED(paned), time_frame, TRUE, TRUE);
@@ -690,6 +718,8 @@ GtkWidget *gui_create_math_view(void)
     GtkWidget *scatter_frame = gtk_frame_new("Y vs X");
     s_math.scatter_area = gtk_drawing_area_new();
     gtk_widget_set_size_request(s_math.scatter_area, 420, 280);
+    gtk_widget_set_hexpand(s_math.scatter_area, TRUE);
+    gtk_widget_set_vexpand(s_math.scatter_area, TRUE);
     g_signal_connect(s_math.scatter_area, "draw",
                      G_CALLBACK(on_scatter_draw), NULL);
     gtk_container_add(GTK_CONTAINER(scatter_frame), s_math.scatter_area);

@@ -1,6 +1,8 @@
 var structgui__widgets__t =
 [
     [ "window", "structgui__widgets__t.html#a19d5fe2179a79fcee534b8fa33317d83", null ],
+    [ "main_notebook", "structgui__widgets__t.html#acea31373492d4ab97c1c19794cc16756", null ],
+    [ "db_creation_page", "structgui__widgets__t.html#aeb3a1b4df2d1d564bf2872c88dfda53a", null ],
     [ "toolbar_connect", "structgui__widgets__t.html#ad1aa0c5a6e7c5232ff952cf3783dcf38", null ],
     [ "toolbar_disconnect", "structgui__widgets__t.html#ace73dc89f15637116596bb5e3612c58d", null ],
     [ "toolbar_clear", "structgui__widgets__t.html#a32ec6778744950601db4a28bf6db970a", null ],

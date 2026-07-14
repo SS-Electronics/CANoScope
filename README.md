@@ -11,10 +11,17 @@ and CAN FD transmission, bus-load metering, and CSV trace export.
 
 ## Screenshots
 
-**Main window** — live receive trace with roll-up counts, the statistics bar
-below the menu, and the inline transmit panel:
+**Receive / Transmit** — live SocketCAN traffic, roll-up counts, bus statistics,
+and the inline one-shot/cyclic transmit panel:
 
-![CANoScope main window](assets/screenshots/main-window.png)
+![Receive and transmit tab with vcan traffic](assets/screenshots/receive-transmit.png)
+
+**Bit Analysis** — reverse-engineering workspace for unknown payloads.  The
+left half keeps the live ID survey, experiment segments, candidate fields, and
+candidate inspector together; the right half shows the 64-bit matrix with the
+selected-field timeline underneath:
+
+![Bit Analysis tab with live matrix and candidate workflow](assets/screenshots/bit-analysis.png)
 
 **CAN FD transmit** — when CAN FD is enabled, a transmit row's DLC grows to 64
 and the data-byte fields are added/removed dynamically, wrapping to fit:
@@ -37,6 +44,12 @@ with **real physical-value tick labels and units** (e.g. *rpm* and *bar* below),
 instead of a shared 0–100 % scale. Hover a trace to read that point's value:
 
 ![Analysis window with one Y axis per signal](assets/screenshots/signal-analysis-viewer-graph.png)
+
+**DB Creation** — create or update DBC messages and signals from observed RX
+messages, with raw/sample-value preview and optional Bit Analysis evidence
+comments:
+
+![DB Creation tab creating a signal from RX traffic](assets/screenshots/db-creation.png)
 
 <table>
 <tr>
@@ -61,6 +74,7 @@ instead of a shared 0–100 % scale. Hover a trace to read that point's value:
 | **Statistics bar** | Always-visible bar below the menu (interface, bitrate, bus load, Rx/Tx/Err counts, bus state) |
 | **Listen-only mode** | Passive monitoring without ACK generation |
 | **Real-time trace** | Sequence #, direction, timestamp, ID, type, DLC, data |
+| **Bit Analysis** | Reverse-engineering workspace for unknown CAN messages: select a target ID, inspect a live 64-bit matrix, capture baselines and experiment markers, scan Intel/Motorola signed or unsigned fields, estimate factor/offset, classify counters/timestamps/checksums/mux selectors, validate candidates, and promote them to DB Creation |
 | **Signal Analysis** | CANalyzer-style tab that decodes individual signals from a **DBC database** (Intel/Motorola byte order, factor/offset, signed) and updates raw + physical values live; bundled **demo database** auto-loads |
 | **Signal Analysis Viewer** | Oscilloscope-style tab that opens **detachable analysis windows** — each its own graph with a **searchable signal dropdown**, a side-pane colour legend with live values, hover tooltips (point value + signal info), an adjustable time window and pause; a **DBC can be loaded any time after launch** and all open windows refresh; handles 1 kHz traffic with standard and extended IDs |
 | **Message deduplication** | Unique-ID view that shows latest value + hit count |
@@ -77,7 +91,88 @@ instead of a shared 0–100 % scale. Hover a trace to read that point's value:
 
 ---
 
+## Application Workflow and Tab Guide
+
+### 1. Connect and Monitor
+
+Use **File > Connect** or **F5**, select a SocketCAN interface such as `vcan0`
+or `can0`, choose the nominal bitrate, and optionally enable listen-only mode,
+CAN FD, or an acceptance filter.  The statistics bar confirms the active
+interface, bitrate, bus load, Rx/Tx/Error counts, and bus state.
+
+The **Receive / Transmit** tab is the operational trace surface:
+
+- Receive trace: sequence, direction, timestamp, identifier, frame type, DLC,
+  data bytes, interval, frequency, and roll-up count.
+- Transmit panel: create one-shot or cyclic frames, choose standard/extended
+  IDs, RTR, DLC, data bytes, and cycle interval.
+- Trace menu: start/stop capture and save captured frames as CSV.
+
+### 2. Reverse-Engineer Unknown Payloads
+
+Use **Bit Analysis** when a DBC is not available.  A practical workflow is:
+
+1. Connect in listen-only mode on a bench or safe passive setup.
+2. Let the live ID survey identify periodic and changing messages.
+3. Select a target ID/DLC and press **Start**.
+4. Capture a baseline, then add controlled input markers for steps, toggles,
+   ramps, boundaries, or validation runs.
+5. Inspect the 64-bit matrix using Live, Baseline, XOR, Activity, Entropy, and
+   Correlation modes.
+6. Run **Analyze** to rank candidate fields across Intel/Motorola and
+   signed/unsigned interpretations.
+7. Review factor, offset, R², errors, response lag, counter/timestamp/checksum
+   and multiplexer evidence.
+8. Add an independent **Validation** segment, mark the candidate validated, then
+   promote it to DB Creation for DBC review.
+
+### 3. Decode DBC Signals
+
+Use **Signal Analysis** after loading a DBC.  The bundled `assets/demo.dbc`
+loads automatically and can be replaced with **Load DBC...**.  Incoming frames
+update every matching signal with raw value, scaled physical value, unit,
+range, and decode count.  Intel/Motorola byte order, signed signals, factor,
+offset, standard IDs, and extended IDs are supported.
+
+### 4. Plot Signals
+
+Use **Signal Analysis Viewer** for oscilloscope-style monitoring.  Open one or
+more detached analysis windows, add decoded signals from the searchable
+dropdown, adjust the time window, pause the graph, and hover traces for exact
+point readouts.  Each plotted signal has its own colour-matched Y axis in real
+engineering units.
+
+### 5. Create or Update a DBC
+
+Use **DB Creation** to turn observed RX messages into DBC definitions.  Select
+an RX message, name the message and signal, set start bit, length, byte order,
+signedness, factor, offset, min/max, unit, and optional comment, then write the
+signal into a new or existing DBC.  Bit Analysis promotion pre-fills these
+fields and adds confidence/evidence in the signal comment, leaving final DBC
+write under user control.
+
+---
+
 ## Release Notes
+
+### v2.1.0 — Bit Analysis production release
+
+- **Bit Analysis tab** — added an end-to-end reverse-engineering workflow for
+  unknown classic CAN payloads: live ID survey, 64-bit matrix, baseline/XOR and
+  correlation modes, experiment segments, manual input markers, candidate field
+  scanning, validation, and promotion into DB Creation.
+- **Analysis engine** — added a GTK-independent engine for Intel/Motorola field
+  extraction, signed/unsigned interpretation, factor/offset fitting, lag search,
+  transition matching, counter/timestamp/checksum/multiplexer heuristics, JSON
+  session persistence, and DBC conversion helpers.
+- **DBC evidence comments** — DB Creation can now receive promoted Bit Analysis
+  candidates with confidence and validation evidence stored as DBC signal
+  comments.  Signal comments are saved and reloaded with escaped text intact.
+- **Verification** — added focused synthetic regression tests for extraction,
+  filtering, baseline, field scanning, signedness, Motorola conversion, lag,
+  counter/checksum/timestamp/mux classification, validation, JSON persistence,
+  and DBC round-trips.  Local `vcan0` smoke tests exercise no-hardware traffic
+  and DBC-encoded standard and extended frames.
 
 ### v2.0.0 — CANoScope rebrand
 
@@ -159,7 +254,10 @@ CANoScope/
 │   ├── socketcan.h            SocketCAN back-end interface
 │   ├── app_state.h            Global application state
 │   ├── dbc.h                  CAN database (DBC) model / decoder API
+│   ├── bit_analysis.h         Bit Analysis engine model / API
 │   └── gui.h                  GUI widget bundle + declarations
+├── analysis/
+│   └── bit_analysis.c         Bit Analysis engine (statistics/candidates)
 ├── driver/
 │   ├── drv_can.c              Generic driver wrapper
 │   ├── socketcan.c            SocketCAN implementation (PF_CAN)
@@ -168,8 +266,10 @@ CANoScope/
 │   ├── threads.c              RX / TX / stats threads + connect logic
 │   ├── main_window.c          Main GTK window (menu, toolbar, notebook)
 │   ├── message_view.c         Trace GtkTreeView + statistics panel
+│   ├── bit_analysis_view.c    Bit Analysis GTK tab and worker coordination
 │   ├── signal_view.c          Signal Analysis tab (live DBC decode)
 │   ├── signal_plot.c          Signal Analysis Viewer (detachable graph windows)
+│   ├── db_creation.c          DBC Creation tab and Bit Analysis promotion
 │   ├── settings_dialog.c      Connection settings dialog
 │   └── transmit_dialog.c      Message transmit window
 ├── assets/
@@ -180,9 +280,13 @@ CANoScope/
 ├── debian/                    Debian/Ubuntu packaging (control, rules, …)
 ├── .github/workflows/         CI/CD: build/test, docs, .deb + PPA release
 ├── Doxyfile                   Doxygen configuration (output → ./docs)
+├── tests/
+│   └── test_bit_analysis.c    Synthetic Bit Analysis / DBC regression tests
 └── scripts/
     ├── install_dependencies.sh  Dependency installer (Debian/Ubuntu/Arch/Fedora)
-    └── test_without_pcan.py     Local vcan smoke-test helper
+    ├── install_peak_deps.sh     PEAK/PCAN SocketCAN dependency helper
+    ├── test_without_pcan.py     Local vcan smoke-test helper
+    └── test_dbc.py              DBC-encoded SocketCAN traffic generator
 ```
 
 ---
@@ -476,6 +580,24 @@ python3 scripts/test_dbc.py --dbc path/to/your.dbc --duration 0
 ```
 
 ---
+
+## Bit Analysis and CAN Reverse Engineering
+
+CANoScope includes a Bit Analysis workspace for reverse-engineering CAN
+messages without an existing DBC. Select a CAN ID and inspect the complete
+classic CAN payload as a live 64-bit matrix. Capture a stable baseline, mark
+controlled physical input states or numeric values, and compare how every bit
+behaves.
+
+The analyzer provides baseline XOR highlighting, bit flip rates, probability,
+entropy, response-delay search, and input correlation. It scans contiguous
+candidate fields using Intel and Motorola byte order, tests signed and unsigned
+interpretations, estimates signal factor/offset, ranks candidate signals, and
+identifies likely alive counters, timestamp-like fields, checksum-like fields,
+and multiplexers.
+
+Validated candidates can be transferred to the DB Creation tab for review
+before being written to a DBC.
 
 ## Using the Signal Analysis Viewer
 

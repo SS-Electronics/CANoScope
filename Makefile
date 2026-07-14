@@ -63,9 +63,11 @@ SRCS := main.c \
         driver/drv_can.c \
         driver/socketcan.c \
         driver/dbc.c \
+        analysis/bit_analysis.c \
         gui/threads.c \
         gui/message_view.c \
         gui/main_window.c \
+        gui/bit_analysis_view.c \
         gui/signal_view.c \
         gui/signal_plot.c \
         gui/math_view.c \
@@ -78,12 +80,13 @@ OBJS := $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRCS))
 # Subdirectories that must exist before compiling
 OBJ_SUBDIRS := $(OBJ_DIR) \
                $(OBJ_DIR)/driver \
+               $(OBJ_DIR)/analysis \
                $(OBJ_DIR)/gui
 
 # ------------------------------------------------------------------ #
 # Rules                                                                #
 # ------------------------------------------------------------------ #
-.PHONY: all clean install install-deps install-files uninstall run docs docs-clean
+.PHONY: all clean install install-deps install-files uninstall run docs docs-clean test-bit-analysis
 
 all: $(TARGET)
 
@@ -123,6 +126,10 @@ docs-clean:
 
 run: all
 	@./$(TARGET)
+
+test-bit-analysis: $(BUILD_DIR)
+	$(CC) $(CFLAGS) tests/test_bit_analysis.c analysis/bit_analysis.c driver/dbc.c -o $(BUILD_DIR)/test_bit_analysis $(LDFLAGS)
+	@$(BUILD_DIR)/test_bit_analysis
 
 # Install system build/runtime dependencies (auto-detects apt/dnf/pacman).
 install-deps:

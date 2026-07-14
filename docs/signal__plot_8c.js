@@ -41,7 +41,7 @@ var signal__plot_8c =
     [ "sig", "signal__plot_8c.html#ad363ac7fd79f686e0185c16ac3d7650d", null ],
     [ "n", "signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240", null ],
     [ "start_us", "signal__plot_8c.html#ac0b0676d9c80a3c4406aba1179a962f7", null ],
-    [ "s_store", "signal__plot_8c.html#a8d4a0b0530d4fd2b17b9d30aa8f22bb6", null ],
+    [ "s_store", "signal__plot_8c.html#af0f650eec32f66ae627e1be6bb452ba1", null ],
     [ "s_windows", "signal__plot_8c.html#a49b6529896f4c42348ca813210c943c1", null ],
     [ "s_timer", "signal__plot_8c.html#a47dc7456b553fd0f4ecf8ff2840fac38", null ],
     [ "s_count_lbl", "signal__plot_8c.html#a1b7df96f628eb9b632fab7f4d10494f5", null ]

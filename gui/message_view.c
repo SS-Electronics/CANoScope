@@ -382,6 +382,11 @@ GtkWidget *create_stats_panel(void)
 
 void gui_add_message(const can_msg_t *msg)
 {
+    if (!msg)
+        return;
+
+    gui_bit_analysis_handle_message(msg);
+
     if (!g_gui.trace_store) return;
 
     /* Feed the Signal Analysis tab (decodes against the loaded DBC, if any). */

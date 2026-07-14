@@ -28,6 +28,7 @@ var message__view_8c =
     [ "gui_add_message", "message__view_8c.html#a2ced958e4351da19278e3eb219690c46", null ],
     [ "gui_clear_trace", "message__view_8c.html#a255bb4fc53ebf7239e9d636c3d84f6bb", null ],
     [ "gui_refresh_trace_display", "message__view_8c.html#ad7ba8594cb31bf6e447db32eb226492f", null ],
+    [ "gui_trace_collect_rx_messages", "message__view_8c.html#adeebbf12e4eb58db028f9a9a03e6b60b", null ],
     [ "gui_update_stats", "message__view_8c.html#a19b4a20390bcbb7ffee7342a830c982f", null ],
     [ "gui_status_message", "message__view_8c.html#a7a63f55ffd494ec434a66ce7d8acbe08", null ],
     [ "gui_show_error", "message__view_8c.html#a75e374205d43ec28329da339f088d612", null ]

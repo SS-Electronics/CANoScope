@@ -98,12 +98,20 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <hr  />
 <h1><a class="anchor" id="autotoc_md2"></a>
 Screenshots</h1>
-<p><b>Main window</b> — live receive trace with roll-up counts, the statistics bar below the menu, and the inline transmit panel:</p>
-<p><img src="assets/screenshots/main-window.png" alt="CANoScope main window" class="inline"/></p>
+<p><b>Receive / Transmit</b> — live SocketCAN traffic, roll-up counts, bus statistics, and the inline one-shot/cyclic transmit panel:</p>
+<p><img src="assets/screenshots/receive-transmit.png" alt="Receive and transmit tab with vcan traffic" class="inline"/></p>
+<p><b>Bit Analysis</b> — reverse-engineering workspace for unknown payloads. The left half keeps the live ID survey, experiment segments, candidate fields, and candidate inspector together; the right half shows the 64-bit matrix with the selected-field timeline underneath:</p>
+<p><img src="assets/screenshots/bit-analysis.png" alt="Bit Analysis tab with live matrix and candidate workflow" class="inline"/></p>
 <p><b>CAN FD transmit</b> — when CAN FD is enabled, a transmit row's DLC grows to 64 and the data-byte fields are added/removed dynamically, wrapping to fit:</p>
 <p><img src="assets/screenshots/canfd-transmit.png" alt="CAN FD transmit with 64 data bytes" class="inline"/></p>
 <p><b>Signal Analysis</b> — individual signals decoded live from a DBC database (physical values, units, ranges), CANalyzer-style:</p>
 <p><img src="assets/screenshots/signal-analysis.png" alt="Signal Analysis tab decoding a DBC database" class="inline"/></p>
+<p><b>Signal Analysis Viewer</b> — the tab is a launcher: each <b>Add Analysis Window</b> opens an independent, detached graph window. Pick signals from a searchable dropdown; the side pane lists each signal's colour and live value:</p>
+<p><img src="assets/screenshots/signal-analysis-viewer.png" alt="Signal Analysis Viewer launcher tab" class="inline"/></p>
+<p><b>Multi-axis graph</b> — every plotted signal gets its <b>own colour-matched Y axis</b> with <b>real physical-value tick labels and units</b> (e.g. <em>rpm</em> and <em>bar</em> below), instead of a shared 0–100 % scale. Hover a trace to read that point's value:</p>
+<p><img src="assets/screenshots/signal-analysis-viewer-graph.png" alt="Analysis window with one Y axis per signal" class="inline"/></p>
+<p><b>DB Creation</b> — create or update DBC messages and signals from observed RX messages, with raw/sample-value preview and optional Bit Analysis evidence comments:</p>
+<p><img src="assets/screenshots/db-creation.png" alt="DB Creation tab creating a signal from RX traffic" class="inline"/></p>
 <table class="doxtable">
 <tr>
 <td width="58%"><b>Connection settings</b><br  />
@@ -129,36 +137,80 @@ Features</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>Real-time trace</b>   </td><td class="markdownTableBodyNone">Sequence #, direction, timestamp, ID, type, DLC, data    </td></tr>
 <tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>Bit Analysis</b>   </td><td class="markdownTableBodyNone">Reverse-engineering workspace for unknown CAN messages: select a target ID, inspect a live 64-bit matrix, capture baselines and experiment markers, scan Intel/Motorola signed or unsigned fields, estimate factor/offset, classify counters/timestamps/checksums/mux selectors, validate candidates, and promote them to DB Creation    </td></tr>
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>Signal Analysis</b>   </td><td class="markdownTableBodyNone">CANalyzer-style tab that decodes individual signals from a <b>DBC database</b> (Intel/Motorola byte order, factor/offset, signed) and updates raw + physical values live; bundled <b>demo database</b> auto-loads    </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>Signal Analysis Viewer</b>   </td><td class="markdownTableBodyNone">Oscilloscope-style tab that opens <b>detachable analysis windows</b> — each its own graph with a <b>searchable signal dropdown</b>, a side-pane colour legend with live values, hover tooltips (point value + signal info), an adjustable time window and pause; a <b>DBC can be loaded any time after launch</b> and all open windows refresh; handles 1 kHz traffic with standard and extended IDs    </td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>Message deduplication</b>   </td><td class="markdownTableBodyNone">Unique-ID view that shows latest value + hit count    </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>Bus load</b>   </td><td class="markdownTableBodyNone">Live bar updated every 500 ms    </td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>Error frames</b>   </td><td class="markdownTableBodyNone">Highlighted in red with CAN error flags decoded    </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>Message transmit</b>   </td><td class="markdownTableBodyNone">One-shot and cyclic (configurable interval)    </td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>CAN FD transmit</b>   </td><td class="markdownTableBodyNone">Per-row DLC up to <b>64 bytes</b>; data-byte fields are added/removed dynamically with the DLC and wrap to fit the window    </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>Trace menu</b>   </td><td class="markdownTableBodyNone"><code>Trace &gt; Start / Stop / Save as CSV</code> — capture frames in memory, then export    </td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>Trace CSV</b>   </td><td class="markdownTableBodyNone"><code>seq, timestamp, direction, id, type, dlc, data</code>    </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>No-sudo vcan</b>   </td><td class="markdownTableBodyNone">Missing vcan/CAN interfaces are created and brought up automatically via a graphical (pkexec) prompt — no terminal <code>sudo</code>    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>Multithreading</b>   </td><td class="markdownTableBodyNone">Separate threads for RX, TX, and statistics    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>Virtual CAN</b>   </td><td class="markdownTableBodyNone">Works with <code>vcan0</code> for off-hardware testing    </td></tr>
+<td class="markdownTableBodyNone"><b>Multithreading</b>   </td><td class="markdownTableBodyNone">Separate threads for RX, TX, and statistics    </td></tr>
 <tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>Virtual CAN</b>   </td><td class="markdownTableBodyNone">Works with <code>vcan0</code> for off-hardware testing    </td></tr>
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>Desktop integration</b>   </td><td class="markdownTableBodyNone"><code>make install</code> adds a launcher and Taksys icon to the application menu   </td></tr>
 </table>
 <hr  />
 <h1><a class="anchor" id="autotoc_md6"></a>
-Release Notes</h1>
+Application Workflow and Tab Guide</h1>
 <h2><a class="anchor" id="autotoc_md7"></a>
+1. Connect and Monitor</h2>
+<p>Use <b>File &gt; Connect</b> or <b>F5</b>, select a SocketCAN interface such as <code>vcan0</code> or <code>can0</code>, choose the nominal bitrate, and optionally enable listen-only mode, CAN FD, or an acceptance filter. The statistics bar confirms the active interface, bitrate, bus load, Rx/Tx/Error counts, and bus state.</p>
+<p>The <b>Receive / Transmit</b> tab is the operational trace surface:</p>
+<ul>
+<li>Receive trace: sequence, direction, timestamp, identifier, frame type, DLC, data bytes, interval, frequency, and roll-up count.</li>
+<li>Transmit panel: create one-shot or cyclic frames, choose standard/extended IDs, RTR, DLC, data bytes, and cycle interval.</li>
+<li>Trace menu: start/stop capture and save captured frames as CSV.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md8"></a>
+2. Reverse-Engineer Unknown Payloads</h2>
+<p>Use <b>Bit Analysis</b> when a DBC is not available. A practical workflow is:</p>
+<ol type="1">
+<li>Connect in listen-only mode on a bench or safe passive setup.</li>
+<li>Let the live ID survey identify periodic and changing messages.</li>
+<li>Select a target ID/DLC and press <b>Start</b>.</li>
+<li>Capture a baseline, then add controlled input markers for steps, toggles, ramps, boundaries, or validation runs.</li>
+<li>Inspect the 64-bit matrix using Live, Baseline, XOR, Activity, Entropy, and Correlation modes.</li>
+<li>Run <b>Analyze</b> to rank candidate fields across Intel/Motorola and signed/unsigned interpretations.</li>
+<li>Review factor, offset, R², errors, response lag, counter/timestamp/checksum and multiplexer evidence.</li>
+<li>Add an independent <b>Validation</b> segment, mark the candidate validated, then promote it to DB Creation for DBC review.</li>
+</ol>
+<h2><a class="anchor" id="autotoc_md9"></a>
+3. Decode DBC Signals</h2>
+<p>Use <b>Signal Analysis</b> after loading a DBC. The bundled <code>assets/demo.dbc</code> loads automatically and can be replaced with <b>Load DBC...</b>. Incoming frames update every matching signal with raw value, scaled physical value, unit, range, and decode count. Intel/Motorola byte order, signed signals, factor, offset, standard IDs, and extended IDs are supported.</p>
+<h2><a class="anchor" id="autotoc_md10"></a>
+4. Plot Signals</h2>
+<p>Use <b>Signal Analysis Viewer</b> for oscilloscope-style monitoring. Open one or more detached analysis windows, add decoded signals from the searchable dropdown, adjust the time window, pause the graph, and hover traces for exact point readouts. Each plotted signal has its own colour-matched Y axis in real engineering units.</p>
+<h2><a class="anchor" id="autotoc_md11"></a>
+5. Create or Update a DBC</h2>
+<p>Use <b>DB Creation</b> to turn observed RX messages into DBC definitions. Select an RX message, name the message and signal, set start bit, length, byte order, signedness, factor, offset, min/max, unit, and optional comment, then write the signal into a new or existing DBC. Bit Analysis promotion pre-fills these fields and adds confidence/evidence in the signal comment, leaving final DBC write under user control.</p>
+<hr  />
+<h1><a class="anchor" id="autotoc_md13"></a>
+Release Notes</h1>
+<h2><a class="anchor" id="autotoc_md14"></a>
+v2.1.0 — Bit Analysis production release</h2>
+<ul>
+<li><b>Bit Analysis tab</b> — added an end-to-end reverse-engineering workflow for unknown classic CAN payloads: live ID survey, 64-bit matrix, baseline/XOR and correlation modes, experiment segments, manual input markers, candidate field scanning, validation, and promotion into DB Creation.</li>
+<li><b>Analysis engine</b> — added a GTK-independent engine for Intel/Motorola field extraction, signed/unsigned interpretation, factor/offset fitting, lag search, transition matching, counter/timestamp/checksum/multiplexer heuristics, JSON session persistence, and DBC conversion helpers.</li>
+<li><b>DBC evidence comments</b> — DB Creation can now receive promoted Bit Analysis candidates with confidence and validation evidence stored as DBC signal comments. Signal comments are saved and reloaded with escaped text intact.</li>
+<li><b>Verification</b> — added focused synthetic regression tests for extraction, filtering, baseline, field scanning, signedness, Motorola conversion, lag, counter/checksum/timestamp/mux classification, validation, JSON persistence, and DBC round-trips. Local <code>vcan0</code> smoke tests exercise no-hardware traffic and DBC-encoded standard and extended frames.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md15"></a>
 v2.0.0 — CANoScope rebrand</h2>
 <ul>
 <li><b>Renamed to CANoScope</b> — the project (formerly <em>PCAN-View Linux</em>) is now <b>CANoScope</b>. The binary, Debian package, desktop entry, share directory and every user-facing string were renamed, and the application icon and About-dialog logo now use the <b>Taksys</b> brand mark.</li>
@@ -166,7 +218,7 @@ v2.0.0 — CANoScope rebrand</h2>
 <li><b>Richer connection dialog</b> — a <b>Refresh</b> button rescans interfaces, an optional <b>acceptance filter</b> (ID + mask) can be applied at connect time, and the interface list distinguishes hardware vs. virtual CAN — all on top of the existing SocketCAN backend (classic CAN, CAN FD, listen-only, automatic vcan creation through polkit).</li>
 <li><b>Per-signal Y axes</b> — Signal Analysis Viewer graphs now draw one <b>coloured Y axis per signal</b> with <b>real physical-value tick labels and units</b>, instead of a single shared 0–100 % scale.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md8"></a>
+<h2><a class="anchor" id="autotoc_md16"></a>
 v1.2.0 — Multi-window Signal Analysis Viewer</h2>
 <ul>
 <li><b>Detachable analysis windows</b> — the <em>Signal Analysis Viewer</em> tab is now a launcher: <b>➕ Add Analysis Window</b> opens an independent, detached graph window, and any number of windows can run side by side.</li>
@@ -175,13 +227,13 @@ v1.2.0 — Multi-window Signal Analysis Viewer</h2>
 <li><b>Hover read-out instead of an on-graph legend</b> — graphs no longer draw a legend over the plot. Hovering a trace shows a crosshair and a tooltip with that point's <b>value and signal information</b>, while the per-signal <b>colour legend lives in the window's side pane</b> with live values.</li>
 <li>Verified smooth at 1 kHz traffic across multiple windows with mixed standard and extended-ID frames over a sustained run with zero frame loss.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md9"></a>
+<h2><a class="anchor" id="autotoc_md17"></a>
 v1.1.0 development — Signal decoding</h2>
 <ul>
 <li><b>Signal Analysis tab</b> — a new Vector-CANalyzer-style page (alongside <em>Receive / Transmit</em>) that decodes individual signals from a loaded <b>DBC database</b>. Each signal shows its message, ID, raw value, scaled physical value, unit, and documented range, updating live as frames arrive. Supports Intel (little-endian) and Motorola (big-endian) bit layouts, <code>factor</code>/<code>offset</code> scaling, and signed signals — including extended-ID and CAN FD frames.</li>
 <li><b>Database menu</b> — <code>Load DBC…</code>, <code>Load Demo DBC</code>, and <code>Clear Database</code>; the bundled **<code>demo.dbc</code>** auto-loads at startup so the tab is populated out of the box.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md10"></a>
+<h2><a class="anchor" id="autotoc_md18"></a>
 v1.1.0 — Taksys customer release</h2>
 <ul>
 <li><b>Statistics bar</b> moved to a permanent, always-visible bar directly below the menu bar (interface, bitrate, bus load, Rx/Tx/Err counts, bus state).</li>
@@ -192,7 +244,7 @@ v1.1.0 — Taksys customer release</h2>
 <li>Bug fixes carried forward: the connect dialog stays reachable after a connect/disconnect cycle, and closing the window while connected exits cleanly (no hang/crash).</li>
 </ul>
 <hr  />
-<h1><a class="anchor" id="autotoc_md12"></a>
+<h1><a class="anchor" id="autotoc_md20"></a>
 Project Structure</h1>
 <div class="fragment"><div class="line">CANoScope/</div>
 <div class="line">├── main.c                     Entry point (GTK application init)</div>
@@ -203,7 +255,10 @@ Project Structure</h1>
 <div class="line">│   ├── socketcan.h            SocketCAN back-end interface</div>
 <div class="line">│   ├── app_state.h            Global application state</div>
 <div class="line">│   ├── dbc.h                  CAN database (DBC) model / decoder API</div>
+<div class="line">│   ├── bit_analysis.h         Bit Analysis engine model / API</div>
 <div class="line">│   └── gui.h                  GUI widget bundle + declarations</div>
+<div class="line">├── analysis/</div>
+<div class="line">│   └── bit_analysis.c         Bit Analysis engine (statistics/candidates)</div>
 <div class="line">├── driver/</div>
 <div class="line">│   ├── drv_can.c              Generic driver wrapper</div>
 <div class="line">│   ├── socketcan.c            SocketCAN implementation (PF_CAN)</div>
@@ -212,8 +267,10 @@ Project Structure</h1>
 <div class="line">│   ├── threads.c              RX / TX / stats threads + connect logic</div>
 <div class="line">│   ├── main_window.c          Main GTK window (menu, toolbar, notebook)</div>
 <div class="line">│   ├── message_view.c         Trace GtkTreeView + statistics panel</div>
+<div class="line">│   ├── bit_analysis_view.c    Bit Analysis GTK tab and worker coordination</div>
 <div class="line">│   ├── signal_view.c          Signal Analysis tab (live DBC decode)</div>
 <div class="line">│   ├── signal_plot.c          Signal Analysis Viewer (detachable graph windows)</div>
+<div class="line">│   ├── db_creation.c          DBC Creation tab and Bit Analysis promotion</div>
 <div class="line">│   ├── settings_dialog.c      Connection settings dialog</div>
 <div class="line">│   └── transmit_dialog.c      Message transmit window</div>
 <div class="line">├── assets/</div>
@@ -224,11 +281,15 @@ Project Structure</h1>
 <div class="line">├── debian/                    Debian/Ubuntu packaging (control, rules, …)</div>
 <div class="line">├── .github/workflows/         CI/CD: build/test, docs, .deb + PPA release</div>
 <div class="line">├── Doxyfile                   Doxygen configuration (output → ./docs)</div>
+<div class="line">├── tests/</div>
+<div class="line">│   └── test_bit_analysis.c    Synthetic Bit Analysis / DBC regression tests</div>
 <div class="line">└── scripts/</div>
 <div class="line">    ├── install_dependencies.sh  Dependency installer (Debian/Ubuntu/Arch/Fedora)</div>
-<div class="line">    └── test_without_pcan.py     Local vcan smoke-test helper</div>
+<div class="line">    ├── install_peak_deps.sh     PEAK/PCAN SocketCAN dependency helper</div>
+<div class="line">    ├── test_without_pcan.py     Local vcan smoke-test helper</div>
+<div class="line">    └── test_dbc.py              DBC-encoded SocketCAN traffic generator</div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md14"></a>
+<h1><a class="anchor" id="autotoc_md22"></a>
 Driver Architecture</h1>
 <div class="fragment"><div class="line">Application (GUI layer)</div>
 <div class="line">        │</div>
@@ -246,7 +307,7 @@ Driver Architecture</h1>
 <div class="line">  (vcan / peak_usb / peak_pci / slcan / …)</div>
 </div><!-- fragment --><p>Adding a new back-end (e.g. PCAN-Basic chardev API) only requires implementing the <code>can_driver_t</code> function-pointer table and passing it to <code><a class="el" href="drv__can_8h.html#a062a29edbcd6c7a1c622f3e7db477e1f" title="Select a driver and open/configure a CAN interface.">drv_can_init()</a></code>.</p>
 <hr  />
-<h1><a class="anchor" id="autotoc_md16"></a>
+<h1><a class="anchor" id="autotoc_md24"></a>
 Threading Model</h1>
 <div class="fragment"><div class="line">┌─────────────┐   g_idle_add   ┌─────────────┐</div>
 <div class="line">│  rx_thread  │ ─────────────► │ GTK main    │</div>
@@ -263,11 +324,11 @@ Threading Model</h1>
 <div class="line">│ stats_thread│ ─────────────► gui_update_stats()</div>
 <div class="line">│  500 ms     │</div>
 <div class="line">└─────────────┘</div>
-</div><!-- fragment --><p>All GTK widget updates happen exclusively in the GTK main thread via <code>gdk_threads_add_idle()</code>.</p>
+</div><!-- fragment --><p>All GTK widget updates happen exclusively in the GTK main thread via <code><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240" title="Number of stored signals.">gdk_threads_add_idle()</a></code>.</p>
 <hr  />
-<h1><a class="anchor" id="autotoc_md18"></a>
+<h1><a class="anchor" id="autotoc_md26"></a>
 Prerequisites</h1>
-<h2><a class="anchor" id="autotoc_md19"></a>
+<h2><a class="anchor" id="autotoc_md27"></a>
 Dependencies</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -285,14 +346,14 @@ Dependencies</h2>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>linux-headers</code>   </td><td class="markdownTableBodyNone">SocketCAN header files (<code>linux/can.h</code>)   </td></tr>
 </table>
-<h2><a class="anchor" id="autotoc_md20"></a>
+<h2><a class="anchor" id="autotoc_md28"></a>
 Kernel modules</h2>
 <div class="fragment"><div class="line">modprobe can</div>
 <div class="line">modprobe can_raw</div>
 <div class="line">modprobe vcan        # for virtual CAN testing</div>
 <div class="line">modprobe peak_usb    # for PEAK-System USB hardware</div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md22"></a>
+<h1><a class="anchor" id="autotoc_md30"></a>
 Install (recommended)</h1>
 <p>A single command installs the build/runtime dependencies, compiles the application, and installs it as a desktop app (launcher + Taksys icon in the application menu):</p>
 <div class="fragment"><div class="line">sudo make install</div>
@@ -316,7 +377,7 @@ Install (recommended)</h1>
 <td class="markdownTableBodyNone"><code>make</code>   </td><td class="markdownTableBodyNone">Build into <code>./build/canoscope</code> without installing   </td></tr>
 </table>
 <p>Override the install location with <code>PREFIX=</code> / <code>DESTDIR=</code>, e.g. <code>sudo make install PREFIX=/usr</code>.</p>
-<h2><a class="anchor" id="autotoc_md23"></a>
+<h2><a class="anchor" id="autotoc_md31"></a>
 Install from a &lt;tt&gt;.deb&lt;/tt&gt; package</h2>
 <p>A Debian/Ubuntu package can be built from the bundled <code>debian/</code> packaging and installed with <code>apt</code> (which resolves the GTK runtime dependencies):</p>
 <div class="fragment"><div class="line">sudo apt-get install -y devscripts debhelper build-essential pkgconf \</div>
@@ -324,7 +385,7 @@ Install from a &lt;tt&gt;.deb&lt;/tt&gt; package</h2>
 <div class="line">dpkg-buildpackage -us -uc -b          # produces ../canoscope_&lt;version&gt;_&lt;arch&gt;.deb</div>
 <div class="line">sudo apt-get install -y ../canoscope_*.deb</div>
 </div><!-- fragment --><p>Remove it again with <code>sudo apt-get purge -y canoscope</code>.</p>
-<h2><a class="anchor" id="autotoc_md24"></a>
+<h2><a class="anchor" id="autotoc_md32"></a>
 Install from the Ubuntu PPA</h2>
 <p>Released versions are published to a Launchpad PPA. Once the PPA is added, the package installs and updates like any other:</p>
 <div class="fragment"><div class="line">sudo add-apt-repository ppa:subhajitroy/canoscope</div>
@@ -333,18 +394,18 @@ Install from the Ubuntu PPA</h2>
 </div><!-- fragment --><blockquote class="doxtable">
 <p>&zwj;The CI pipeline (<code>.github/workflows/ppa.yml</code>) builds the signed source package per Ubuntu series and uploads it to the PPA on each version tag. </p>
 </blockquote>
-<h1><a class="anchor" id="autotoc_md25"></a>
+<h1><a class="anchor" id="autotoc_md33"></a>
 &lt;/blockquote&gt;</h1>
-<h1><a class="anchor" id="autotoc_md26"></a>
+<h1><a class="anchor" id="autotoc_md34"></a>
 Build &amp; Run (from source)</h1>
-<h2><a class="anchor" id="autotoc_md27"></a>
+<h2><a class="anchor" id="autotoc_md35"></a>
 1. Install dependencies</h2>
 <div class="fragment"><div class="line">sudo ./scripts/install_dependencies.sh</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md28"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md36"></a>
 2. Build</h2>
 <div class="fragment"><div class="line">make              # optimised release</div>
 <div class="line">make DEBUG=1      # debug build with -g -O0</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md29"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md37"></a>
 3. Run</h2>
 <div class="fragment"><div class="line"># With a virtual CAN interface (no hardware needed).</div>
 <div class="line"># The app can create/bring up vcan0 itself (graphical auth prompt), or set it up</div>
@@ -355,14 +416,14 @@ Build &amp; Run (from source)</h1>
 <div class="line"> </div>
 <div class="line">./build/canoscope</div>
 <div class="line"># → File &gt; Connect (or F5) → select vcan0, 500 kbit/s → Connect</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md30"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md38"></a>
 4. Send a test frame (another terminal)</h2>
 <div class="fragment"><div class="line">cansend vcan0 123#DEADBEEF</div>
 <div class="line">cansend vcan0 18FF50E5#0102030405060708    # extended frame</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md31"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md39"></a>
 5. Virtual CAN test workflow</h2>
 <p>For a complete no-hardware test flow, see the <b>Virtual CAN Testing</b> section below.</p>
-<h2><a class="anchor" id="autotoc_md32"></a>
+<h2><a class="anchor" id="autotoc_md40"></a>
 6. Run with real PEAK hardware</h2>
 <p>PEAK-System USB/PCIe interfaces are supported out-of-the-box via the <code>peak_usb</code> / <code>peak_pci</code> kernel module (Linux ≥ 3.2).</p>
 <div class="fragment"><div class="line"># Check available CAN interfaces</div>
@@ -373,10 +434,10 @@ Build &amp; Run (from source)</h1>
 <div class="line"># → File &gt; Connect → interface: can0, bitrate: 500 kbit/s → Connect</div>
 </div><!-- fragment --><p>The application will automatically run <code>ip link set &lt;iface&gt; type can bitrate &lt;rate&gt;</code> and <code>ip link set &lt;iface&gt; up</code>, so <b>root privileges (or <code>CAP_NET_ADMIN</code>)</b> are required for real hardware.</p>
 <hr  />
-<h1><a class="anchor" id="autotoc_md34"></a>
+<h1><a class="anchor" id="autotoc_md42"></a>
 Virtual CAN Testing</h1>
 <p>Use this workflow to test the application without PEAK/PCAN hardware. It uses Linux SocketCAN with a virtual CAN interface named <code>vcan0</code>.</p>
-<h2><a class="anchor" id="autotoc_md35"></a>
+<h2><a class="anchor" id="autotoc_md43"></a>
 1. Install prerequisites</h2>
 <p>Recommended:</p>
 <div class="fragment"><div class="line">sudo ./scripts/install_dependencies.sh</div>
@@ -389,7 +450,7 @@ Virtual CAN Testing</h1>
 <div class="line">sudo ip link set dev vcan0 up</div>
 </div><!-- fragment --><p>Check that the interface is available:</p>
 <div class="fragment"><div class="line">ip -details link show dev vcan0</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md36"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md44"></a>
 2. Run test scripts</h2>
 <p>Build the app, create/bring up <code>vcan0</code> when needed, and verify SocketCAN loopback:</p>
 <div class="fragment"><div class="line">python3 scripts/test_without_pcan.py</div>
@@ -404,8 +465,39 @@ Virtual CAN Testing</h1>
 </div><!-- fragment --><p>You can also send individual frames from another terminal:</p>
 <div class="fragment"><div class="line">cansend vcan0 123#DEADBEEF</div>
 <div class="line">cansend vcan0 18FF50E5#0102030405060708</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md45"></a>
+DBC-aware signal generator</h3>
+<p>To exercise the <b>Signal Analysis</b> and <b>Signal Analysis Viewer</b> tabs with realistic, correctly-encoded signal traffic, use <code>scripts/test_dbc.py</code>. It parses any DBC and transmits time-varying (sine-swept) values for every signal, encoded with the right byte order (Intel/Motorola), sign, factor/offset and frame format (including extended IDs):</p>
+<div class="fragment"><div class="line"># Send signals from the bundled demo database on vcan0 at 30 Hz/message for 60 s</div>
+<div class="line">python3 scripts/test_dbc.py --no-setup --rate 30 --duration 60</div>
+<div class="line"> </div>
+<div class="line"># Use your own database, list its signals, or run until Ctrl+C</div>
+<div class="line">python3 scripts/test_dbc.py --dbc path/to/your.dbc --list</div>
+<div class="line">python3 scripts/test_dbc.py --dbc path/to/your.dbc --duration 0</div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md38"></a>
+<h1><a class="anchor" id="autotoc_md47"></a>
+Bit Analysis and CAN Reverse Engineering</h1>
+<p>CANoScope includes a Bit Analysis workspace for reverse-engineering CAN messages without an existing DBC. Select a CAN ID and inspect the complete classic CAN payload as a live 64-bit matrix. Capture a stable baseline, mark controlled physical input states or numeric values, and compare how every bit behaves.</p>
+<p>The analyzer provides baseline XOR highlighting, bit flip rates, probability, entropy, response-delay search, and input correlation. It scans contiguous candidate fields using Intel and Motorola byte order, tests signed and unsigned interpretations, estimates signal factor/offset, ranks candidate signals, and identifies likely alive counters, timestamp-like fields, checksum-like fields, and multiplexers.</p>
+<p>Validated candidates can be transferred to the DB Creation tab for review before being written to a DBC.</p>
+<h1><a class="anchor" id="autotoc_md48"></a>
+Using the Signal Analysis Viewer</h1>
+<p>The <b>Signal Analysis Viewer</b> plots decoded DBC signals over time in oscilloscope-style graphs. It is built around <em>detachable</em> windows so you can watch several independent sets of signals at once.</p>
+<ol type="1">
+<li><b>Load a database.</b> The bundled <code>demo.dbc</code> auto-loads at startup. To use your own, click <b>Load DBC…</b> on the Viewer tab (or <b>Database &gt; Load DBC…</b>) any time after launch — every open analysis window refreshes against it.</li>
+<li><b>Connect and generate traffic.</b> Connect to your interface (e.g. <code>vcan0</code>), then feed it signal traffic — for testing, run <code>scripts/test_dbc.py</code> against the same database.</li>
+<li><b>Open an analysis window.</b> Click <b>➕ Add Analysis Window</b>. Each click opens an independent, detached graph window; open as many as you like.</li>
+<li><b>Add signals.</b> In a window, type into the <b>searchable dropdown</b> to filter by <code>Message.Signal</code> name, pick one, and press <b>Add</b>. Repeat to overlay several signals.</li>
+<li><b>Read the graph.</b><ul>
+<li>Each signal draws its <b>own Y axis on the left</b>, colour-matched to its trace, labelled with <b>real physical values and the engineering unit</b> (e.g. <em>rpm</em>, <em>bar</em>) — not a shared percentage scale.</li>
+<li>The <b>side pane</b> lists every signal's colour swatch, name and <b>live value</b>.</li>
+<li><b>Hover</b> a trace to snap a crosshair to the nearest sample and read its exact value, unit and time.</li>
+<li>Adjust the <b>Window (s)</b> spin to change the visible time span, or <b>Pause</b> to freeze the view for inspection. <b>Clear</b> removes all signals; the <b>×</b> next to a side-pane entry removes a single signal.</li>
+</ul>
+</li>
+</ol>
+<hr  />
+<h1><a class="anchor" id="autotoc_md50"></a>
 Feature Comparison vs. PEAK PCAN-View</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -436,28 +528,29 @@ Feature Comparison vs. PEAK PCAN-View</h1>
 <td class="markdownTableBodyNone">Bus-off / warning states   </td><td class="markdownTableBodyNone">✅   </td></tr>
 </table>
 <hr  />
-<h1><a class="anchor" id="autotoc_md40"></a>
+<h1><a class="anchor" id="autotoc_md52"></a>
 Extending the Driver</h1>
 <div class="fragment"><div class="line"><span class="comment">/* Implement the can_driver_t interface */</span></div>
-<div class="line"><span class="keyword">static</span> <a class="code hl_struct" href="structcan__driver.html">can_driver_t</a> my_driver = {</div>
-<div class="line">    .<a class="code hl_variable" href="structcan__driver.html#aa2bacd71c4496ee6887cc4cf92bfb132">init</a>         = my_init,</div>
-<div class="line">    .deinit       = my_deinit,</div>
-<div class="line">    .send         = my_send,</div>
-<div class="line">    .recv         = my_recv,</div>
-<div class="line">    .get_stats    = my_get_stats,</div>
-<div class="line">    .set_filter   = my_set_filter,</div>
-<div class="line">    .clear_filter = my_clear_filter,</div>
-<div class="line">    .reset        = my_reset,</div>
-<div class="line">    .error_string = my_error_string,</div>
+<div class="line"><span class="keyword">static</span> <a class="code hl_struct" href="structcan__driver.html">can_driver_t</a> <a class="code hl_variable" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">my_driver</a> = {</div>
+<div class="line">    .<a class="code hl_variable" href="structcan__driver.html#aa2bacd71c4496ee6887cc4cf92bfb132">init</a>         = <a class="code hl_variable" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">my_init</a>,</div>
+<div class="line">    .deinit       = <a class="code hl_variable" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">my_deinit</a>,</div>
+<div class="line">    .send         = <a class="code hl_variable" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">my_send</a>,</div>
+<div class="line">    .recv         = <a class="code hl_variable" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">my_recv</a>,</div>
+<div class="line">    .get_stats    = <a class="code hl_variable" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">my_get_stats</a>,</div>
+<div class="line">    .set_filter   = <a class="code hl_variable" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">my_set_filter</a>,</div>
+<div class="line">    .clear_filter = <a class="code hl_variable" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">my_clear_filter</a>,</div>
+<div class="line">    .reset        = <a class="code hl_variable" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">my_reset</a>,</div>
+<div class="line">    .error_string = <a class="code hl_variable" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">my_error_string</a>,</div>
 <div class="line">};</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">/* Use it */</span></div>
-<div class="line"><a class="code hl_function" href="drv__can_8h.html#a062a29edbcd6c7a1c622f3e7db477e1f">drv_can_init</a>(&amp;my_driver, <span class="stringliteral">&quot;can0&quot;</span>, 500000, 0, 0, 0);</div>
+<div class="line"><a class="code hl_function" href="drv__can_8h.html#a062a29edbcd6c7a1c622f3e7db477e1f">drv_can_init</a>(&amp;<a class="code hl_variable" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">my_driver</a>, <span class="stringliteral">&quot;can0&quot;</span>, 500000, 0, 0, 0);</div>
 <div class="ttc" id="adrv__can_8h_html_a062a29edbcd6c7a1c622f3e7db477e1f"><div class="ttname"><a href="drv__can_8h.html#a062a29edbcd6c7a1c622f3e7db477e1f">drv_can_init</a></div><div class="ttdeci">int drv_can_init(can_driver_t *drv, const char *iface, uint32_t bitrate, uint32_t data_bitrate, int fd_mode, int listen_only, const can_bit_timing_t *timing)</div><div class="ttdoc">Select a driver and open/configure a CAN interface.</div><div class="ttdef"><b>Definition</b> <a href="drv__can_8c_source.html#l00101">drv_can.c:101</a></div></div>
+<div class="ttc" id="asignal__plot_8c_html_a76f11d9a0a47b94f72c2d0e77fb32240"><div class="ttname"><a href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">n</a></div><div class="ttdeci">int n</div><div class="ttdoc">Number of stored signals.</div><div class="ttdef"><b>Definition</b> <a href="signal__plot_8c_source.html#l00092">signal_plot.c:92</a></div></div>
 <div class="ttc" id="astructcan__driver_html"><div class="ttname"><a href="structcan__driver.html">can_driver</a></div><div class="ttdoc">CAN driver vtable — implemented by each concrete back-end.</div><div class="ttdef"><b>Definition</b> <a href="drv__can_8h_source.html#l00073">drv_can.h:73</a></div></div>
 <div class="ttc" id="astructcan__driver_html_aa2bacd71c4496ee6887cc4cf92bfb132"><div class="ttname"><a href="structcan__driver.html#aa2bacd71c4496ee6887cc4cf92bfb132">can_driver::init</a></div><div class="ttdeci">int(* init)(const char *iface, uint32_t bitrate, uint32_t data_bitrate, int fd_mode, int listen_only, const can_bit_timing_t *timing)</div><div class="ttdoc">Open/configure the interface.</div><div class="ttdef"><b>Definition</b> <a href="drv__can_8h_source.html#l00075">drv_can.h:75</a></div></div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md42"></a>
+<h1><a class="anchor" id="autotoc_md54"></a>
 API Documentation</h1>
 <p>The codebase carries full Doxygen documentation (file, type, and function level). Generate the HTML reference locally:</p>
 <div class="fragment"><div class="line">sudo apt-get install -y doxygen graphviz</div>
@@ -467,7 +560,7 @@ API Documentation</h1>
 <p>A man page is installed with the package and is also available in the source tree at <code>debian/canoscope.1</code>:</p>
 <div class="fragment"><div class="line">man canoscope</div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md44"></a>
+<h1><a class="anchor" id="autotoc_md56"></a>
 Continuous Integration</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -480,11 +573,11 @@ Continuous Integration</h1>
 <td class="markdownTableBodyNone"><code>.github/workflows/ppa.yml</code>   </td><td class="markdownTableBodyNone">On a <code>vX.Y.Z</code> tag: build the <code>.deb</code> for the GitHub Release and upload the signed source package to the Ubuntu PPA.   </td></tr>
 </table>
 <hr  />
-<h1><a class="anchor" id="autotoc_md46"></a>
+<h1><a class="anchor" id="autotoc_md58"></a>
 License</h1>
 <p>Apache License 2.0 – see [LICENSE](LICENSE).</p>
 <hr  />
-<h1><a class="anchor" id="autotoc_md48"></a>
+<h1><a class="anchor" id="autotoc_md60"></a>
 References</h1>
 <ul>
 <li><a href="https://www.peak-system.com/fileadmin/media/linux/index.php">PEAK-System Linux driver documentation</a></li>

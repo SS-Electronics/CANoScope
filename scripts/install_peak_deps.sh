@@ -2,7 +2,7 @@
 # install_peak_deps.sh - Install PEAK/PCAN Linux support for CANoScope.
 #
 # Default mode prepares the in-kernel SocketCAN PEAK drivers used by CANoScope.
-# Optional mode can download and build PEAK-System's PCAN-Linux package for
+# Optional mode downloads and builds PEAK-System's PCAN-Linux package for
 # chardev/PCAN-Basic or netdev driver use.
 #
 # Usage:
@@ -122,6 +122,11 @@ detect_pkg_mgr()
     info "Package manager: $PKG_MGR"
 }
 
+require_cmd()
+{
+    command -v "$1" >/dev/null 2>&1 || error "Required command not found: $1"
+}
+
 install_optional_pkg()
 {
     local pkg=$1
@@ -159,8 +164,10 @@ install_packages()
             kmod \
             libpopt-dev \
             make \
+            pciutils \
             pkg-config \
             tar \
+            usbutils \
             can-utils \
             ethtool
         install_optional_pkg "linux-headers-$(uname -r)"
@@ -179,9 +186,11 @@ install_packages()
             iproute \
             kmod \
             make \
+            pciutils \
             pkgconf-pkg-config \
             popt-devel \
             tar \
+            usbutils \
             xz
         install_optional_pkg "kernel-devel-$(uname -r)"
         install_optional_pkg kernel-headers
@@ -198,8 +207,10 @@ install_packages()
             ethtool \
             iproute2 \
             kmod \
+            pciutils \
             popt \
             tar \
+            usbutils \
             xz
         install_optional_pkg linux-headers
         if [ "$USE_DKMS" -eq 1 ]; then
@@ -228,16 +239,20 @@ load_socketcan_modules()
     info "Loading SocketCAN and PEAK kernel modules..."
     local modules=(can can_raw can_dev peak_usb peak_pci peak_pciefd)
     local loaded=()
+    local err_file
+
+    err_file=$(mktemp)
 
     for mod in "${modules[@]}"; do
-        if modprobe "$mod" 2>/tmp/install_peak_deps.modprobe.err; then
+        if modprobe "$mod" 2>"$err_file"; then
             info "  Loaded or available: $mod"
             loaded+=("$mod")
         else
-            warn "  Could not load $mod: $(cat /tmp/install_peak_deps.modprobe.err)"
+            warn "  Could not load $mod: $(tr '\n' ' ' < "$err_file")"
         fi
+        : > "$err_file"
     done
-    rm -f /tmp/install_peak_deps.modprobe.err
+    rm -f "$err_file"
 
     if [ "$PERSIST_MODULES" -eq 1 ] && [ "${#loaded[@]}" -gt 0 ]; then
         local mods_file=/etc/modules-load.d/peak-can.conf
@@ -256,6 +271,11 @@ load_socketcan_modules()
 show_can_interfaces()
 {
     info "Current CAN interfaces:"
+    if ! command -v ip >/dev/null 2>&1; then
+        warn "ip command not found; install iproute2 and run: ip link show type can"
+        return
+    fi
+
     local ifaces
     ifaces=$(ip link show type can 2>/dev/null || true)
     if [ -n "$ifaces" ]; then
@@ -269,13 +289,23 @@ show_can_interfaces()
 install_peak_driver_package()
 {
     info "Downloading PEAK PCAN-Linux driver package..."
+    require_cmd curl
+    require_cmd make
+    require_cmd tar
+
+    if [ "$USE_DKMS" -eq 1 ]; then
+        require_cmd dkms
+    fi
+
     mkdir -p "$PEAK_SRC_PARENT"
 
     local tmp
     tmp=$(mktemp -d)
+    trap 'rm -rf "$tmp"' EXIT
+
     local archive="$tmp/peak-linux-driver.tar.gz"
 
-    curl -fL "$PCAN_DRIVER_URL" -o "$archive"
+    curl -fsSL "$PCAN_DRIVER_URL" -o "$archive"
     tar -xzf "$archive" -C "$tmp"
 
     local src_dir
@@ -285,28 +315,30 @@ install_peak_driver_package()
     local dst="$PEAK_SRC_PARENT/$(basename "$src_dir")"
     if [ -d "$dst" ]; then
         warn "$dst already exists; reusing it."
-        rm -rf "$tmp"
     else
         mv "$src_dir" "$dst"
-        rm -rf "$tmp"
     fi
+    rm -rf "$tmp"
+    trap - EXIT
 
     info "Building PEAK PCAN-Linux package in $dst ($DRIVER_MODE mode)..."
+    local make_vars=()
     case "$DRIVER_MODE" in
     chardev)
-        make -C "$dst" clean all
+        make_vars+=(NET=NO_NETDEV_SUPPORT)
         ;;
     netdev)
-        make -C "$dst" clean netdev
+        make_vars+=(NET=NETDEV_SUPPORT)
         ;;
     esac
+    make -C "$dst" "${make_vars[@]}" clean all
 
     if [ "$USE_DKMS" -eq 1 ]; then
         info "Installing PEAK PCAN-Linux package with DKMS..."
-        make -C "$dst" install_with_dkms
+        make -C "$dst" "${make_vars[@]}" install_with_dkms
     else
         info "Installing PEAK PCAN-Linux package..."
-        make -C "$dst" install
+        make -C "$dst" "${make_vars[@]}" install
     fi
 
     depmod -a || true

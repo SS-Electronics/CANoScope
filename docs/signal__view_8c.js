@@ -7,6 +7,7 @@ var signal__view_8c =
     [ "gui_signal_load_dbc", "signal__view_8c.html#aabbac3d54f413e0af413abb0d3c2ce0b", null ],
     [ "gui_signal_clear_dbc", "signal__view_8c.html#a552703f86cc8dcc98073b46b0f52930b", null ],
     [ "gui_signal_load_default_dbc", "signal__view_8c.html#ae4439d43f60767c729a0e0ec821776d4", null ],
+    [ "gui_signal_get_dbc_path", "signal__view_8c.html#a784f02ab5b1bc589a0a9185a3a0256f1", null ],
     [ "gui_signal_decode_message", "signal__view_8c.html#a65189c7978d4c7db22f8bcd630d09ac0", null ],
     [ "on_load_dbc", "signal__view_8c.html#acb997b7bbb5b53f9535ad855cac9b2cd", null ],
     [ "on_reload_dbc", "signal__view_8c.html#a724f555a21bbf8d6b9f7e82de48f804b", null ],

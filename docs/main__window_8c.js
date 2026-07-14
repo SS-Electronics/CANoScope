@@ -64,5 +64,5 @@ var main__window_8c =
     [ "count", "main__window_8c.html#ad43c3812e6d13e0518d9f8b8f463ffcf", null ],
     [ "rows_box", "main__window_8c.html#aab76191caec810fe694b4626e688f56c", null ],
     [ "placeholder", "main__window_8c.html#a58861202ad73895638c74ab40e4d7141", null ],
-    [ "s_txp", "main__window_8c.html#a29ea4fa056cb7c59bdb5553fa2817a3c", null ]
+    [ "s_txp", "main__window_8c.html#ac7bde74cfc3c951e916a2b0348fe8e7b", null ]
 ];

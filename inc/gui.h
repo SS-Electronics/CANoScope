@@ -69,6 +69,8 @@ typedef struct {
  */
 typedef struct {
     GtkWidget    *window;              /**< Top-level application window.      */
+    GtkWidget    *main_notebook;       /**< Main content notebook.             */
+    GtkWidget    *db_creation_page;    /**< DB Creation notebook page widget.  */
     GtkWidget    *toolbar_connect;     /**< Connect tool button.              */
     GtkWidget    *toolbar_disconnect;  /**< Disconnect tool button.          */
     GtkWidget    *toolbar_clear;       /**< Clear-trace tool button.         */
@@ -135,6 +137,32 @@ size_t gui_trace_collect_rx_messages(gui_trace_rx_message_t *out, size_t max);
 
 /* ---- Signal Analysis (DBC-decoded) ---------------------------------------- */
 
+/* ---- Bit Analysis --------------------------------------------------------- */
+
+/**
+ * @brief Build the Bit Analysis tab for CAN reverse engineering.
+ * @return A container widget for use as a notebook page.
+ */
+GtkWidget *gui_create_bit_analysis_view(void);
+
+/**
+ * @brief Feed one CAN frame to the Bit Analysis tab.
+ * @param msg Frame; ignored when it does not match the active target.
+ */
+void gui_bit_analysis_handle_message(const can_msg_t *msg);
+
+/**
+ * @brief Reset the current Bit Analysis session.
+ */
+void gui_bit_analysis_reset(void);
+
+/**
+ * @brief Notify Bit Analysis that trace contents changed.
+ */
+void gui_bit_analysis_trace_changed(void);
+
+/* ---- Signal Analysis (DBC-decoded) ---------------------------------------- */
+
 /**
  * @brief Build the Signal Analysis tab (live DBC-decoded signal table).
  * @return A container widget for use as a notebook page.
@@ -184,6 +212,38 @@ void gui_db_creation_trace_changed(void);
  * @param msg  RX frame; ignored unless it matches the selected source message.
  */
 void gui_db_creation_handle_message(const can_msg_t *msg);
+
+/**
+ * @brief Pre-fill DB Creation from a Bit Analysis candidate.
+ * @param message_id  Raw CAN identifier.
+ * @param is_extended Non-zero for extended CAN ID.
+ * @param dlc         Message DLC.
+ * @param signal_name Proposed signal name.
+ * @param start_bit   DBC start bit.
+ * @param bit_length  Signal bit length.
+ * @param byte_order  Non-zero for Intel/little-endian, zero for Motorola.
+ * @param is_signed   Non-zero for signed two's-complement.
+ * @param factor      DBC factor.
+ * @param offset      DBC offset.
+ * @param minimum     Physical minimum.
+ * @param maximum     Physical maximum.
+ * @param unit        Engineering unit.
+ * @param comment     Optional DBC signal comment/evidence.
+ */
+void gui_db_creation_prefill_signal(uint32_t message_id,
+                                    int is_extended,
+                                    uint8_t dlc,
+                                    const char *signal_name,
+                                    uint16_t start_bit,
+                                    uint8_t bit_length,
+                                    int byte_order,
+                                    int is_signed,
+                                    double factor,
+                                    double offset,
+                                    double minimum,
+                                    double maximum,
+                                    const char *unit,
+                                    const char *comment);
 
 /* ---- Signal Analysis Viewer (signal-vs-time graph) ------------------------ */
 

@@ -102,6 +102,7 @@ $(document).ready(function(){initNavTree('dbc_8c.html',''); initResizable(); });
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="dbc_8h_source.html">../inc/dbc.h</a>&quot;</code><br />
 <code>#include &lt;ctype.h&gt;</code><br />
+<code>#include &lt;errno.h&gt;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
@@ -110,46 +111,77 @@ $(document).ready(function(){initNavTree('dbc_8c.html',''); initResizable(); });
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="dbc_8c__incl.svg" width="519" height="183"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="dbc_8c__incl.svg" width="611" height="183"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="dbc_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a541da12cd115bf465c5814b8a21ee614" id="r_a541da12cd115bf465c5814b8a21ee614"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a541da12cd115bf465c5814b8a21ee614">DBC_EXT_FLAG</a>&#160;&#160;&#160;0x80000000u</td></tr>
+<tr class="memitem:a541da12cd115bf465c5814b8a21ee614" id="r_a541da12cd115bf465c5814b8a21ee614"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a541da12cd115bf465c5814b8a21ee614">DBC_EXT_FLAG</a>&#160;&#160;&#160;0x80000000u</td></tr>
 <tr class="separator:a541da12cd115bf465c5814b8a21ee614"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a354286ba2cc983851d9fc281f80f3c97" id="r_a354286ba2cc983851d9fc281f80f3c97"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structdbc__message__t.html">dbc_message_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a354286ba2cc983851d9fc281f80f3c97">dbc_push_message</a> (<a class="el" href="structdbc__db__t.html">dbc_db_t</a> *db)</td></tr>
+<tr class="memitem:a8e784337eaec5e93b01899a7eeab338c" id="r_a8e784337eaec5e93b01899a7eeab338c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a8e784337eaec5e93b01899a7eeab338c">dbc_set_err</a> (<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">err</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">size_t</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">errsz</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">msg</a>)</td></tr>
+<tr class="separator:a8e784337eaec5e93b01899a7eeab338c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94643730916be1c6dbdb034859be0e26" id="r_a94643730916be1c6dbdb034859be0e26"><td class="memItemLeft" align="right" valign="top"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a94643730916be1c6dbdb034859be0e26">dbc_set_errno</a> (<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">err</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">size_t</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">errsz</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">prefix</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *path)</td></tr>
+<tr class="separator:a94643730916be1c6dbdb034859be0e26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a354286ba2cc983851d9fc281f80f3c97" id="r_a354286ba2cc983851d9fc281f80f3c97"><td class="memItemLeft" align="right" valign="top"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="structdbc__message__t.html">dbc_message_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a354286ba2cc983851d9fc281f80f3c97">dbc_push_message</a> (<a class="el" href="structdbc__db__t.html">dbc_db_t</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">db</a>)</td></tr>
 <tr class="memdesc:a354286ba2cc983851d9fc281f80f3c97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Append an empty message slot to the database, growing as needed.  <br /></td></tr>
 <tr class="separator:a354286ba2cc983851d9fc281f80f3c97"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e3ebb93b911e4bff8c3ea8d6978ebf6" id="r_a6e3ebb93b911e4bff8c3ea8d6978ebf6"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structdbc__message__t.html">dbc_message_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a6e3ebb93b911e4bff8c3ea8d6978ebf6">parse_bo</a> (const char *line, <a class="el" href="structdbc__db__t.html">dbc_db_t</a> *db)</td></tr>
+<tr class="memitem:a4e77ca0491b7084b942c6ae4e2f56eab" id="r_a4e77ca0491b7084b942c6ae4e2f56eab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdbc__db__t.html">dbc_db_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a4e77ca0491b7084b942c6ae4e2f56eab">dbc_create_empty</a> (<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *path)</td></tr>
+<tr class="memdesc:a4e77ca0491b7084b942c6ae4e2f56eab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an empty in-memory DBC database.  <br /></td></tr>
+<tr class="separator:a4e77ca0491b7084b942c6ae4e2f56eab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e3ebb93b911e4bff8c3ea8d6978ebf6" id="r_a6e3ebb93b911e4bff8c3ea8d6978ebf6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="structdbc__message__t.html">dbc_message_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a6e3ebb93b911e4bff8c3ea8d6978ebf6">parse_bo</a> (<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">line</a>, <a class="el" href="structdbc__db__t.html">dbc_db_t</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">db</a>)</td></tr>
 <tr class="memdesc:a6e3ebb93b911e4bff8c3ea8d6978ebf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a <code>BO_</code> message-definition line.  <br /></td></tr>
 <tr class="separator:a6e3ebb93b911e4bff8c3ea8d6978ebf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f6ea9b46ea9014b204ecdbbf784f5ff" id="r_a6f6ea9b46ea9014b204ecdbbf784f5ff"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a6f6ea9b46ea9014b204ecdbbf784f5ff">parse_sg</a> (const char *line, <a class="el" href="structdbc__message__t.html">dbc_message_t</a> *m)</td></tr>
+<tr class="memitem:a6f6ea9b46ea9014b204ecdbbf784f5ff" id="r_a6f6ea9b46ea9014b204ecdbbf784f5ff"><td class="memItemLeft" align="right" valign="top"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a6f6ea9b46ea9014b204ecdbbf784f5ff">parse_sg</a> (<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">line</a>, <a class="el" href="structdbc__message__t.html">dbc_message_t</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">m</a>)</td></tr>
 <tr class="memdesc:a6f6ea9b46ea9014b204ecdbbf784f5ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a <code>SG_</code> signal line and append it to the current message.  <br /></td></tr>
 <tr class="separator:a6f6ea9b46ea9014b204ecdbbf784f5ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee77dd5b6d5cf15e7549c06d4bba52cd" id="r_aee77dd5b6d5cf15e7549c06d4bba52cd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdbc__db__t.html">dbc_db_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#aee77dd5b6d5cf15e7549c06d4bba52cd">dbc_load_file</a> (const char *path, char *err, size_t errsz)</td></tr>
+<tr class="memitem:ad775fd45c0281d3602c1fa53d1b862e1" id="r_ad775fd45c0281d3602c1fa53d1b862e1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="structdbc__message__t.html">dbc_message_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#ad775fd45c0281d3602c1fa53d1b862e1">find_message_by_raw_dbc_id</a> (<a class="el" href="structdbc__db__t.html">dbc_db_t</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">db</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">unsigned</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">long</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">raw_id</a>)</td></tr>
+<tr class="separator:ad775fd45c0281d3602c1fa53d1b862e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bfa7c38947c622e3e5f405e13601d24" id="r_a8bfa7c38947c622e3e5f405e13601d24"><td class="memItemLeft" align="right" valign="top"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="structdbc__signal__t.html">dbc_signal_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a8bfa7c38947c622e3e5f405e13601d24">find_signal_mut</a> (<a class="el" href="structdbc__message__t.html">dbc_message_t</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">m</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *name)</td></tr>
+<tr class="separator:a8bfa7c38947c622e3e5f405e13601d24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2223670568eec51c2262cdd63407c7b6" id="r_a2223670568eec51c2262cdd63407c7b6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a2223670568eec51c2262cdd63407c7b6">unescape_dbc_string</a> (<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">dst</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">size_t</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">dstsz</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">src</a>)</td></tr>
+<tr class="separator:a2223670568eec51c2262cdd63407c7b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b80da2e36034d9a90f7e27a84a25340" id="r_a8b80da2e36034d9a90f7e27a84a25340"><td class="memItemLeft" align="right" valign="top"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a8b80da2e36034d9a90f7e27a84a25340">write_escaped_dbc_string</a> (<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">FILE</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">fp</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">text</a>)</td></tr>
+<tr class="separator:a8b80da2e36034d9a90f7e27a84a25340"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a283ea4053109e4cd9b7dced4b093853b" id="r_a283ea4053109e4cd9b7dced4b093853b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a283ea4053109e4cd9b7dced4b093853b">parse_dbc_quoted_string</a> (<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">p</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">dst</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">size_t</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">dstsz</a>)</td></tr>
+<tr class="separator:a283ea4053109e4cd9b7dced4b093853b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4a248ed55f879f602a663c5e4a0c191" id="r_ae4a248ed55f879f602a663c5e4a0c191"><td class="memItemLeft" align="right" valign="top"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#ae4a248ed55f879f602a663c5e4a0c191">parse_cm_sg</a> (<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">line</a>, <a class="el" href="structdbc__db__t.html">dbc_db_t</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">db</a>)</td></tr>
+<tr class="separator:ae4a248ed55f879f602a663c5e4a0c191"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee77dd5b6d5cf15e7549c06d4bba52cd" id="r_aee77dd5b6d5cf15e7549c06d4bba52cd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdbc__db__t.html">dbc_db_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#aee77dd5b6d5cf15e7549c06d4bba52cd">dbc_load_file</a> (<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *path, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">err</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">size_t</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">errsz</a>)</td></tr>
 <tr class="memdesc:aee77dd5b6d5cf15e7549c06d4bba52cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a DBC file into a new database.  <br /></td></tr>
 <tr class="separator:aee77dd5b6d5cf15e7549c06d4bba52cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aabc28185c850f65b9ee34d10b271d4ef" id="r_aabc28185c850f65b9ee34d10b271d4ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#aabc28185c850f65b9ee34d10b271d4ef">dbc_free</a> (<a class="el" href="structdbc__db__t.html">dbc_db_t</a> *db)</td></tr>
+<tr class="memitem:aabc28185c850f65b9ee34d10b271d4ef" id="r_aabc28185c850f65b9ee34d10b271d4ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#aabc28185c850f65b9ee34d10b271d4ef">dbc_free</a> (<a class="el" href="structdbc__db__t.html">dbc_db_t</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">db</a>)</td></tr>
 <tr class="memdesc:aabc28185c850f65b9ee34d10b271d4ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release a database returned by <a class="el" href="dbc_8h.html#aee77dd5b6d5cf15e7549c06d4bba52cd">dbc_load_file</a>.  <br /></td></tr>
 <tr class="separator:aabc28185c850f65b9ee34d10b271d4ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e03c91b2e90ad5f1c522e384acac2dd" id="r_a0e03c91b2e90ad5f1c522e384acac2dd"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structdbc__message__t.html">dbc_message_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a0e03c91b2e90ad5f1c522e384acac2dd">dbc_find_message</a> (const <a class="el" href="structdbc__db__t.html">dbc_db_t</a> *db, uint32_t id, int is_extended)</td></tr>
+<tr class="memitem:a0e03c91b2e90ad5f1c522e384acac2dd" id="r_a0e03c91b2e90ad5f1c522e384acac2dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="structdbc__message__t.html">dbc_message_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a0e03c91b2e90ad5f1c522e384acac2dd">dbc_find_message</a> (<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="structdbc__db__t.html">dbc_db_t</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">db</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">uint32_t</a> id, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">int</a> is_extended)</td></tr>
 <tr class="memdesc:a0e03c91b2e90ad5f1c522e384acac2dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the message definition matching a CAN identifier.  <br /></td></tr>
 <tr class="separator:a0e03c91b2e90ad5f1c522e384acac2dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaaf0127ba8d48eced44e647a7b8c66df" id="r_aaaf0127ba8d48eced44e647a7b8c66df"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#aaaf0127ba8d48eced44e647a7b8c66df">dbc_extract_raw</a> (const uint8_t *data, uint8_t dlc, const <a class="el" href="structdbc__signal__t.html">dbc_signal_t</a> *<a class="el" href="signal__plot_8c.html#ad363ac7fd79f686e0185c16ac3d7650d">sig</a>)</td></tr>
+<tr class="memitem:a83b1f96932b3e12fd130bf3fbaaa5429" id="r_a83b1f96932b3e12fd130bf3fbaaa5429"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdbc__message__t.html">dbc_message_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a83b1f96932b3e12fd130bf3fbaaa5429">dbc_find_message_mut</a> (<a class="el" href="structdbc__db__t.html">dbc_db_t</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">db</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">uint32_t</a> id, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">int</a> is_extended)</td></tr>
+<tr class="memdesc:a83b1f96932b3e12fd130bf3fbaaa5429"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutable variant of <a class="el" href="dbc_8h.html#a0e03c91b2e90ad5f1c522e384acac2dd">dbc_find_message</a>.  <br /></td></tr>
+<tr class="separator:a83b1f96932b3e12fd130bf3fbaaa5429"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5074032c5d09bc21fc7111eb3e78bb70" id="r_a5074032c5d09bc21fc7111eb3e78bb70"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdbc__message__t.html">dbc_message_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a5074032c5d09bc21fc7111eb3e78bb70">dbc_upsert_message</a> (<a class="el" href="structdbc__db__t.html">dbc_db_t</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">db</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">uint32_t</a> id, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">int</a> is_extended, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">uint8_t</a> dlc, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *name, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">err</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">size_t</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">errsz</a>)</td></tr>
+<tr class="memdesc:a5074032c5d09bc21fc7111eb3e78bb70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a message or update the metadata of an existing one.  <br /></td></tr>
+<tr class="separator:a5074032c5d09bc21fc7111eb3e78bb70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbf0edf3e9e72c946a12ec30ca0c44fa" id="r_afbf0edf3e9e72c946a12ec30ca0c44fa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#afbf0edf3e9e72c946a12ec30ca0c44fa">dbc_upsert_signal</a> (<a class="el" href="structdbc__db__t.html">dbc_db_t</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">db</a>, <a class="el" href="structdbc__message__t.html">dbc_message_t</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">msg</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="structdbc__signal__t.html">dbc_signal_t</a> *<a class="el" href="signal__plot_8c.html#ad363ac7fd79f686e0185c16ac3d7650d">sig</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">int</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">replaced</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">err</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">size_t</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">errsz</a>)</td></tr>
+<tr class="memdesc:afbf0edf3e9e72c946a12ec30ca0c44fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add or replace a signal in a message.  <br /></td></tr>
+<tr class="separator:afbf0edf3e9e72c946a12ec30ca0c44fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c1c5daaa3b9db57f831a73c05307e1f" id="r_a1c1c5daaa3b9db57f831a73c05307e1f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a1c1c5daaa3b9db57f831a73c05307e1f">dbc_save_file</a> (<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="structdbc__db__t.html">dbc_db_t</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">db</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *path, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">err</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">size_t</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">errsz</a>)</td></tr>
+<tr class="memdesc:a1c1c5daaa3b9db57f831a73c05307e1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write a database to disk as a DBC file.  <br /></td></tr>
+<tr class="separator:a1c1c5daaa3b9db57f831a73c05307e1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaaf0127ba8d48eced44e647a7b8c66df" id="r_aaaf0127ba8d48eced44e647a7b8c66df"><td class="memItemLeft" align="right" valign="top"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">uint64_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#aaaf0127ba8d48eced44e647a7b8c66df">dbc_extract_raw</a> (<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">uint8_t</a> *data, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">uint8_t</a> dlc, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="structdbc__signal__t.html">dbc_signal_t</a> *<a class="el" href="signal__plot_8c.html#ad363ac7fd79f686e0185c16ac3d7650d">sig</a>)</td></tr>
 <tr class="memdesc:aaaf0127ba8d48eced44e647a7b8c66df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract a signal's raw (unscaled) bit field from a payload.  <br /></td></tr>
 <tr class="separator:aaaf0127ba8d48eced44e647a7b8c66df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07f2da8221a2789f7c8b4988a591ebf7" id="r_a07f2da8221a2789f7c8b4988a591ebf7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a07f2da8221a2789f7c8b4988a591ebf7">dbc_decode_physical</a> (const <a class="el" href="structdbc__signal__t.html">dbc_signal_t</a> *<a class="el" href="signal__plot_8c.html#ad363ac7fd79f686e0185c16ac3d7650d">sig</a>, uint64_t raw, int64_t *signed_raw_out)</td></tr>
+<tr class="memitem:a07f2da8221a2789f7c8b4988a591ebf7" id="r_a07f2da8221a2789f7c8b4988a591ebf7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbc_8c.html#a07f2da8221a2789f7c8b4988a591ebf7">dbc_decode_physical</a> (<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="structdbc__signal__t.html">dbc_signal_t</a> *<a class="el" href="signal__plot_8c.html#ad363ac7fd79f686e0185c16ac3d7650d">sig</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">uint64_t</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">raw</a>, <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">int64_t</a> *<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">signed_raw_out</a>)</td></tr>
 <tr class="memdesc:a07f2da8221a2789f7c8b4988a591ebf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a raw field to its physical value.  <br /></td></tr>
 <tr class="separator:a07f2da8221a2789f7c8b4988a591ebf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>DBC (CAN database) parser and signal-bit decoder. </p>
-<p>Implements <a class="el" href="dbc_8h.html">dbc.h</a>. The parser is a single-pass, line-oriented reader for the <code>BO_</code> / <code>SG_</code> records of the Vector DBC grammar. Anything it does not understand (value tables, attributes, comments, node lists, …) is ignored, so it loads real-world databases without choking while extracting exactly the structure the Signal Analysis view needs.</p>
+<p>Implements <a class="el" href="dbc_8h.html">dbc.h</a>. The parser is a single-pass, line-oriented reader for the <code>BO_</code> / <code>SG_</code> records of the Vector DBC grammar plus signal comments. Anything it does not understand (value tables, attributes, node lists, …) is ignored, so it loads real-world databases without choking while extracting exactly the structure the Signal Analysis view needs.</p>
 <p>The decoder handles both bit layouts:</p><ul>
 <li>Intel (little-endian): bits are consumed LSB-first, ascending.</li>
 <li>Motorola (big-endian): bits are consumed MSB-first using the classic "sawtooth" traversal across the byte-wise LSB0 numbering.</li>
@@ -167,16 +199,118 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DBC_EXT_FLAG&#160;&#160;&#160;0x80000000u</td>
+          <td class="memname">#<a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">define</a> DBC_EXT_FLAG&#160;&#160;&#160;0x80000000u</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00030">30</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00031">31</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a8e784337eaec5e93b01899a7eeab338c" name="a8e784337eaec5e93b01899a7eeab338c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e784337eaec5e93b01899a7eeab338c">&#9670;&#160;</a></span>dbc_set_err()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">void</a> dbc_set_err </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
+          <td class="paramname"><em>err</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">size_t</a>&#160;</td>
+          <td class="paramname"><em>errsz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
+          <td class="paramname"><em>msg</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00033">33</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+
+<p class="reference">References <a class="el" href="signal__plot_8c_source.html#l00092">n</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="dbc_8c_source.html#l00463">dbc_save_file()</a>, <a class="el" href="dbc_8c_source.html#l00395">dbc_upsert_message()</a>, and <a class="el" href="dbc_8c_source.html#l00425">dbc_upsert_signal()</a>.</p>
+
+</div>
+</div>
+<a id="a94643730916be1c6dbdb034859be0e26" name="a94643730916be1c6dbdb034859be0e26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94643730916be1c6dbdb034859be0e26">&#9670;&#160;</a></span>dbc_set_errno()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">void</a> dbc_set_errno </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
+          <td class="paramname"><em>err</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">size_t</a>&#160;</td>
+          <td class="paramname"><em>errsz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
+          <td class="paramname"><em>prefix</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
+          <td class="paramname"><em>path</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00039">39</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+
+<p class="reference">References <a class="el" href="signal__plot_8c_source.html#l00092">n</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="dbc_8c_source.html#l00463">dbc_save_file()</a>.</p>
+
+</div>
+</div>
 <a id="a354286ba2cc983851d9fc281f80f3c97" name="a354286ba2cc983851d9fc281f80f3c97"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a354286ba2cc983851d9fc281f80f3c97">&#9670;&#160;</a></span>dbc_push_message()</h2>
 
@@ -187,7 +321,7 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="structdbc__message__t.html">dbc_message_t</a> * dbc_push_message </td>
+          <td class="memname"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="structdbc__message__t.html">dbc_message_t</a> * dbc_push_message </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structdbc__db__t.html">dbc_db_t</a> *&#160;</td>
           <td class="paramname"><em>db</em></td><td>)</td>
@@ -210,11 +344,44 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the new (zeroed) message, or NULL on allocation failure. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00037">37</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00055">55</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
 
-<p class="reference">References <a class="el" href="dbc_8h_source.html#l00071">dbc_db_t::message_cap</a>, <a class="el" href="dbc_8h_source.html#l00070">dbc_db_t::message_count</a>, and <a class="el" href="dbc_8h_source.html#l00069">dbc_db_t::messages</a>.</p>
+<p class="reference">References <a class="el" href="signal__plot_8c_source.html#l00092">n</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="dbc_8c_source.html#l00058">parse_bo()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="dbc_8c_source.html#l00395">dbc_upsert_message()</a>, and <a class="el" href="dbc_8c_source.html#l00086">parse_bo()</a>.</p>
+
+</div>
+</div>
+<a id="a4e77ca0491b7084b942c6ae4e2f56eab" name="a4e77ca0491b7084b942c6ae4e2f56eab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e77ca0491b7084b942c6ae4e2f56eab">&#9670;&#160;</a></span>dbc_create_empty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structdbc__db__t.html">dbc_db_t</a> * dbc_create_empty </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create an empty in-memory DBC database. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Optional path to remember as the database source. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A new empty database (free with <a class="el" href="dbc_8h.html#aabc28185c850f65b9ee34d10b271d4ef">dbc_free</a>), or NULL. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00070">70</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+
+<p class="reference">References <a class="el" href="signal__plot_8c_source.html#l00092">n</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="db__creation_8c_source.html#l00948">on_save_signal()</a>, <a class="el" href="test__bit__analysis_8c_source.html#l00206">validate_candidate_dbc()</a>, and <a class="el" href="test__bit__analysis_8c_source.html#l00289">validate_candidate_dbc_roundtrip()</a>.</p>
 
 </div>
 </div>
@@ -228,9 +395,9 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="structdbc__message__t.html">dbc_message_t</a> * parse_bo </td>
+          <td class="memname"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="structdbc__message__t.html">dbc_message_t</a> * parse_bo </td>
           <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
           <td class="paramname"><em>line</em>, </td>
         </tr>
         <tr>
@@ -264,11 +431,11 @@ Functions</h2></td></tr>
 <p>&lt; Max message/signal name length. <br  />
 </p>
 
-<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00058">58</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00086">86</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
 
-<p class="reference">References <a class="el" href="dbc_8c_source.html#l00030">DBC_EXT_FLAG</a>, <a class="el" href="dbc_8h_source.html#l00028">DBC_NAME_MAX</a>, <a class="el" href="dbc_8c_source.html#l00037">dbc_push_message()</a>, <a class="el" href="dbc_8h_source.html#l00059">dbc_message_t::dlc</a>, <a class="el" href="dbc_8h_source.html#l00057">dbc_message_t::id</a>, <a class="el" href="dbc_8h_source.html#l00058">dbc_message_t::is_extended</a>, <a class="el" href="signal__plot_8c_source.html#l00092">n</a>, and <a class="el" href="dbc_8h_source.html#l00060">dbc_message_t::name</a>.</p>
+<p class="reference">References <a class="el" href="dbc_8c_source.html#l00031">DBC_EXT_FLAG</a>, <a class="el" href="dbc_8h_source.html#l00028">DBC_NAME_MAX</a>, <a class="el" href="dbc_8c_source.html#l00055">dbc_push_message()</a>, and <a class="el" href="signal__plot_8c_source.html#l00092">n</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="dbc_8c_source.html#l00135">dbc_load_file()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="dbc_8c_source.html#l00313">dbc_load_file()</a>.</p>
 
 </div>
 </div>
@@ -282,9 +449,9 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static int parse_sg </td>
+          <td class="memname"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">int</a> parse_sg </td>
           <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
           <td class="paramname"><em>line</em>, </td>
         </tr>
         <tr>
@@ -322,11 +489,279 @@ Functions</h2></td></tr>
 <p>&lt; Max signal unit string length. <br  />
 </p>
 
-<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00090">90</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00118">118</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
 
-<p class="reference">References <a class="el" href="dbc_8h_source.html#l00030">DBC_MAX_SIGNALS_PER_MSG</a>, <a class="el" href="dbc_8h_source.html#l00028">DBC_NAME_MAX</a>, <a class="el" href="dbc_8h_source.html#l00029">DBC_UNIT_MAX</a>, <a class="el" href="dbc_8h_source.html#l00046">dbc_signal_t::factor</a>, <a class="el" href="dbc_8h_source.html#l00045">dbc_signal_t::is_signed</a>, <a class="el" href="dbc_8h_source.html#l00043">dbc_signal_t::length</a>, <a class="el" href="dbc_8h_source.html#l00044">dbc_signal_t::little_endian</a>, <a class="el" href="dbc_8h_source.html#l00049">dbc_signal_t::max</a>, <a class="el" href="dbc_8h_source.html#l00048">dbc_signal_t::min</a>, <a class="el" href="dbc_8h_source.html#l00041">dbc_signal_t::name</a>, <a class="el" href="dbc_8h_source.html#l00047">dbc_signal_t::offset</a>, <a class="el" href="dbc_8h_source.html#l00062">dbc_message_t::signal_count</a>, <a class="el" href="dbc_8h_source.html#l00061">dbc_message_t::signals</a>, <a class="el" href="dbc_8h_source.html#l00042">dbc_signal_t::start_bit</a>, and <a class="el" href="dbc_8h_source.html#l00050">dbc_signal_t::unit</a>.</p>
+<p class="reference">References <a class="el" href="dbc_8h_source.html#l00031">DBC_MAX_SIGNALS_PER_MSG</a>, <a class="el" href="dbc_8h_source.html#l00028">DBC_NAME_MAX</a>, <a class="el" href="dbc_8h_source.html#l00029">DBC_UNIT_MAX</a>, and <a class="el" href="signal__plot_8c_source.html#l00092">n</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="dbc_8c_source.html#l00135">dbc_load_file()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="dbc_8c_source.html#l00313">dbc_load_file()</a>.</p>
+
+</div>
+</div>
+<a id="ad775fd45c0281d3602c1fa53d1b862e1" name="ad775fd45c0281d3602c1fa53d1b862e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad775fd45c0281d3602c1fa53d1b862e1">&#9670;&#160;</a></span>find_message_by_raw_dbc_id()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="structdbc__message__t.html">dbc_message_t</a> * find_message_by_raw_dbc_id </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structdbc__db__t.html">dbc_db_t</a> *&#160;</td>
+          <td class="paramname"><em>db</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">unsigned</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">long</a>&#160;</td>
+          <td class="paramname"><em>raw_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00163">163</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+
+<p class="reference">References <a class="el" href="dbc_8c_source.html#l00031">DBC_EXT_FLAG</a>, <a class="el" href="dbc_8c_source.html#l00382">dbc_find_message_mut()</a>, and <a class="el" href="signal__plot_8c_source.html#l00092">n</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="dbc_8c_source.html#l00265">parse_cm_sg()</a>.</p>
+
+</div>
+</div>
+<a id="a8bfa7c38947c622e3e5f405e13601d24" name="a8bfa7c38947c622e3e5f405e13601d24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8bfa7c38947c622e3e5f405e13601d24">&#9670;&#160;</a></span>find_signal_mut()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="structdbc__signal__t.html">dbc_signal_t</a> * find_signal_mut </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structdbc__message__t.html">dbc_message_t</a> *&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00173">173</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+
+<p class="reference">References <a class="el" href="signal__plot_8c_source.html#l00092">n</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="dbc_8c_source.html#l00265">parse_cm_sg()</a>.</p>
+
+</div>
+</div>
+<a id="a2223670568eec51c2262cdd63407c7b6" name="a2223670568eec51c2262cdd63407c7b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2223670568eec51c2262cdd63407c7b6">&#9670;&#160;</a></span>unescape_dbc_string()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">void</a> unescape_dbc_string </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
+          <td class="paramname"><em>dst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">size_t</a>&#160;</td>
+          <td class="paramname"><em>dstsz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
+          <td class="paramname"><em>src</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00183">183</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+
+<p class="reference">References <a class="el" href="signal__plot_8c_source.html#l00092">n</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="dbc_8c_source.html#l00265">parse_cm_sg()</a>.</p>
+
+</div>
+</div>
+<a id="a8b80da2e36034d9a90f7e27a84a25340" name="a8b80da2e36034d9a90f7e27a84a25340"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b80da2e36034d9a90f7e27a84a25340">&#9670;&#160;</a></span>write_escaped_dbc_string()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">void</a> write_escaped_dbc_string </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">FILE</a> *&#160;</td>
+          <td class="paramname"><em>fp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
+          <td class="paramname"><em>text</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00208">208</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+
+<p class="reference">References <a class="el" href="signal__plot_8c_source.html#l00092">n</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="dbc_8c_source.html#l00463">dbc_save_file()</a>.</p>
+
+</div>
+</div>
+<a id="a283ea4053109e4cd9b7dced4b093853b" name="a283ea4053109e4cd9b7dced4b093853b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a283ea4053109e4cd9b7dced4b093853b">&#9670;&#160;</a></span>parse_dbc_quoted_string()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">int</a> parse_dbc_quoted_string </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
+          <td class="paramname"><em>p</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
+          <td class="paramname"><em>dst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">size_t</a>&#160;</td>
+          <td class="paramname"><em>dstsz</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00235">235</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+
+<p class="reference">References <a class="el" href="signal__plot_8c_source.html#l00092">n</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="dbc_8c_source.html#l00265">parse_cm_sg()</a>.</p>
+
+</div>
+</div>
+<a id="ae4a248ed55f879f602a663c5e4a0c191" name="ae4a248ed55f879f602a663c5e4a0c191"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4a248ed55f879f602a663c5e4a0c191">&#9670;&#160;</a></span>parse_cm_sg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">static</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">int</a> parse_cm_sg </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
+          <td class="paramname"><em>line</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structdbc__db__t.html">dbc_db_t</a> *&#160;</td>
+          <td class="paramname"><em>db</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>&lt; Max message/signal name length. <br  />
+</p>
+<p>&lt; Max stored message/signal comment. <br  />
+</p>
+
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00265">265</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+
+<p class="reference">References <a class="el" href="dbc_8h_source.html#l00030">DBC_COMMENT_MAX</a>, <a class="el" href="dbc_8h_source.html#l00028">DBC_NAME_MAX</a>, <a class="el" href="dbc_8c_source.html#l00163">find_message_by_raw_dbc_id()</a>, <a class="el" href="dbc_8c_source.html#l00173">find_signal_mut()</a>, <a class="el" href="signal__plot_8c_source.html#l00092">n</a>, <a class="el" href="dbc_8c_source.html#l00235">parse_dbc_quoted_string()</a>, <a class="el" href="signal__plot_8c_source.html#l00091">sig</a>, and <a class="el" href="dbc_8c_source.html#l00183">unescape_dbc_string()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="dbc_8c_source.html#l00313">dbc_load_file()</a>.</p>
 
 </div>
 </div>
@@ -339,19 +774,19 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="structdbc__db__t.html">dbc_db_t</a> * dbc_load_file </td>
           <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
           <td class="paramname"><em>path</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">char *&#160;</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
           <td class="paramname"><em>err</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">size_t</a>&#160;</td>
           <td class="paramname"><em>errsz</em>&#160;</td>
         </tr>
         <tr>
@@ -373,11 +808,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A new database (free with <a class="el" href="dbc_8h.html#aabc28185c850f65b9ee34d10b271d4ef">dbc_free</a>), or NULL on failure. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00135">135</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00313">313</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
 
-<p class="reference">References <a class="el" href="dbc_8c_source.html#l00181">dbc_free()</a>, <a class="el" href="dbc_8h_source.html#l00070">dbc_db_t::message_count</a>, <a class="el" href="dbc_8c_source.html#l00058">parse_bo()</a>, <a class="el" href="dbc_8c_source.html#l00090">parse_sg()</a>, <a class="el" href="dbc_8h_source.html#l00073">dbc_db_t::path</a>, and <a class="el" href="dbc_8h_source.html#l00072">dbc_db_t::signal_count</a>.</p>
+<p class="reference">References <a class="el" href="dbc_8c_source.html#l00361">dbc_free()</a>, <a class="el" href="signal__plot_8c_source.html#l00092">n</a>, <a class="el" href="dbc_8c_source.html#l00086">parse_bo()</a>, <a class="el" href="dbc_8c_source.html#l00265">parse_cm_sg()</a>, and <a class="el" href="dbc_8c_source.html#l00118">parse_sg()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="signal__view_8c_source.html#l00152">gui_signal_load_dbc()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="signal__view_8c_source.html#l00152">gui_signal_load_dbc()</a>, <a class="el" href="db__creation_8c_source.html#l00948">on_save_signal()</a>, <a class="el" href="db__creation_8c_source.html#l00460">selected_message_changed()</a>, <a class="el" href="test__bit__analysis_8c_source.html#l00206">validate_candidate_dbc()</a>, and <a class="el" href="test__bit__analysis_8c_source.html#l00289">validate_candidate_dbc_roundtrip()</a>.</p>
 
 </div>
 </div>
@@ -388,7 +823,7 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void dbc_free </td>
+          <td class="memname"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">void</a> dbc_free </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structdbc__db__t.html">dbc_db_t</a> *&#160;</td>
           <td class="paramname"><em>db</em></td><td>)</td>
@@ -405,11 +840,11 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00181">181</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00361">361</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
 
-<p class="reference">References <a class="el" href="dbc_8h_source.html#l00069">dbc_db_t::messages</a>.</p>
+<p class="reference">References <a class="el" href="signal__plot_8c_source.html#l00092">n</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="dbc_8c_source.html#l00135">dbc_load_file()</a>, <a class="el" href="signal__view_8c_source.html#l00176">gui_signal_clear_dbc()</a>, and <a class="el" href="signal__view_8c_source.html#l00152">gui_signal_load_dbc()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="dbc_8c_source.html#l00313">dbc_load_file()</a>, <a class="el" href="signal__view_8c_source.html#l00177">gui_signal_clear_dbc()</a>, <a class="el" href="signal__view_8c_source.html#l00152">gui_signal_load_dbc()</a>, <a class="el" href="db__creation_8c_source.html#l00948">on_save_signal()</a>, <a class="el" href="db__creation_8c_source.html#l00460">selected_message_changed()</a>, <a class="el" href="test__bit__analysis_8c_source.html#l00206">validate_candidate_dbc()</a>, and <a class="el" href="test__bit__analysis_8c_source.html#l00289">validate_candidate_dbc_roundtrip()</a>.</p>
 
 </div>
 </div>
@@ -420,21 +855,21 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="structdbc__message__t.html">dbc_message_t</a> * dbc_find_message </td>
+          <td class="memname"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="structdbc__message__t.html">dbc_message_t</a> * dbc_find_message </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structdbc__db__t.html">dbc_db_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="structdbc__db__t.html">dbc_db_t</a> *&#160;</td>
           <td class="paramname"><em>db</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">uint32_t</a>&#160;</td>
           <td class="paramname"><em>id</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">int</a>&#160;</td>
           <td class="paramname"><em>is_extended</em>&#160;</td>
         </tr>
         <tr>
@@ -456,11 +891,275 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The message, or NULL if not present. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00189">189</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00369">369</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
 
-<p class="reference">References <a class="el" href="dbc_8h_source.html#l00057">dbc_message_t::id</a>, <a class="el" href="dbc_8h_source.html#l00058">dbc_message_t::is_extended</a>, <a class="el" href="dbc_8h_source.html#l00070">dbc_db_t::message_count</a>, and <a class="el" href="dbc_8h_source.html#l00069">dbc_db_t::messages</a>.</p>
+<p class="reference">References <a class="el" href="signal__plot_8c_source.html#l00092">n</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="signal__view_8c_source.html#l00201">gui_signal_decode_message()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="signal__view_8c_source.html#l00208">gui_signal_decode_message()</a>, <a class="el" href="db__creation_8c_source.html#l00460">selected_message_changed()</a>, <a class="el" href="test__bit__analysis_8c_source.html#l00206">validate_candidate_dbc()</a>, and <a class="el" href="test__bit__analysis_8c_source.html#l00289">validate_candidate_dbc_roundtrip()</a>.</p>
+
+</div>
+</div>
+<a id="a83b1f96932b3e12fd130bf3fbaaa5429" name="a83b1f96932b3e12fd130bf3fbaaa5429"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83b1f96932b3e12fd130bf3fbaaa5429">&#9670;&#160;</a></span>dbc_find_message_mut()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structdbc__message__t.html">dbc_message_t</a> * dbc_find_message_mut </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structdbc__db__t.html">dbc_db_t</a> *&#160;</td>
+          <td class="paramname"><em>db</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">uint32_t</a>&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">int</a>&#160;</td>
+          <td class="paramname"><em>is_extended</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mutable variant of <a class="el" href="dbc_8h.html#a0e03c91b2e90ad5f1c522e384acac2dd">dbc_find_message</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">db</td><td>Database (may be NULL). </td></tr>
+    <tr><td class="paramname">id</td><td>Raw 11-/29-bit identifier. </td></tr>
+    <tr><td class="paramname">is_extended</td><td>Non-zero to match an extended-ID message. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The message, or NULL if not present. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00382">382</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+
+<p class="reference">References <a class="el" href="signal__plot_8c_source.html#l00092">n</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="dbc_8c_source.html#l00395">dbc_upsert_message()</a>, and <a class="el" href="dbc_8c_source.html#l00163">find_message_by_raw_dbc_id()</a>.</p>
+
+</div>
+</div>
+<a id="a5074032c5d09bc21fc7111eb3e78bb70" name="a5074032c5d09bc21fc7111eb3e78bb70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5074032c5d09bc21fc7111eb3e78bb70">&#9670;&#160;</a></span>dbc_upsert_message()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structdbc__message__t.html">dbc_message_t</a> * dbc_upsert_message </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structdbc__db__t.html">dbc_db_t</a> *&#160;</td>
+          <td class="paramname"><em>db</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">uint32_t</a>&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">int</a>&#160;</td>
+          <td class="paramname"><em>is_extended</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">uint8_t</a>&#160;</td>
+          <td class="paramname"><em>dlc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
+          <td class="paramname"><em>err</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">size_t</a>&#160;</td>
+          <td class="paramname"><em>errsz</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a message or update the metadata of an existing one. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">db</td><td>Database to modify. </td></tr>
+    <tr><td class="paramname">id</td><td>Raw 11-/29-bit identifier. </td></tr>
+    <tr><td class="paramname">is_extended</td><td>Non-zero for an extended-ID message. </td></tr>
+    <tr><td class="paramname">dlc</td><td>Declared payload length. </td></tr>
+    <tr><td class="paramname">name</td><td>Message name. </td></tr>
+    <tr><td class="paramname">err</td><td>Optional error buffer. </td></tr>
+    <tr><td class="paramname">errsz</td><td>Size of <code>err</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The added/updated message, or NULL on failure. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00395">395</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+
+<p class="reference">References <a class="el" href="dbc_8c_source.html#l00382">dbc_find_message_mut()</a>, <a class="el" href="dbc_8c_source.html#l00055">dbc_push_message()</a>, <a class="el" href="dbc_8c_source.html#l00033">dbc_set_err()</a>, and <a class="el" href="signal__plot_8c_source.html#l00092">n</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="db__creation_8c_source.html#l00948">on_save_signal()</a>, <a class="el" href="test__bit__analysis_8c_source.html#l00206">validate_candidate_dbc()</a>, and <a class="el" href="test__bit__analysis_8c_source.html#l00289">validate_candidate_dbc_roundtrip()</a>.</p>
+
+</div>
+</div>
+<a id="afbf0edf3e9e72c946a12ec30ca0c44fa" name="afbf0edf3e9e72c946a12ec30ca0c44fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afbf0edf3e9e72c946a12ec30ca0c44fa">&#9670;&#160;</a></span>dbc_upsert_signal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">int</a> dbc_upsert_signal </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structdbc__db__t.html">dbc_db_t</a> *&#160;</td>
+          <td class="paramname"><em>db</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structdbc__message__t.html">dbc_message_t</a> *&#160;</td>
+          <td class="paramname"><em>msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="structdbc__signal__t.html">dbc_signal_t</a> *&#160;</td>
+          <td class="paramname"><em>sig</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">int</a> *&#160;</td>
+          <td class="paramname"><em>replaced</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
+          <td class="paramname"><em>err</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">size_t</a>&#160;</td>
+          <td class="paramname"><em>errsz</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add or replace a signal in a message. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">db</td><td>Database owning <code>msg</code>; used to maintain signal_count. </td></tr>
+    <tr><td class="paramname">msg</td><td>Message to modify. </td></tr>
+    <tr><td class="paramname">sig</td><td>Signal definition to copy in. </td></tr>
+    <tr><td class="paramname">replaced</td><td>Optional out: non-zero if an existing signal was replaced. </td></tr>
+    <tr><td class="paramname">err</td><td>Optional error buffer. </td></tr>
+    <tr><td class="paramname">errsz</td><td>Size of <code>err</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure. </dd></dl>
+<p>&lt; Max signals stored per message. <br  />
+</p>
+
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00425">425</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+
+<p class="reference">References <a class="el" href="dbc_8h_source.html#l00031">DBC_MAX_SIGNALS_PER_MSG</a>, <a class="el" href="dbc_8c_source.html#l00033">dbc_set_err()</a>, <a class="el" href="signal__plot_8c_source.html#l00092">n</a>, and <a class="el" href="signal__plot_8c_source.html#l00091">sig</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="db__creation_8c_source.html#l00948">on_save_signal()</a>, <a class="el" href="test__bit__analysis_8c_source.html#l00206">validate_candidate_dbc()</a>, and <a class="el" href="test__bit__analysis_8c_source.html#l00289">validate_candidate_dbc_roundtrip()</a>.</p>
+
+</div>
+</div>
+<a id="a1c1c5daaa3b9db57f831a73c05307e1f" name="a1c1c5daaa3b9db57f831a73c05307e1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c1c5daaa3b9db57f831a73c05307e1f">&#9670;&#160;</a></span>dbc_save_file()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">int</a> dbc_save_file </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="structdbc__db__t.html">dbc_db_t</a> *&#160;</td>
+          <td class="paramname"><em>db</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">char</a> *&#160;</td>
+          <td class="paramname"><em>err</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">size_t</a>&#160;</td>
+          <td class="paramname"><em>errsz</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Write a database to disk as a DBC file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">db</td><td>Database to serialise. </td></tr>
+    <tr><td class="paramname">path</td><td>Destination path. </td></tr>
+    <tr><td class="paramname">err</td><td>Optional error buffer. </td></tr>
+    <tr><td class="paramname">errsz</td><td>Size of <code>err</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure. </dd></dl>
+<p>&lt; Max signal unit string length. <br  />
+</p>
+
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00463">463</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+
+<p class="reference">References <a class="el" href="dbc_8c_source.html#l00031">DBC_EXT_FLAG</a>, <a class="el" href="dbc_8c_source.html#l00033">dbc_set_err()</a>, <a class="el" href="dbc_8c_source.html#l00039">dbc_set_errno()</a>, <a class="el" href="dbc_8h_source.html#l00029">DBC_UNIT_MAX</a>, <a class="el" href="dbc_8h_source.html#l00059">dbc_message_t::id</a>, <a class="el" href="signal__plot_8c_source.html#l00092">n</a>, <a class="el" href="dbc_8h_source.html#l00051">dbc_signal_t::unit</a>, and <a class="el" href="dbc_8c_source.html#l00208">write_escaped_dbc_string()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="db__creation_8c_source.html#l00948">on_save_signal()</a>, <a class="el" href="test__bit__analysis_8c_source.html#l00206">validate_candidate_dbc()</a>, and <a class="el" href="test__bit__analysis_8c_source.html#l00289">validate_candidate_dbc_roundtrip()</a>.</p>
 
 </div>
 </div>
@@ -471,21 +1170,21 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint64_t dbc_extract_raw </td>
+          <td class="memname"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">uint64_t</a> dbc_extract_raw </td>
           <td>(</td>
-          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">uint8_t</a> *&#160;</td>
           <td class="paramname"><em>data</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">uint8_t</a>&#160;</td>
           <td class="paramname"><em>dlc</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structdbc__signal__t.html">dbc_signal_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="structdbc__signal__t.html">dbc_signal_t</a> *&#160;</td>
           <td class="paramname"><em>sig</em>&#160;</td>
         </tr>
         <tr>
@@ -507,11 +1206,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The raw value, right-aligned (not sign-extended). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00202">202</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00557">557</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
 
-<p class="reference">References <a class="el" href="signal__plot_8c_source.html#l00091">sig</a>, and <a class="el" href="settings__dialog_8c_source.html#l00084">value</a>.</p>
+<p class="reference">References <a class="el" href="signal__plot_8c_source.html#l00092">n</a>, <a class="el" href="signal__plot_8c_source.html#l00091">sig</a>, and <a class="el" href="settings__dialog_8c_source.html#l00084">value</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="signal__view_8c_source.html#l00201">gui_signal_decode_message()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="db__creation_8c_source.html#l00596">gui_db_creation_handle_message()</a>, <a class="el" href="signal__view_8c_source.html#l00208">gui_signal_decode_message()</a>, <a class="el" href="db__creation_8c_source.html#l00529">update_sample_preview()</a>, <a class="el" href="test__bit__analysis_8c_source.html#l00206">validate_candidate_dbc()</a>, and <a class="el" href="test__bit__analysis_8c_source.html#l00289">validate_candidate_dbc_roundtrip()</a>.</p>
 
 </div>
 </div>
@@ -522,21 +1221,21 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">double dbc_decode_physical </td>
+          <td class="memname"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">double</a> dbc_decode_physical </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structdbc__signal__t.html">dbc_signal_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">const</a> <a class="el" href="structdbc__signal__t.html">dbc_signal_t</a> *&#160;</td>
           <td class="paramname"><em>sig</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">uint64_t</a>&#160;</td>
           <td class="paramname"><em>raw</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int64_t *&#160;</td>
+          <td class="paramtype"><a class="el" href="signal__plot_8c.html#a76f11d9a0a47b94f72c2d0e77fb32240">int64_t</a> *&#160;</td>
           <td class="paramname"><em>signed_raw_out</em>&#160;</td>
         </tr>
         <tr>
@@ -558,11 +1257,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The physical value (<code>raw * factor + offset</code>). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00238">238</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dbc_8c_source.html#l00593">593</a> of file <a class="el" href="dbc_8c_source.html">dbc.c</a>.</p>
 
-<p class="reference">References <a class="el" href="signal__plot_8c_source.html#l00091">sig</a>.</p>
+<p class="reference">References <a class="el" href="signal__plot_8c_source.html#l00092">n</a>, and <a class="el" href="signal__plot_8c_source.html#l00091">sig</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="signal__view_8c_source.html#l00201">gui_signal_decode_message()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="db__creation_8c_source.html#l00596">gui_db_creation_handle_message()</a>, <a class="el" href="signal__view_8c_source.html#l00208">gui_signal_decode_message()</a>, <a class="el" href="db__creation_8c_source.html#l00529">update_sample_preview()</a>, <a class="el" href="test__bit__analysis_8c_source.html#l00206">validate_candidate_dbc()</a>, and <a class="el" href="test__bit__analysis_8c_source.html#l00289">validate_candidate_dbc_roundtrip()</a>.</p>
 
 </div>
 </div>

@@ -1,9 +1,22 @@
 var searchData=
 [
-  ['bit_5ftiming_0',['bit_timing',['../structapp__state__t.html#a6316a3e2a362162b818ecd4b4e66bc8d',1,'app_state_t']]],
-  ['bitrate_1',['bitrate',['../structapp__state__t.html#a5b0c9f07669358c197ddd55a9bff24a3',1,'app_state_t::bitrate'],['../structsocketcan__ctx__t.html#ab4a73f73d5bf40a3e4ed8f61c05887b5',1,'socketcan_ctx_t::bitrate']]],
-  ['brp_2',['brp',['../structcan__bit__timing__t.html#a24ab810b6ea28931929a443392896437',1,'can_bit_timing_t']]],
-  ['brs_5fcheck_3',['brs_check',['../structtx__win__t.html#ac2bfa49e26a0153d70750fee55789618',1,'tx_win_t']]],
-  ['bus_5fload_4',['bus_load',['../structapp__state__t.html#a9d28c5bb96dc6356704da806cbdb0f5c',1,'app_state_t::bus_load'],['../structcan__stats__t.html#a954bd892d3d290ca84e8d0e2fca7d923',1,'can_stats_t::bus_load']]],
-  ['bus_5fstate_5',['bus_state',['../structapp__state__t.html#ac7d363b7f5dc2d0257b572eaba6f6883',1,'app_state_t::bus_state'],['../structcan__stats__t.html#a8925ad3aa590884fa34bd9eb7f184f5d',1,'can_stats_t::bus_state']]]
+  ['baseline_5fbits_0',['baseline_bits',['../structba__session__t.html#ae8933f4bf1cc9b6cdb8f0678fd9a3e6e',1,'ba_session_t']]],
+  ['baseline_5fdata_1',['baseline_data',['../structba__session__t.html#acee586d567f297e455795932622fc509',1,'ba_session_t']]],
+  ['baseline_5fdifference_5frate_2',['baseline_difference_rate',['../structba__bit__stats__t.html#a35674034983ccd86c04241f468319f62',1,'ba_bit_stats_t']]],
+  ['baseline_5fsample_5fcount_3',['baseline_sample_count',['../structba__session__t.html#a46cd2cb80508164566f42dff6ac04d43',1,'ba_session_t']]],
+  ['baseline_5fvalid_4',['baseline_valid',['../structba__session__t.html#a04e8ac9f4f2b21d84f078b975a49a1ad',1,'ba_session_t']]],
+  ['baseline_5fvalue_5',['baseline_value',['../structba__bit__stats__t.html#a742059fc9ff2e9f14de52e9f5b0296ff',1,'ba_bit_stats_t']]],
+  ['best_5flag_6',['best_lag',['../structmath__stats__t.html#a6bd18d03d5dec16e5159ccfd0085ccfb',1,'math_stats_t']]],
+  ['best_5flag_5fcorr_7',['best_lag_corr',['../structmath__stats__t.html#a38c8f3c9583d20c67d6b2cdbda297c30',1,'math_stats_t']]],
+  ['best_5flag_5fms_8',['best_lag_ms',['../structba__bit__stats__t.html#a7c091d4fd675da8f9f2dfc65e43a424d',1,'ba_bit_stats_t::best_lag_ms'],['../structba__candidate__t.html#a227e0549765399e29d527061c876b23a',1,'ba_candidate_t::best_lag_ms']]],
+  ['bit_5flength_9',['bit_length',['../structba__candidate__t.html#a0b760ec6867e847fb8e1e05e4488a3cd',1,'ba_candidate_t']]],
+  ['bit_5fstats_10',['bit_stats',['../structba__session__t.html#a7ce8076afa3ce097fb7a6b57a0e1d217',1,'ba_session_t']]],
+  ['bit_5fstats_5flabel_11',['bit_stats_label',['../structbit__ui__t.html#aacbcc38d5a616b3d73d62b0b15f4ff0a',1,'bit_ui_t']]],
+  ['bit_5ftiming_12',['bit_timing',['../structapp__state__t.html#a6316a3e2a362162b818ecd4b4e66bc8d',1,'app_state_t']]],
+  ['bitrate_13',['bitrate',['../structapp__state__t.html#a5b0c9f07669358c197ddd55a9bff24a3',1,'app_state_t::bitrate'],['../structsocketcan__ctx__t.html#ab4a73f73d5bf40a3e4ed8f61c05887b5',1,'socketcan_ctx_t::bitrate']]],
+  ['brp_14',['brp',['../structcan__bit__timing__t.html#a24ab810b6ea28931929a443392896437',1,'can_bit_timing_t']]],
+  ['brs_5fcheck_15',['brs_check',['../structtx__win__t.html#ac2bfa49e26a0153d70750fee55789618',1,'tx_win_t']]],
+  ['bus_5fload_16',['bus_load',['../structapp__state__t.html#a9d28c5bb96dc6356704da806cbdb0f5c',1,'app_state_t::bus_load'],['../structcan__stats__t.html#a954bd892d3d290ca84e8d0e2fca7d923',1,'can_stats_t::bus_load']]],
+  ['bus_5fstate_17',['bus_state',['../structapp__state__t.html#ac7d363b7f5dc2d0257b572eaba6f6883',1,'app_state_t::bus_state'],['../structcan__stats__t.html#a8925ad3aa590884fa34bd9eb7f184f5d',1,'can_stats_t::bus_state']]],
+  ['byte_5forder_18',['byte_order',['../structba__candidate__t.html#ac6e9cfbb1a208ecba41dc571110fb385',1,'ba_candidate_t']]]
 ];

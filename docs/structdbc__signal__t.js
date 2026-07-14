@@ -9,5 +9,6 @@ var structdbc__signal__t =
     [ "offset", "structdbc__signal__t.html#ac7383d67b809e97afb4642915a395786", null ],
     [ "min", "structdbc__signal__t.html#ac8726d209954c565035c88d2ec40592c", null ],
     [ "max", "structdbc__signal__t.html#aff201e36e252f4ade8830575645caaf9", null ],
-    [ "unit", "structdbc__signal__t.html#acfdd8674b9609912864fe4c417e204e2", null ]
+    [ "unit", "structdbc__signal__t.html#acfdd8674b9609912864fe4c417e204e2", null ],
+    [ "comment", "structdbc__signal__t.html#af61e7e80aca600211eff8155677c375f", null ]
 ];

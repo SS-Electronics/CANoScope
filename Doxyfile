@@ -54,7 +54,9 @@ WARN_AS_ERROR          = NO
 INPUT                  = main.c \
                          inc \
                          driver \
+                         analysis \
                          gui \
+                         tests \
                          README.md
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.c *.h *.md

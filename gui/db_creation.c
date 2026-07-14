@@ -48,6 +48,7 @@ static struct {
     GtkWidget    *min_spin;
     GtkWidget    *max_spin;
     GtkWidget    *unit_entry;
+    GtkWidget    *comment_view;
     GtkWidget    *sample_data_label;
     GtkWidget    *sample_raw_label;
     GtkWidget    *sample_value_label;
@@ -93,6 +94,31 @@ static void fmt_double(char *buf, size_t sz, double v)
         *end-- = '\0';
     if (end == dot)
         *end = '\0';
+}
+
+static void set_comment_text(const char *text)
+{
+    if (!s_tab.comment_view)
+        return;
+    GtkTextBuffer *buf = gtk_text_view_get_buffer(
+        GTK_TEXT_VIEW(s_tab.comment_view));
+    gtk_text_buffer_set_text(buf, text ? text : "", -1);
+}
+
+static void get_comment_text(char *out, size_t outsz)
+{
+    if (!out || outsz == 0)
+        return;
+    out[0] = '\0';
+    if (!s_tab.comment_view)
+        return;
+    GtkTextBuffer *buf = gtk_text_view_get_buffer(
+        GTK_TEXT_VIEW(s_tab.comment_view));
+    GtkTextIter start, end;
+    gtk_text_buffer_get_bounds(buf, &start, &end);
+    gchar *text = gtk_text_buffer_get_text(buf, &start, &end, FALSE);
+    snprintf(out, outsz, "%s", text ? text : "");
+    g_free(text);
 }
 
 static void format_raw_data(char *buf, size_t sz,
@@ -612,6 +638,114 @@ void gui_db_creation_handle_message(const can_msg_t *msg)
     graph_append(phys);
 }
 
+void gui_db_creation_prefill_signal(uint32_t message_id,
+                                    int is_extended,
+                                    uint8_t dlc,
+                                    const char *signal_name,
+                                    uint16_t start_bit,
+                                    uint8_t bit_length,
+                                    int byte_order,
+                                    int is_signed,
+                                    double factor,
+                                    double offset,
+                                    double minimum,
+                                    double maximum,
+                                    const char *unit,
+                                    const char *comment)
+{
+    if (!s_tab.msg_store || !s_tab.msg_combo) {
+        gui_status_message("Open DB Creation before promoting a Bit Analysis candidate.");
+        return;
+    }
+
+    if (dlc > CANFD_DATA_MAX)
+        dlc = CANFD_DATA_MAX;
+
+    db_creation_refresh_messages();
+
+    GtkTreeIter iter;
+    gboolean valid = gtk_tree_model_get_iter_first(
+        GTK_TREE_MODEL(s_tab.msg_store), &iter);
+    int active = -1;
+    int idx = 0;
+    while (valid) {
+        guint row_id = 0;
+        gboolean row_ext = FALSE;
+        gtk_tree_model_get(GTK_TREE_MODEL(s_tab.msg_store), &iter,
+                           MCOL_ID, &row_id,
+                           MCOL_EXT, &row_ext,
+                           -1);
+        if (row_id == message_id &&
+            row_ext == (gboolean)(is_extended ? 1 : 0)) {
+            active = idx;
+            break;
+        }
+        valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(s_tab.msg_store), &iter);
+        idx++;
+    }
+
+    if (active < 0) {
+        char id_text[GUI_TRACE_ID_TEXT_MAX];
+        char label[GUI_TRACE_DATA_TEXT_MAX + 96];
+        gui_format_id(id_text, sizeof(id_text), message_id, is_extended);
+        snprintf(label, sizeof(label),
+                 "%s  %s  DLC %u  Data -  Count 0",
+                 id_text, is_extended ? "Ext" : "Std", dlc);
+
+        GtkTreeIter row;
+        gtk_list_store_append(s_tab.msg_store, &row);
+        gtk_list_store_set(s_tab.msg_store, &row,
+                           MCOL_LABEL, label,
+                           MCOL_ID, (guint)message_id,
+                           MCOL_EXT, (gboolean)(is_extended ? 1 : 0),
+                           MCOL_DLC, (guint)dlc,
+                           MCOL_RAW, "",
+                           -1);
+        active = idx;
+    }
+
+    gtk_combo_box_set_active(GTK_COMBO_BOX(s_tab.msg_combo), active);
+
+    char fallback[DBC_NAME_MAX];
+    default_message_name(fallback, sizeof(fallback), message_id, is_extended);
+    gtk_entry_set_text(GTK_ENTRY(s_tab.message_name_entry), fallback);
+    gtk_entry_set_text(GTK_ENTRY(s_tab.signal_name_entry),
+                       signal_name && *signal_name ? signal_name : "Signal");
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(s_tab.start_spin), start_bit);
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(s_tab.length_spin),
+                              bit_length ? bit_length : 1);
+    gtk_combo_box_set_active(GTK_COMBO_BOX(s_tab.endian_combo),
+                             byte_order ? 0 : 1);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s_tab.signed_check),
+                                 is_signed ? TRUE : FALSE);
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(s_tab.factor_spin), factor);
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(s_tab.offset_spin), offset);
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(s_tab.min_spin), minimum);
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(s_tab.max_spin), maximum);
+    gtk_entry_set_text(GTK_ENTRY(s_tab.unit_entry), unit ? unit : "");
+    set_comment_text(comment);
+
+    const char *loaded = gui_signal_get_dbc_path();
+    if (loaded && *loaded &&
+        (!gtk_entry_get_text(GTK_ENTRY(s_tab.target_entry)) ||
+         !*gtk_entry_get_text(GTK_ENTRY(s_tab.target_entry)))) {
+        gtk_entry_set_text(GTK_ENTRY(s_tab.target_entry), loaded);
+    }
+
+    graph_clear();
+    update_sample_preview();
+    if (g_gui.main_notebook && g_gui.db_creation_page) {
+        gint page = gtk_notebook_page_num(GTK_NOTEBOOK(g_gui.main_notebook),
+                                          g_gui.db_creation_page);
+        if (page >= 0)
+            gtk_notebook_set_current_page(GTK_NOTEBOOK(g_gui.main_notebook),
+                                          page);
+    }
+    set_status("Prefilled candidate %s from Bit Analysis. Review, choose a DBC file, then create/update.",
+               signal_name && *signal_name ? signal_name : "Signal");
+    gui_status_message("Bit Analysis candidate copied to DB Creation for review.");
+}
+
 static void db_creation_refresh_messages(void)
 {
     if (!s_tab.msg_store)
@@ -799,6 +933,7 @@ static gboolean build_signal_from_form(dbc_signal_t *sig,
 
     const char *unit = gtk_entry_get_text(GTK_ENTRY(s_tab.unit_entry));
     snprintf(sig->unit, sizeof(sig->unit), "%s", unit ? unit : "");
+    get_comment_text(sig->comment, sizeof(sig->comment));
 
     if (!signal_fits_payload(sig->start_bit, sig->length,
                              sig->little_endian, dlc)) {
@@ -1051,6 +1186,10 @@ GtkWidget *gui_create_db_creation_view(void)
     s_tab.max_spin = new_double_spin(255.0, 6);
     s_tab.unit_entry = gtk_entry_new();
     gtk_entry_set_max_length(GTK_ENTRY(s_tab.unit_entry), DBC_UNIT_MAX - 1);
+    s_tab.comment_view = gtk_text_view_new();
+    gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(s_tab.comment_view),
+                                GTK_WRAP_WORD_CHAR);
+    gtk_widget_set_size_request(s_tab.comment_view, -1, 56);
 
     int row = 0;
     gtk_grid_attach(GTK_GRID(grid), grid_label("Message name"), 0, row, 1, 1);
@@ -1081,6 +1220,14 @@ GtkWidget *gui_create_db_creation_view(void)
     row++;
     gtk_grid_attach(GTK_GRID(grid), grid_label("Unit"), 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), s_tab.unit_entry, 1, row, 3, 1);
+    row++;
+    GtkWidget *comment_scroll = gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(comment_scroll),
+                                   GTK_POLICY_AUTOMATIC,
+                                   GTK_POLICY_AUTOMATIC);
+    gtk_container_add(GTK_CONTAINER(comment_scroll), s_tab.comment_view);
+    gtk_grid_attach(GTK_GRID(grid), grid_label("Comment"), 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), comment_scroll, 1, row, 3, 1);
     row++;
 
     s_tab.sample_raw_label = gtk_label_new("-");

@@ -27,6 +27,7 @@
 
 #define DBC_NAME_MAX            64  /**< Max message/signal name length.        */
 #define DBC_UNIT_MAX            24  /**< Max signal unit string length.         */
+#define DBC_COMMENT_MAX        256  /**< Max stored message/signal comment.     */
 #define DBC_MAX_SIGNALS_PER_MSG 64  /**< Max signals stored per message.        */
 
 /**
@@ -48,6 +49,7 @@ typedef struct {
     double   min;                /**< Documented minimum physical value.        */
     double   max;                /**< Documented maximum physical value.        */
     char     unit[DBC_UNIT_MAX]; /**< Engineering unit (may be empty).          */
+    char     comment[DBC_COMMENT_MAX]; /**< Optional DBC signal comment.        */
 } dbc_signal_t;
 
 /**

@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['palette_5fn_0',['PALETTE_N',['../signal__plot_8c.html#a8c12e093b7d929dffd72b93271eb68cc',1,'signal_plot.c']]],
-  ['plot_5fhover_5fpx_1',['PLOT_HOVER_PX',['../signal__plot_8c.html#adf9df3ce30a9fedb661379c60ed9bf48',1,'signal_plot.c']]],
-  ['plot_5fmax_5fseries_2',['PLOT_MAX_SERIES',['../signal__plot_8c.html#aa35561742e2ed681e4226f0cb62de03c',1,'signal_plot.c']]],
-  ['plot_5fredraw_5fms_3',['PLOT_REDRAW_MS',['../signal__plot_8c.html#a2ed3856ce658c1520eece3d9add8faf6',1,'signal_plot.c']]],
-  ['plot_5fring_4',['PLOT_RING',['../signal__plot_8c.html#acdb1d872210f26bd47da4fa18d1c4094',1,'signal_plot.c']]]
+  ['math_5fmax_5fsamples_0',['MATH_MAX_SAMPLES',['../math__view_8c.html#a34ae5554816ba6a9a2022db4e28d13fe',1,'math_view.c']]],
+  ['max_5fdata_5fentries_1',['MAX_DATA_ENTRIES',['../transmit__dialog_8c.html#ad601f6380068500c082e22936985efcc',1,'transmit_dialog.c']]],
+  ['max_5fif_2',['MAX_IF',['../settings__dialog_8c.html#a43d281165a299ae05da3324187789834',1,'settings_dialog.c']]],
+  ['max_5ftrace_5frows_3',['MAX_TRACE_ROWS',['../message__view_8c.html#ad8b2c4191887bfff508c4f3cc54c1c25',1,'message_view.c']]]
 ];

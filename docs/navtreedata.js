@@ -30,8 +30,8 @@ var NAVTREE =
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],
       [ "Data Fields", "functions.html", [
-        [ "All", "functions.html", null ],
-        [ "Variables", "functions_vars.html", null ]
+        [ "All", "functions.html", "functions_dup" ],
+        [ "Variables", "functions_vars.html", "functions_vars" ]
       ] ]
     ] ],
     [ "Files", "files.html", [
@@ -52,8 +52,11 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"main__window_8c.html#a513b6838a8d1eeb9832653e2f2f69f8d",
-"structcan__msg__t.html#a6a56b9ecb74c465eac8c3b458d9c8a93"
+"db__creation_8c.html#a2f6174e60f9dce0d2adbbe26ee84611f",
+"globals_m.html",
+"message__view_8c.html#adf1197b0d90cb8bf0e0280637cd7aea0",
+"structba__session__t.html#a8f7ed1b9c9f239668f9f12e166042f7d",
+"structsocketcan__ctx__t.html#ab57a0d4b61164cadd6690211563ffff3"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['win_5fseries_5ft_0',['win_series_t',['../structwin__series__t.html',1,'']]]
+  ['rank_5fitem_5ft_0',['rank_item_t',['../structrank__item__t.html',1,'']]]
 ];

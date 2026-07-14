@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['can_5fbit_5ftiming_5ft_0',['can_bit_timing_t',['../structcan__bit__timing__t.html',1,'']]],
-  ['can_5fdriver_1',['can_driver',['../structcan__driver.html',1,'']]],
-  ['can_5fmsg_5ft_2',['can_msg_t',['../structcan__msg__t.html',1,'']]],
-  ['can_5fstats_5ft_3',['can_stats_t',['../structcan__stats__t.html',1,'']]]
+  ['ba_5fbit_5fstats_5ft_0',['ba_bit_stats_t',['../structba__bit__stats__t.html',1,'']]],
+  ['ba_5fcandidate_5ft_1',['ba_candidate_t',['../structba__candidate__t.html',1,'']]],
+  ['ba_5fsample_5ft_2',['ba_sample_t',['../structba__sample__t.html',1,'']]],
+  ['ba_5fsegment_5ft_3',['ba_segment_t',['../structba__segment__t.html',1,'']]],
+  ['ba_5fsession_5ft_4',['ba_session_t',['../structba__session__t.html',1,'']]],
+  ['ba_5fsurvey_5frow_5ft_5',['ba_survey_row_t',['../structba__survey__row__t.html',1,'']]],
+  ['bit_5fui_5ft_6',['bit_ui_t',['../structbit__ui__t.html',1,'']]]
 ];

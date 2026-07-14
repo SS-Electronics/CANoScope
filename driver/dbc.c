@@ -4,8 +4,8 @@
  *
  * @details
  * Implements @ref dbc.h.  The parser is a single-pass, line-oriented reader for
- * the `BO_` / `SG_` records of the Vector DBC grammar.  Anything it does not
- * understand (value tables, attributes, comments, node lists, …) is ignored, so
+ * the `BO_` / `SG_` records of the Vector DBC grammar plus signal comments.
+ * Anything it does not understand (value tables, attributes, node lists, …) is ignored, so
  * it loads real-world databases without choking while extracting exactly the
  * structure the Signal Analysis view needs.
  *
@@ -160,6 +160,156 @@ static int parse_sg(const char *line, dbc_message_t *m)
     return 0;
 }
 
+static dbc_message_t *find_message_by_raw_dbc_id(dbc_db_t *db,
+                                                 unsigned long raw_id)
+{
+    if (!db)
+        return NULL;
+    return dbc_find_message_mut(db,
+                                (uint32_t)(raw_id & ~DBC_EXT_FLAG),
+                                (raw_id & DBC_EXT_FLAG) ? 1 : 0);
+}
+
+static dbc_signal_t *find_signal_mut(dbc_message_t *m, const char *name)
+{
+    if (!m || !name)
+        return NULL;
+    for (uint16_t i = 0; i < m->signal_count; i++)
+        if (strcmp(m->signals[i].name, name) == 0)
+            return &m->signals[i];
+    return NULL;
+}
+
+static void unescape_dbc_string(char *dst, size_t dstsz, const char *src)
+{
+    if (!dst || dstsz == 0)
+        return;
+    dst[0] = '\0';
+    if (!src)
+        return;
+
+    size_t n = 0;
+    for (const char *p = src; *p && n + 1 < dstsz; p++) {
+        if (*p == '\\' && p[1]) {
+            p++;
+            switch (*p) {
+            case 'n': dst[n++] = '\n'; break;
+            case 'r': dst[n++] = '\r'; break;
+            case 't': dst[n++] = '\t'; break;
+            default:  dst[n++] = *p; break;
+            }
+        } else {
+            dst[n++] = *p;
+        }
+    }
+    dst[n] = '\0';
+}
+
+static void write_escaped_dbc_string(FILE *fp, const char *text)
+{
+    for (const unsigned char *p = (const unsigned char *)(text ? text : "");
+         *p; p++) {
+        switch (*p) {
+        case '"':
+        case '\\':
+            fputc('\\', fp);
+            fputc(*p, fp);
+            break;
+        case '\n':
+            fputs("\\n", fp);
+            break;
+        case '\r':
+            fputs("\\r", fp);
+            break;
+        case '\t':
+            fputs("\\t", fp);
+            break;
+        default:
+            if (*p >= 0x20)
+                fputc(*p, fp);
+            break;
+        }
+    }
+}
+
+static int parse_dbc_quoted_string(const char *p, char *dst, size_t dstsz)
+{
+    if (!p || !dst || dstsz == 0)
+        return -1;
+    if (*p != '"')
+        return -1;
+
+    p++;
+    size_t n = 0;
+    int closed = 0;
+    for (; *p; p++) {
+        if (*p == '\\' && p[1]) {
+            if (n + 2 < dstsz) {
+                dst[n++] = *p;
+                dst[n++] = p[1];
+            }
+            p++;
+            continue;
+        }
+        if (*p == '"') {
+            closed = 1;
+            break;
+        }
+        if (n + 1 < dstsz)
+            dst[n++] = *p;
+    }
+    dst[n] = '\0';
+    return closed ? 0 : -1;
+}
+
+static int parse_cm_sg(const char *line, dbc_db_t *db)
+{
+    char name[DBC_NAME_MAX] = {0};
+    char comment[DBC_COMMENT_MAX * 2] = {0};
+
+    const char *p = line;
+    while (isspace((unsigned char)*p))
+        p++;
+    if (strncmp(p, "CM_", 3) != 0)
+        return -1;
+    p += 3;
+    while (isspace((unsigned char)*p))
+        p++;
+    if (strncmp(p, "SG_", 3) != 0)
+        return -1;
+    p += 3;
+    while (isspace((unsigned char)*p))
+        p++;
+
+    char *end = NULL;
+    unsigned long raw_id = strtoul(p, &end, 10);
+    if (end == p)
+        return -1;
+    p = end;
+    while (isspace((unsigned char)*p))
+        p++;
+
+    size_t ni = 0;
+    while (*p && !isspace((unsigned char)*p)) {
+        if (ni + 1 < sizeof(name))
+            name[ni++] = *p;
+        p++;
+    }
+    name[ni] = '\0';
+    while (isspace((unsigned char)*p))
+        p++;
+    if (!name[0] || parse_dbc_quoted_string(p, comment, sizeof(comment)) != 0)
+        return -1;
+
+    dbc_signal_t *sig =
+        find_signal_mut(find_message_by_raw_dbc_id(db, raw_id), name);
+    if (!sig)
+        return -1;
+
+    unescape_dbc_string(sig->comment, sizeof(sig->comment), comment);
+    return 0;
+}
+
 dbc_db_t *dbc_load_file(const char *path, char *err, size_t errsz)
 {
     FILE *fp = fopen(path, "r");
@@ -188,6 +338,8 @@ dbc_db_t *dbc_load_file(const char *path, char *err, size_t errsz)
         } else if (strncmp(p, "SG_ ", 4) == 0) {
             if (parse_sg(p, cur) == 0)
                 db->signal_count++;
+        } else if (strncmp(p, "CM_ SG_ ", 8) == 0) {
+            parse_cm_sg(p, db);
         } else if (*p == '\0' || strncmp(p, "BO_TX_BU_", 9) == 0) {
             /* Blank line or transmitter list — keep the current message. */
         } else if (!isspace((unsigned char)line[0])) {
@@ -375,6 +527,14 @@ int dbc_save_file(const dbc_db_t *db, const char *path,
                     s->min,
                     s->max,
                     unit);
+        }
+        for (uint16_t si = 0; si < m->signal_count; si++) {
+            const dbc_signal_t *s = &m->signals[si];
+            if (!s->comment[0])
+                continue;
+            fprintf(fp, "CM_ SG_ %lu %s \"", raw_id, s->name);
+            write_escaped_dbc_string(fp, s->comment);
+            fprintf(fp, "\";\n");
         }
         fprintf(fp, "\n");
     }

@@ -23,6 +23,7 @@
  *      ├─ GtkToolbar
  *      ├─ GtkNotebook
  *      │  ├─ "Receive / Transmit" page     (GtkPaned: trace + transmit panel)
+ *      │  ├─ "Bit Analysis" page           (reverse-engineering workspace)
  *      │  ├─ "Signal Analysis" page        (DBC-decoded signal table)
  *      │  ├─ "Signal Analysis Viewer" page (multi-signal time graph)
  *      │  ├─ "Math" page                   (two-signal realtime math graphs)
@@ -1441,13 +1442,59 @@ void gui_tx_panel_update_fd(void)
 /* Main window                                                          */
 /* ------------------------------------------------------------------ */
 
+static void set_paned_ratio_on_allocate(GtkWidget *widget,
+                                        GtkAllocation *allocation,
+                                        gpointer data)
+{
+    int per_mille = GPOINTER_TO_INT(data);
+    if (per_mille <= 0 || per_mille >= 1000)
+        return;
+
+    GtkOrientation orientation =
+        gtk_orientable_get_orientation(GTK_ORIENTABLE(widget));
+    int span = orientation == GTK_ORIENTATION_HORIZONTAL ?
+               allocation->width : allocation->height;
+    int last_span = GPOINTER_TO_INT(
+        g_object_get_data(G_OBJECT(widget), "canoscope-paned-span"));
+    if (span <= 0 || span == last_span)
+        return;
+
+    g_object_set_data(G_OBJECT(widget), "canoscope-paned-span",
+                      GINT_TO_POINTER(span));
+    gtk_paned_set_position(GTK_PANED(widget), span * per_mille / 1000);
+}
+
+static void configure_main_window_geometry(GtkWindow *window)
+{
+    int width = 1100;
+    int height = 700;
+
+    GdkDisplay *display = gdk_display_get_default();
+    if (display) {
+        GdkMonitor *monitor = gdk_display_get_primary_monitor(display);
+        if (!monitor)
+            monitor = gdk_display_get_monitor(display, 0);
+        if (monitor) {
+            GdkRectangle area;
+            gdk_monitor_get_workarea(monitor, &area);
+            if (area.width > 0 && area.height > 0) {
+                width = area.width;
+                height = area.height;
+            }
+        }
+    }
+
+    gtk_window_set_default_size(window, width, height);
+    gtk_window_maximize(window);
+}
+
 GtkWidget *gui_create_main_window(GtkApplication *app)
 {
     GtkWidget *window = gtk_application_window_new(app);
     g_gui.window = window;
 
     gtk_window_set_title(GTK_WINDOW(window), "CANoScope");
-    gtk_window_set_default_size(GTK_WINDOW(window), 1100, 700);
+    configure_main_window_geometry(GTK_WINDOW(window));
 
     /* Application / window icon (Taksys logo). */
     GdkPixbuf *win_icon = gui_load_logo(128);
@@ -1488,10 +1535,16 @@ GtkWidget *gui_create_main_window(GtkApplication *app)
     /* Main content: a notebook with live CAN trace, decoded signals,
      * realtime signal graphs, two-signal math analysis, and DBC creation. */
     GtkWidget *notebook = gtk_notebook_new();
+    g_gui.main_notebook = notebook;
+    gtk_widget_set_hexpand(notebook, TRUE);
+    gtk_widget_set_vexpand(notebook, TRUE);
     gtk_box_pack_start(GTK_BOX(vbox), notebook, TRUE, TRUE, 0);
 
     /* Page 1 — Receive / Transmit (trace on top, transmit rows below). */
     GtkWidget *paned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
+    g_signal_connect(paned, "size-allocate",
+                     G_CALLBACK(set_paned_ratio_on_allocate),
+                     GINT_TO_POINTER(620));
     GtkWidget *trace_scroll = create_trace_view();
     gtk_paned_pack1(GTK_PANED(paned), trace_scroll, TRUE, TRUE);
     GtkWidget *tx_panel = create_transmit_panel();
@@ -1499,23 +1552,29 @@ GtkWidget *gui_create_main_window(GtkApplication *app)
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), paned,
                              gtk_label_new("Receive / Transmit"));
 
-    /* Page 2 — Signal Analysis. */
+    /* Page 2 — Bit Analysis (reverse-engineer signals before DBC exists). */
+    GtkWidget *bit_page = gui_create_bit_analysis_view();
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), bit_page,
+                             gtk_label_new("Bit Analysis"));
+
+    /* Page 3 — Signal Analysis. */
     GtkWidget *sig_page = gui_create_signal_view();
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), sig_page,
                              gtk_label_new("Signal Analysis"));
 
-    /* Page 3 — Signal Analysis Viewer (multi-signal graph over time). */
+    /* Page 4 — Signal Analysis Viewer (multi-signal graph over time). */
     GtkWidget *plot_page = gui_create_signal_plot();
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), plot_page,
                              gtk_label_new("Signal Analysis Viewer"));
 
-    /* Page 4 — Math (two-signal realtime statistical analysis). */
+    /* Page 5 — Math (two-signal realtime statistical analysis). */
     GtkWidget *math_page = gui_create_math_view();
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), math_page,
                              gtk_label_new("Math"));
 
-    /* Page 5 — DB Creation (generate/update DBC files from RX rows). */
+    /* Page 6 — DB Creation (generate/update DBC files from RX rows). */
     GtkWidget *db_page = gui_create_db_creation_view();
+    g_gui.db_creation_page = db_page;
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), db_page,
                              gtk_label_new("DB Creation"));
 

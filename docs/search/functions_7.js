@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['idle_5fadd_5fmessage_0',['idle_add_message',['../threads_8c.html#aa576e85983a2e7b6d38e71c68e2ffe51',1,'threads.c']]],
-  ['idle_5fupdate_5fstats_1',['idle_update_stats',['../threads_8c.html#a9039df12ef349f9389bb30628ebd3ed2',1,'threads.c']]],
-  ['iface_5fis_5fup_2',['iface_is_up',['../socketcan_8c.html#ab58d2d7a8b06b2f6567146a07c7bae81',1,'socketcan.c']]],
-  ['ip_5ftool_5fpath_3',['ip_tool_path',['../socketcan_8c.html#a76affd399a94b769227cf35d1b4e1f72',1,'socketcan.c']]]
+  ['hex_5fvalue_0',['hex_value',['../bit__analysis_8c.html#ac635589a00b408747fcdedc83db7e989',1,'hex_value(int ch):&#160;bit_analysis.c'],['../db__creation_8c.html#a135cb3167b46a5d935a4576da8f9af96',1,'hex_value(char c):&#160;db_creation.c'],['../message__view_8c.html#a135cb3167b46a5d935a4576da8f9af96',1,'hex_value(char c):&#160;message_view.c']]]
 ];

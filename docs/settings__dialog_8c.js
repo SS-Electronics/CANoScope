@@ -10,6 +10,6 @@ var settings__dialog_8c =
     [ "gui_show_settings_dialog", "settings__dialog_8c.html#a29389bd6366971812b2d64875aba27e5", null ],
     [ "label", "settings__dialog_8c.html#ab5fbdb5052858ca8d2538566229fbe64", null ],
     [ "value", "settings__dialog_8c.html#ae7f66047e6e39ba2bb6af8b95f00d1dd", null ],
-    [ "s_bitrates", "settings__dialog_8c.html#a11f964ceef9045c8ddfc61721f8a4bd3", null ],
-    [ "s_fd_bitrates", "settings__dialog_8c.html#af6a7bc90c87d6bcc09ed43da1e94a486", null ]
+    [ "s_bitrates", "settings__dialog_8c.html#a73ed92ea6f467a6834bd231575c92237", null ],
+    [ "s_fd_bitrates", "settings__dialog_8c.html#af54358fdd1f9671d8bd1ed3d6fef6536", null ]
 ];
