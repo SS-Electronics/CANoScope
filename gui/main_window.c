@@ -25,6 +25,7 @@
  *      │  ├─ "Receive / Transmit" page     (GtkPaned: trace + transmit panel)
  *      │  ├─ "Signal Analysis" page        (DBC-decoded signal table)
  *      │  ├─ "Signal Analysis Viewer" page (multi-signal time graph)
+ *      │  ├─ "Math" page                   (two-signal realtime math graphs)
  *      │  └─ "DB Creation" page            (DBC generator/updater)
  *      ├─ GtkStatusbar
  *      └─ footer  (Taksys logo + credits)
@@ -1484,8 +1485,8 @@ GtkWidget *gui_create_main_window(GtkApplication *app)
                        gtk_separator_new(GTK_ORIENTATION_HORIZONTAL),
                        FALSE, FALSE, 0);
 
-    /* Main content: a notebook with the live Receive/Transmit page and the
-     * Signal Analysis page (DBC-decoded individual signals, CANalyzer-style). */
+    /* Main content: a notebook with live CAN trace, decoded signals,
+     * realtime signal graphs, two-signal math analysis, and DBC creation. */
     GtkWidget *notebook = gtk_notebook_new();
     gtk_box_pack_start(GTK_BOX(vbox), notebook, TRUE, TRUE, 0);
 
@@ -1508,7 +1509,12 @@ GtkWidget *gui_create_main_window(GtkApplication *app)
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), plot_page,
                              gtk_label_new("Signal Analysis Viewer"));
 
-    /* Page 4 — DB Creation (generate/update DBC files from RX rows). */
+    /* Page 4 — Math (two-signal realtime statistical analysis). */
+    GtkWidget *math_page = gui_create_math_view();
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), math_page,
+                             gtk_label_new("Math"));
+
+    /* Page 5 — DB Creation (generate/update DBC files from RX rows). */
     GtkWidget *db_page = gui_create_db_creation_view();
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), db_page,
                              gtk_label_new("DB Creation"));
@@ -1557,8 +1563,8 @@ GtkWidget *gui_create_main_window(GtkApplication *app)
     gtk_widget_show_all(window);
     gui_update_stats();
 
-    /* Auto-load the bundled demo database so the Signal Analysis tab is
-     * populated out of the box (no-op if the asset is missing). */
+    /* Auto-load the bundled demo database so DBC-backed tabs are populated
+     * out of the box (no-op if the asset is missing). */
     gui_signal_load_default_dbc();
     return window;
 }

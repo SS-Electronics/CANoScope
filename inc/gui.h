@@ -208,6 +208,29 @@ void gui_plot_set_database(const dbc_db_t *db);
  */
 void gui_plot_add_sample(uint32_t id, int is_ext, int sig_idx, double value);
 
+/* ---- Math Analysis -------------------------------------------------------- */
+
+/**
+ * @brief Build the Math tab for realtime two-signal analysis.
+ * @return A container widget for use as a notebook page.
+ */
+GtkWidget *gui_create_math_view(void);
+
+/**
+ * @brief Rebuild the Math tab signal lists from a database.
+ * @param db Active database, or NULL to clear.
+ */
+void gui_math_set_database(const dbc_db_t *db);
+
+/**
+ * @brief Feed one decoded signal value to the Math tab.
+ * @param id       Raw CAN identifier.
+ * @param is_ext   Non-zero for extended-ID message.
+ * @param sig_idx  Signal index within its message.
+ * @param value    Decoded physical value.
+ */
+void gui_math_add_sample(uint32_t id, int is_ext, int sig_idx, double value);
+
 /** @brief Refresh the statistics bar from @ref g_app counters. */
 void gui_update_stats(void);
 

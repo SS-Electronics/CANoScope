@@ -167,6 +167,7 @@ gboolean gui_signal_load_dbc(const char *path)
 
     sig_table_rebuild();
     gui_plot_set_database(s_db);
+    gui_math_set_database(s_db);
     sig_update_dbc_label();
     gui_status_message("Loaded database %s (%zu messages, %zu signals).",
                        db->path, db->message_count, db->signal_count);
@@ -181,6 +182,7 @@ void gui_signal_clear_dbc(void)
     }
     sig_table_rebuild();
     gui_plot_set_database(NULL);
+    gui_math_set_database(NULL);
     sig_update_dbc_label();
     gui_status_message("Database unloaded.");
 }
@@ -238,6 +240,7 @@ void gui_signal_decode_message(const can_msg_t *msg)
 
         /* Feed the time-graph viewer with this decoded sample. */
         gui_plot_add_sample(m->id, m->is_extended, (int)sig_idx, phys);
+        gui_math_add_sample(m->id, m->is_extended, (int)sig_idx, phys);
 
         char raw_buf[32], val_buf[40];
         snprintf(raw_buf, sizeof(raw_buf), "%lld", (long long)sraw);
