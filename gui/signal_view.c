@@ -320,6 +320,8 @@ static void on_clear_dbc(GtkWidget *w, gpointer d)
 GtkWidget *gui_create_signal_view(void)
 {
     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_hexpand(box, TRUE);
+    gtk_widget_set_vexpand(box, TRUE);
 
     /* --- Toolbar row --- */
     GtkWidget *bar = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);

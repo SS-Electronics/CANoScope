@@ -934,6 +934,8 @@ GtkWidget *gui_create_signal_plot(void)
         s_store.start_us = g_get_monotonic_time();
 
     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_hexpand(box, TRUE);
+    gtk_widget_set_vexpand(box, TRUE);
 
     GtkWidget *bar = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
     gtk_widget_set_margin_start(bar, 6);

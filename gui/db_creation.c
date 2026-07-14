@@ -1051,6 +1051,8 @@ static GtkWidget *new_double_spin(double value, int digits)
 GtkWidget *gui_create_db_creation_view(void)
 {
     GtkWidget *outer = gtk_box_new(GTK_ORIENTATION_VERTICAL, 8);
+    gtk_widget_set_hexpand(outer, TRUE);
+    gtk_widget_set_vexpand(outer, TRUE);
     gtk_widget_set_margin_start(outer, 8);
     gtk_widget_set_margin_end(outer, 8);
     gtk_widget_set_margin_top(outer, 8);
@@ -1156,7 +1158,6 @@ GtkWidget *gui_create_db_creation_view(void)
     gtk_box_pack_start(GTK_BOX(edit_body), graph_frame, TRUE, TRUE, 0);
 
     s_tab.graph_area = gtk_drawing_area_new();
-    gtk_widget_set_size_request(s_tab.graph_area, 360, 240);
     gtk_widget_set_hexpand(s_tab.graph_area, TRUE);
     gtk_widget_set_vexpand(s_tab.graph_area, TRUE);
     g_signal_connect(s_tab.graph_area, "draw", G_CALLBACK(on_graph_draw), NULL);

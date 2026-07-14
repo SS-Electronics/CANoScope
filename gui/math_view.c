@@ -655,6 +655,8 @@ static void set_paned_ratio_on_allocate(GtkWidget *widget,
 GtkWidget *gui_create_math_view(void)
 {
     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
+    gtk_widget_set_hexpand(box, TRUE);
+    gtk_widget_set_vexpand(box, TRUE);
     gtk_widget_set_margin_start(box, 8);
     gtk_widget_set_margin_end(box, 8);
     gtk_widget_set_margin_top(box, 8);
@@ -708,7 +710,6 @@ GtkWidget *gui_create_math_view(void)
 
     GtkWidget *time_frame = gtk_frame_new("Signals vs Time");
     s_math.time_area = gtk_drawing_area_new();
-    gtk_widget_set_size_request(s_math.time_area, 420, 280);
     gtk_widget_set_hexpand(s_math.time_area, TRUE);
     gtk_widget_set_vexpand(s_math.time_area, TRUE);
     g_signal_connect(s_math.time_area, "draw", G_CALLBACK(on_time_draw), NULL);
@@ -717,7 +718,6 @@ GtkWidget *gui_create_math_view(void)
 
     GtkWidget *scatter_frame = gtk_frame_new("Y vs X");
     s_math.scatter_area = gtk_drawing_area_new();
-    gtk_widget_set_size_request(s_math.scatter_area, 420, 280);
     gtk_widget_set_hexpand(s_math.scatter_area, TRUE);
     gtk_widget_set_vexpand(s_math.scatter_area, TRUE);
     g_signal_connect(s_math.scatter_area, "draw",

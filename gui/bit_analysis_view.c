@@ -1695,6 +1695,8 @@ GtkWidget *gui_create_bit_analysis_view(void)
     s_ba.selected_candidate = -1;
 
     GtkWidget *outer = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
+    gtk_widget_set_hexpand(outer, TRUE);
+    gtk_widget_set_vexpand(outer, TRUE);
     gtk_widget_set_margin_start(outer, 8);
     gtk_widget_set_margin_end(outer, 8);
     gtk_widget_set_margin_top(outer, 8);
@@ -1941,7 +1943,8 @@ GtkWidget *gui_create_bit_analysis_view(void)
     gtk_box_pack_start(GTK_BOX(mode_bar), gtk_label_new("Mode:"), FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(mode_bar), s_ba.mode_combo, FALSE, FALSE, 0);
     s_ba.matrix_area = gtk_drawing_area_new();
-    gtk_widget_set_size_request(s_ba.matrix_area, 360, 300);
+    gtk_widget_set_hexpand(s_ba.matrix_area, TRUE);
+    gtk_widget_set_vexpand(s_ba.matrix_area, TRUE);
     gtk_widget_add_events(s_ba.matrix_area, GDK_BUTTON_PRESS_MASK);
     g_signal_connect(s_ba.matrix_area, "draw", G_CALLBACK(on_matrix_draw), NULL);
     g_signal_connect(s_ba.matrix_area, "button-press-event",
@@ -1955,10 +1958,12 @@ GtkWidget *gui_create_bit_analysis_view(void)
                        FALSE, FALSE, 0);
 
     GtkWidget *timeline_frame = gtk_frame_new("Selected Field Timeline");
-    gtk_widget_set_size_request(timeline_frame, -1, 220);
+    gtk_widget_set_hexpand(timeline_frame, TRUE);
+    gtk_widget_set_vexpand(timeline_frame, TRUE);
     gtk_box_pack_start(GTK_BOX(right), timeline_frame, TRUE, TRUE, 0);
     s_ba.timeline_area = gtk_drawing_area_new();
-    gtk_widget_set_size_request(s_ba.timeline_area, 420, 190);
+    gtk_widget_set_hexpand(s_ba.timeline_area, TRUE);
+    gtk_widget_set_vexpand(s_ba.timeline_area, TRUE);
     g_signal_connect(s_ba.timeline_area, "draw",
                      G_CALLBACK(on_timeline_draw), NULL);
     gtk_container_add(GTK_CONTAINER(timeline_frame), s_ba.timeline_area);
