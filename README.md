@@ -90,6 +90,8 @@ python3 scripts/test_dbc.py --no-setup --rate 30 --duration 60
 CANoScope opens maximized and the notebook tabs resize with the main window.
 The top-level layout is:
 
+![CANoScope main window](assets/screenshots/main-window.png)
+
 | Region | Purpose |
 |---|---|
 | Menu bar | File, Trace, CAN, View, Database, and Help actions |
@@ -124,6 +126,8 @@ The top-level layout is:
 
 Open with `File > Connect` or the connect toolbar action.
 
+![Connection settings dialog](assets/screenshots/connection-settings.png)
+
 | Field or button | What it does | Choose it when |
 |---|---|---|
 | Interface | Selects or types the SocketCAN interface name, such as `vcan0` or `can0` | You need to choose the bus to monitor |
@@ -145,6 +149,8 @@ Open with `File > Connect` or the connect toolbar action.
 
 Use this tab for live bus inspection and manual frame transmission.
 
+![Receive and transmit tab](assets/screenshots/receive-transmit.png)
+
 #### Receive Trace
 
 | Column | Meaning |
@@ -161,6 +167,8 @@ Use this tab for live bus inspection and manual frame transmission.
 | Count | Number of times this row's message has been seen |
 
 #### Transmit Messages Panel
+
+![CAN FD transmit panel with dynamic payload fields](assets/screenshots/canfd-transmit.png)
 
 | Field or button | What it does | Choose it when |
 |---|---|---|
@@ -196,6 +204,8 @@ you want a focused single-message transmit form.
 
 Use this tab when you do not yet have a reliable DBC definition for a message.
 It turns controlled observations into candidate signal definitions.
+
+![Bit Analysis tab](assets/screenshots/bit-analysis.png)
 
 The tab has five working areas:
 
@@ -383,6 +393,8 @@ a candidate into the DBC workflow.
 
 Use this tab when you have a DBC and want decoded signal values.
 
+![Signal Analysis tab decoding DBC signals](assets/screenshots/signal-analysis.png)
+
 | Control | What it does |
 |---|---|
 | Load DBC... | Opens a file chooser and loads a database |
@@ -408,6 +420,8 @@ It is the fastest way to confirm that a DBC matches live traffic.
 
 Use this tab for oscilloscope-style graphing of decoded DBC signals.
 
+![Signal Analysis Viewer launcher tab](assets/screenshots/signal-analysis-viewer.png)
+
 #### Launcher Tab
 
 | Control | What it does |
@@ -417,6 +431,8 @@ Use this tab for oscilloscope-style graphing of decoded DBC signals.
 | Analysis window count | Shows how many detached graph windows are open |
 
 #### Detached Analysis Window
+
+![Detached analysis window with per-signal graph axes](assets/screenshots/signal-analysis-viewer-graph.png)
 
 | Control | What it does | Choose it when |
 |---|---|---|
@@ -467,6 +483,8 @@ should have a known linear relationship.
 
 Use this tab to create or update DBC message/signal definitions from observed
 traffic or promoted Bit Analysis candidates.
+
+![DB Creation tab](assets/screenshots/db-creation.png)
 
 #### Target Database
 

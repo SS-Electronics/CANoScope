@@ -45,6 +45,9 @@
 #include <unistd.h>
 
 #include <gtk/gtk.h>
+#ifdef GDK_WINDOWING_X11
+#include <gdk/gdkx.h>
+#endif
 
 #include "../inc/gui.h"
 #include "../inc/app_state.h"
@@ -1442,12 +1445,12 @@ void gui_tx_panel_update_fd(void)
 /* Main window                                                          */
 /* ------------------------------------------------------------------ */
 
-static void set_paned_ratio_on_allocate(GtkWidget *widget,
-                                        GtkAllocation *allocation,
-                                        gpointer data)
+static void set_paned_trailing_size_on_allocate(GtkWidget *widget,
+                                                GtkAllocation *allocation,
+                                                gpointer data)
 {
-    int per_mille = GPOINTER_TO_INT(data);
-    if (per_mille <= 0 || per_mille >= 1000)
+    int trailing_size = GPOINTER_TO_INT(data);
+    if (trailing_size <= 0)
         return;
 
     GtkOrientation orientation =
@@ -1459,9 +1462,18 @@ static void set_paned_ratio_on_allocate(GtkWidget *widget,
     if (span <= 0 || span == last_span)
         return;
 
+    int min_first = orientation == GTK_ORIENTATION_HORIZONTAL ? 300 : 240;
+    int position = span - trailing_size;
+    if (position < min_first)
+        position = span * 620 / 1000;
+    if (position < 1)
+        position = 1;
+    if (position >= span)
+        position = span - 1;
+
     g_object_set_data(G_OBJECT(widget), "canoscope-paned-span",
                       GINT_TO_POINTER(span));
-    gtk_paned_set_position(GTK_PANED(widget), span * per_mille / 1000);
+    gtk_paned_set_position(GTK_PANED(widget), position);
 }
 
 static void configure_main_window_geometry(GtkWindow *window)
@@ -1478,14 +1490,56 @@ static void configure_main_window_geometry(GtkWindow *window)
             GdkRectangle area;
             gdk_monitor_get_workarea(monitor, &area);
             if (area.width > 0 && area.height > 0) {
-                width = area.width;
-                height = area.height;
+                int max_width = area.width > 96 ? area.width - 96 : area.width;
+                int max_height = area.height > 96 ? area.height - 96 : area.height;
+                if (width > max_width)
+                    width = max_width;
+                if (height > max_height)
+                    height = max_height;
             }
         }
     }
 
+    gtk_window_set_resizable(window, TRUE);
     gtk_window_set_default_size(window, width, height);
-    gtk_window_maximize(window);
+    g_object_set_data(G_OBJECT(window), "canoscope-default-width",
+                      GINT_TO_POINTER(width));
+    g_object_set_data(G_OBJECT(window), "canoscope-default-height",
+                      GINT_TO_POINTER(height));
+}
+
+static gboolean display_has_window_manager(GtkWindow *window)
+{
+#ifdef GDK_WINDOWING_X11
+    GdkScreen *screen = gtk_window_get_screen(window);
+    if (screen && GDK_IS_X11_SCREEN(screen)) {
+        const char *name = gdk_x11_screen_get_window_manager_name(screen);
+        return name && *name && g_ascii_strcasecmp(name, "unknown") != 0;
+    }
+#else
+    (void)window;
+#endif
+    return TRUE;
+}
+
+static gboolean maximize_main_window_idle(gpointer data)
+{
+    GtkWindow *window = GTK_WINDOW(data);
+    if (GTK_IS_WINDOW(window)) {
+        gtk_window_present(window);
+        if (display_has_window_manager(window)) {
+            gtk_window_maximize(window);
+        } else {
+            int width = GPOINTER_TO_INT(
+                g_object_get_data(G_OBJECT(window), "canoscope-default-width"));
+            int height = GPOINTER_TO_INT(
+                g_object_get_data(G_OBJECT(window), "canoscope-default-height"));
+            if (width > 0 && height > 0)
+                gtk_window_resize(window, width, height);
+        }
+    }
+    g_object_unref(window);
+    return G_SOURCE_REMOVE;
 }
 
 GtkWidget *gui_create_main_window(GtkApplication *app)
@@ -1543,12 +1597,13 @@ GtkWidget *gui_create_main_window(GtkApplication *app)
     /* Page 1 — Receive / Transmit (trace on top, transmit rows below). */
     GtkWidget *paned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
     g_signal_connect(paned, "size-allocate",
-                     G_CALLBACK(set_paned_ratio_on_allocate),
-                     GINT_TO_POINTER(620));
+                     G_CALLBACK(set_paned_trailing_size_on_allocate),
+                     GINT_TO_POINTER(260));
     GtkWidget *trace_scroll = create_trace_view();
     gtk_paned_pack1(GTK_PANED(paned), trace_scroll, TRUE, TRUE);
     GtkWidget *tx_panel = create_transmit_panel();
-    gtk_paned_pack2(GTK_PANED(paned), tx_panel, TRUE, TRUE);
+    gtk_widget_set_size_request(tx_panel, -1, 220);
+    gtk_paned_pack2(GTK_PANED(paned), tx_panel, FALSE, TRUE);
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), paned,
                              gtk_label_new("Receive / Transmit"));
 
@@ -1620,6 +1675,7 @@ GtkWidget *gui_create_main_window(GtkApplication *app)
     gtk_box_pack_start(GTK_BOX(footer), footer_lbl, TRUE, TRUE, 0);
 
     gtk_widget_show_all(window);
+    g_idle_add(maximize_main_window_idle, g_object_ref(window));
     gui_update_stats();
 
     /* Auto-load the bundled demo database so DBC-backed tabs are populated
