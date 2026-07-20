@@ -109,7 +109,11 @@ int main(int argc, char *argv[])
 
     GtkApplication *app = gtk_application_new(
         "com.taksys.canoscope",
+#if GLIB_CHECK_VERSION(2, 74, 0)
         G_APPLICATION_DEFAULT_FLAGS);
+#else
+        G_APPLICATION_FLAGS_NONE);   /* GLib < 2.74 (e.g. Ubuntu 20.04/22.04) */
+#endif
 
     g_signal_connect(app, "activate",
                      G_CALLBACK(on_app_activate), NULL);
