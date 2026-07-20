@@ -14,6 +14,9 @@
 #include "../inc/gui.h"
 #include "../inc/dbc.h"
 
+/** @brief Height floor for the signal comment box (px). */
+#define DBC_COMMENT_MIN_H 44
+
 #define RAW_TEXT_MAX ((CANFD_DATA_MAX * 2u) + 1u)
 #define GRAPH_MAX_SAMPLES 2048
 #define GRAPH_WINDOW_SEC  20.0
@@ -1050,13 +1053,13 @@ static GtkWidget *new_double_spin(double value, int digits)
 
 GtkWidget *gui_create_db_creation_view(void)
 {
-    GtkWidget *outer = gtk_box_new(GTK_ORIENTATION_VERTICAL, 8);
+    GtkWidget *outer = gtk_box_new(GTK_ORIENTATION_VERTICAL, 4);
     gtk_widget_set_hexpand(outer, TRUE);
     gtk_widget_set_vexpand(outer, TRUE);
     gtk_widget_set_margin_start(outer, 8);
     gtk_widget_set_margin_end(outer, 8);
-    gtk_widget_set_margin_top(outer, 8);
-    gtk_widget_set_margin_bottom(outer, 8);
+    gtk_widget_set_margin_top(outer, 4);
+    gtk_widget_set_margin_bottom(outer, 4);
 
     GtkWidget *target_frame = gtk_frame_new("Target Database");
     gtk_box_pack_start(GTK_BOX(outer), target_frame, FALSE, FALSE, 0);
@@ -1066,8 +1069,8 @@ GtkWidget *gui_create_db_creation_view(void)
     gtk_grid_set_row_spacing(GTK_GRID(target_grid), 6);
     gtk_widget_set_margin_start(target_grid, 8);
     gtk_widget_set_margin_end(target_grid, 8);
-    gtk_widget_set_margin_top(target_grid, 8);
-    gtk_widget_set_margin_bottom(target_grid, 8);
+    gtk_widget_set_margin_top(target_grid, 5);
+    gtk_widget_set_margin_bottom(target_grid, 5);
     gtk_container_add(GTK_CONTAINER(target_frame), target_grid);
 
     s_tab.target_entry = gtk_entry_new();
@@ -1092,11 +1095,11 @@ GtkWidget *gui_create_db_creation_view(void)
 
     GtkWidget *source_grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(source_grid), 6);
-    gtk_grid_set_row_spacing(GTK_GRID(source_grid), 6);
+    gtk_grid_set_row_spacing(GTK_GRID(source_grid), 4);
     gtk_widget_set_margin_start(source_grid, 8);
     gtk_widget_set_margin_end(source_grid, 8);
-    gtk_widget_set_margin_top(source_grid, 8);
-    gtk_widget_set_margin_bottom(source_grid, 8);
+    gtk_widget_set_margin_top(source_grid, 5);
+    gtk_widget_set_margin_bottom(source_grid, 5);
     gtk_container_add(GTK_CONTAINER(source_frame), source_grid);
 
     s_tab.msg_store = gtk_list_store_new(MCOL_NUM,
@@ -1125,14 +1128,17 @@ GtkWidget *gui_create_db_creation_view(void)
     gtk_grid_attach(GTK_GRID(source_grid), grid_label("Message ID"), 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(source_grid), s_tab.msg_combo, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(source_grid), refresh_btn, 2, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(source_grid), s_tab.rx_count_label, 1, 1, 2, 1);
 
     s_tab.sample_data_label = gtk_label_new("-");
     gtk_label_set_xalign(GTK_LABEL(s_tab.sample_data_label), 0.0f);
     gtk_label_set_ellipsize(GTK_LABEL(s_tab.sample_data_label),
                             PANGO_ELLIPSIZE_END);
-    gtk_grid_attach(GTK_GRID(source_grid), grid_label("Latest RX"), 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(source_grid), s_tab.sample_data_label, 1, 2, 2, 1);
+
+    /* Latest RX and the RX count share a row: the count is short and the
+     * spare row costs height this tab cannot afford at 1366x768. */
+    gtk_grid_attach(GTK_GRID(source_grid), grid_label("Latest RX"), 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(source_grid), s_tab.sample_data_label, 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(source_grid), s_tab.rx_count_label, 2, 1, 1, 1);
 
     GtkWidget *edit_frame = gtk_frame_new("Message and Signal");
     gtk_widget_set_vexpand(edit_frame, TRUE);
@@ -1141,21 +1147,30 @@ GtkWidget *gui_create_db_creation_view(void)
     GtkWidget *edit_body = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 8);
     gtk_widget_set_margin_start(edit_body, 8);
     gtk_widget_set_margin_end(edit_body, 8);
-    gtk_widget_set_margin_top(edit_body, 8);
-    gtk_widget_set_margin_bottom(edit_body, 8);
+    gtk_widget_set_margin_top(edit_body, 5);
+    gtk_widget_set_margin_bottom(edit_body, 5);
     gtk_container_add(GTK_CONTAINER(edit_frame), edit_body);
 
     GtkWidget *grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 7);
+    /* Ten form rows: every pixel of row spacing costs ten down the page. */
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 4);
     gtk_widget_set_hexpand(grid, TRUE);
     gtk_widget_set_vexpand(grid, TRUE);
     gtk_box_pack_start(GTK_BOX(edit_body), grid, TRUE, TRUE, 0);
 
+    /* Right column: plot on top, comment beneath it. The comment lives here
+     * rather than in the form grid because the grid is the tab's tallest
+     * element at 1366x768, while this column has room to spare. */
+    GtkWidget *right_col = gtk_box_new(GTK_ORIENTATION_VERTICAL, 4);
+    gtk_widget_set_hexpand(right_col, TRUE);
+    gtk_widget_set_vexpand(right_col, TRUE);
+    gtk_box_pack_start(GTK_BOX(edit_body), right_col, TRUE, TRUE, 0);
+
     GtkWidget *graph_frame = gtk_frame_new("Sample Value vs Time");
     gtk_widget_set_hexpand(graph_frame, TRUE);
     gtk_widget_set_vexpand(graph_frame, TRUE);
-    gtk_box_pack_start(GTK_BOX(edit_body), graph_frame, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(right_col), graph_frame, TRUE, TRUE, 0);
 
     s_tab.graph_area = gtk_drawing_area_new();
     gtk_widget_set_hexpand(s_tab.graph_area, TRUE);
@@ -1190,7 +1205,6 @@ GtkWidget *gui_create_db_creation_view(void)
     s_tab.comment_view = gtk_text_view_new();
     gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(s_tab.comment_view),
                                 GTK_WRAP_WORD_CHAR);
-    gtk_widget_set_size_request(s_tab.comment_view, -1, 56);
 
     int row = 0;
     gtk_grid_attach(GTK_GRID(grid), grid_label("Message name"), 0, row, 1, 1);
@@ -1222,14 +1236,35 @@ GtkWidget *gui_create_db_creation_view(void)
     gtk_grid_attach(GTK_GRID(grid), grid_label("Unit"), 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), s_tab.unit_entry, 1, row, 3, 1);
     row++;
+    GtkWidget *comment_frame = gtk_frame_new("Comment");
     GtkWidget *comment_scroll = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(comment_scroll),
                                    GTK_POLICY_AUTOMATIC,
                                    GTK_POLICY_AUTOMATIC);
+    /* The scrolled window, not the text view, owns the height floor: a
+     * size request on the child is absorbed by the viewport and the field
+     * collapses to nothing. */
+    gtk_scrolled_window_set_min_content_height(
+        GTK_SCROLLED_WINDOW(comment_scroll), DBC_COMMENT_MIN_H);
+    /* A bare scrolled window draws no border under several themes, leaving a
+     * white text view on a white frame that reads as a missing field. Border
+     * it explicitly so the input area is visible everywhere. */
+    gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(comment_scroll),
+                                        GTK_SHADOW_IN);
+    {
+        GtkCssProvider *css = gtk_css_provider_new();
+        gtk_css_provider_load_from_data(
+            css, "scrolledwindow { border: 1px solid alpha(currentColor,0.3); }",
+            -1, NULL);
+        gtk_style_context_add_provider(
+            gtk_widget_get_style_context(comment_scroll),
+            GTK_STYLE_PROVIDER(css),
+            GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+        g_object_unref(css);
+    }
     gtk_container_add(GTK_CONTAINER(comment_scroll), s_tab.comment_view);
-    gtk_grid_attach(GTK_GRID(grid), grid_label("Comment"), 0, row, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), comment_scroll, 1, row, 3, 1);
-    row++;
+    gtk_container_add(GTK_CONTAINER(comment_frame), comment_scroll);
+    gtk_box_pack_end(GTK_BOX(right_col), comment_frame, FALSE, FALSE, 0);
 
     s_tab.sample_raw_label = gtk_label_new("-");
     gtk_label_set_xalign(GTK_LABEL(s_tab.sample_raw_label), 0.0f);

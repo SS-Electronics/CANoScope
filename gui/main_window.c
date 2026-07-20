@@ -1388,6 +1388,10 @@ static GtkWidget *create_transmit_panel(void)
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll),
                                    GTK_POLICY_NEVER,
                                    GTK_POLICY_AUTOMATIC);
+    /* Keep the column header and one full transmit row on screen even on a
+     * 1024x600 panel, so Send/Start/Stop are never cut off. */
+    gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(scroll),
+                                               GUI_TX_ROWS_MIN_H);
     gtk_widget_set_vexpand(scroll, TRUE);
     gtk_widget_set_hexpand(scroll, TRUE);
     gtk_box_pack_start(GTK_BOX(outer), scroll, TRUE, TRUE, 0);
@@ -1494,15 +1498,41 @@ static void configure_main_window_geometry(GtkWindow *window)
 
     GdkRectangle area;
     if (get_launch_workarea(&area)) {
-        gtk_window_set_default_size(
-            window,
-            area.width * CANOSCOPE_RESTORED_SIZE_NUM /
-                CANOSCOPE_RESTORED_SIZE_DEN,
-            area.height * CANOSCOPE_RESTORED_SIZE_NUM /
-                CANOSCOPE_RESTORED_SIZE_DEN);
+        /* Never open larger than the work area: on a 1366x768 panel the 90%
+         * restored size is already the whole usable height, and asking for
+         * more pushes the footer under the desktop panel. */
+        int w = area.width * CANOSCOPE_RESTORED_SIZE_NUM /
+                CANOSCOPE_RESTORED_SIZE_DEN;
+        int h = area.height * CANOSCOPE_RESTORED_SIZE_NUM /
+                CANOSCOPE_RESTORED_SIZE_DEN;
+        if (w > area.width)
+            w = area.width;
+        if (h > area.height)
+            h = area.height;
+        gtk_window_set_default_size(window, w, h);
     }
 
     gtk_window_maximize(window);
+}
+
+GtkWidget *gui_make_page_scroller(GtkWidget *page)
+{
+    GtkWidget *scroll = gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll),
+                                   GTK_POLICY_AUTOMATIC,
+                                   GTK_POLICY_AUTOMATIC);
+
+    /* Without this the scroller inherits the page's natural height and grows
+     * the toplevel exactly as if it were not there. */
+    gtk_scrolled_window_set_propagate_natural_width(
+        GTK_SCROLLED_WINDOW(scroll), FALSE);
+    gtk_scrolled_window_set_propagate_natural_height(
+        GTK_SCROLLED_WINDOW(scroll), FALSE);
+
+    gtk_widget_set_hexpand(scroll, TRUE);
+    gtk_widget_set_vexpand(scroll, TRUE);
+    gtk_container_add(GTK_CONTAINER(scroll), page);
+    return scroll;
 }
 
 static gboolean maximize_main_window_idle(gpointer data)
@@ -1578,12 +1608,16 @@ GtkWidget *gui_create_main_window(GtkApplication *app)
     GtkWidget *trace_scroll = create_trace_view();
     gtk_paned_pack1(GTK_PANED(paned), trace_scroll, TRUE, TRUE);
     GtkWidget *tx_panel = create_transmit_panel();
-    gtk_paned_pack2(GTK_PANED(paned), tx_panel, TRUE, TRUE);
+    /* shrink=FALSE: the trace list gives up space first. With shrink=TRUE the
+     * paned drove the transmit panel below its minimum on short screens and
+     * clipped the Send/Start/Stop buttons out of reach. */
+    gtk_paned_pack2(GTK_PANED(paned), tx_panel, TRUE, FALSE);
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), paned,
                              gtk_label_new("Receive / Transmit"));
 
     /* Page 2 — Bit Analysis (reverse-engineer signals before DBC exists). */
-    GtkWidget *bit_page = gui_create_bit_analysis_view();
+    GtkWidget *bit_page = gui_make_page_scroller(
+        gui_create_bit_analysis_view());
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), bit_page,
                              gtk_label_new("Bit Analysis"));
 
@@ -1603,7 +1637,9 @@ GtkWidget *gui_create_main_window(GtkApplication *app)
                              gtk_label_new("Math"));
 
     /* Page 6 — DB Creation (generate/update DBC files from RX rows). */
-    GtkWidget *db_page = gui_create_db_creation_view();
+    /* The scroller is the page the notebook owns, so it is also the widget
+     * gtk_notebook_page_num() must be given when focusing this tab. */
+    GtkWidget *db_page = gui_make_page_scroller(gui_create_db_creation_view());
     g_gui.db_creation_page = db_page;
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), db_page,
                              gtk_label_new("DB Creation"));

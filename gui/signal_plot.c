@@ -838,7 +838,7 @@ static void create_analysis_window(void)
     gtk_box_pack_start(GTK_BOX(vbox), paned, TRUE, TRUE, 0);
 
     pw->area = gtk_drawing_area_new();
-    gtk_widget_set_size_request(pw->area, 400, 200);
+    gtk_widget_set_size_request(pw->area, GUI_PLOT_MIN_W, GUI_PLOT_MIN_H);
     gtk_widget_add_events(pw->area,
                           GDK_POINTER_MOTION_MASK | GDK_LEAVE_NOTIFY_MASK);
     g_signal_connect(pw->area, "draw", G_CALLBACK(on_draw), pw);
@@ -866,7 +866,7 @@ static void create_analysis_window(void)
 
     GtkWidget *side_frame = gtk_frame_new(NULL);
     gtk_container_add(GTK_CONTAINER(side_frame), side);
-    gtk_widget_set_size_request(side_frame, 240, -1);
+    gtk_widget_set_size_request(side_frame, GUI_SIDE_PANEL_MIN_W, -1);
     gtk_paned_pack2(GTK_PANED(paned), side_frame, FALSE, TRUE);
 
     g_signal_connect(pw->win, "destroy",

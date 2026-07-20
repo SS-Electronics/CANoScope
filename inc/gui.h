@@ -52,6 +52,48 @@ enum {
 #define GUI_TRACE_DATA_TEXT_MAX 512
 
 /**
+ * @name Compact layout budget
+ *
+ * @details
+ * The reference target is a 1366x768 (16:9) panel, the smallest display the
+ * application supports. Every notebook page must reach its *minimum* size
+ * request within that budget, otherwise GTK grows the toplevel past the
+ * monitor and the status bar, footer, and bottom-most controls fall off
+ * screen where no window manager can bring them back.
+ *
+ * Panels therefore declare small minimums and rely on expansion to fill a
+ * larger display, rather than declaring comfortable fixed heights. Pages that
+ * are inherently form-heavy are additionally wrapped by
+ * @ref gui_make_page_scroller so their content stays reachable if a future
+ * panel pushes the page past the budget again.
+ * @{
+ */
+#define GUI_MIN_SCREEN_W        1366  /**< Reference panel width (px).        */
+#define GUI_MIN_SCREEN_H        768   /**< Reference panel height (px).       */
+
+#define GUI_LIST_MIN_H          92    /**< Minimum height of a list panel.    */
+#define GUI_INSPECTOR_MIN_H     96    /**< Minimum height of a detail pane.   */
+#define GUI_PLOT_MIN_W          320   /**< Minimum width of a plot canvas.    */
+#define GUI_PLOT_MIN_H          130   /**< Minimum height of a plot canvas.   */
+#define GUI_SIDE_PANEL_MIN_W    210   /**< Minimum width of a side panel.     */
+#define GUI_TX_ROWS_MIN_H       76    /**< Transmit grid: header + one row.   */
+/** @} */
+
+/**
+ * @brief Wrap a notebook page so it scrolls instead of forcing the window
+ *        past the display.
+ *
+ * @details
+ * The page keeps its expand flags, so on a large display the viewport hands
+ * it the full allocation and no scrollbars appear. On a 1366x768 panel the
+ * scrollbars engage only for the axis that actually overflows.
+ *
+ * @param page Page widget to wrap.
+ * @return The scrolled window now owning @p page.
+ */
+GtkWidget *gui_make_page_scroller(GtkWidget *page);
+
+/**
  * @brief Snapshot of one RX row from the main trace table.
  */
 typedef struct {

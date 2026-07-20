@@ -87,9 +87,6 @@ python3 scripts/test_dbc.py --no-setup --rate 30 --duration 60
 
 ## Main Window
 
-CANoScope opens maximized and the notebook tabs resize with the main window.
-The top-level layout is:
-
 ![CANoScope main window](assets/screenshots/main-window.png)
 
 | Region | Purpose |

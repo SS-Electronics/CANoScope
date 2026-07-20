@@ -19,6 +19,42 @@
 #define BA_UI_REFRESH_MS  100
 #define BA_UI_ANALYZE_MAX_SAMPLES 5000u
 
+/**
+ * @name Bit matrix geometry
+ *
+ * @details
+ * The matrix is an 8x8 grid of bit cells with a row-label gutter on the left
+ * and a column-label strip on top. #BA_MATRIX_CELL_MIN is the smallest cell
+ * that still fits a legible glyph; below it @ref on_matrix_draw gives up and
+ * renders nothing. The widget therefore requests #BA_MATRIX_MIN_W by
+ * #BA_MATRIX_MIN_H so it can never be allocated into that dead zone.
+ * @{
+ */
+#define BA_MATRIX_LEFT      44  /**< Row-label gutter width (px).             */
+#define BA_MATRIX_TOP       26  /**< Column-label strip height (px).          */
+#define BA_MATRIX_PAD_R     10  /**< Right padding (px).                      */
+#define BA_MATRIX_PAD_B     12  /**< Bottom padding (px).                     */
+#define BA_MATRIX_CELL_MIN  12  /**< Smallest legible cell edge (px).         */
+#define BA_MATRIX_MIN_W \
+    (BA_MATRIX_LEFT + BA_MATRIX_PAD_R + 8 * BA_MATRIX_CELL_MIN)
+#define BA_MATRIX_MIN_H \
+    (BA_MATRIX_TOP + BA_MATRIX_PAD_B + 8 * BA_MATRIX_CELL_MIN)
+/** @} */
+
+/**
+ * @name Field timeline geometry
+ *
+ * @details
+ * The timeline shares the right-hand column with the bit matrix. Both expand,
+ * so without an explicit floor the matrix's larger minimum consumes the column
+ * and collapses the timeline to nothing. These values keep the plot area big
+ * enough to stay readable at 1366x768.
+ * @{
+ */
+#define BA_TIMELINE_MIN_W  180  /**< Minimum timeline width (px).             */
+#define BA_TIMELINE_MIN_H  90   /**< Minimum timeline height (px).            */
+/** @} */
+
 typedef struct {
     uint32_t id;
     uint8_t ext;
@@ -1200,10 +1236,10 @@ static gboolean on_matrix_draw(GtkWidget *widget, cairo_t *cr, gpointer data)
                            CAIRO_FONT_WEIGHT_NORMAL);
     cairo_set_font_size(cr, 10);
 
-    double left = 44, top = 26;
-    double cw = (W - left - 10) / 8.0;
-    double ch = (H - top - 12) / 8.0;
-    if (cw < 12 || ch < 12)
+    double left = BA_MATRIX_LEFT, top = BA_MATRIX_TOP;
+    double cw = (W - left - BA_MATRIX_PAD_R) / 8.0;
+    double ch = (H - top - BA_MATRIX_PAD_B) / 8.0;
+    if (cw < BA_MATRIX_CELL_MIN || ch < BA_MATRIX_CELL_MIN)
         return FALSE;
 
     for (int col = 0; col < 8; col++) {
@@ -1845,8 +1881,8 @@ GtkWidget *gui_create_bit_analysis_view(void)
     gtk_paned_pack1(GTK_PANED(paned), left, TRUE, TRUE);
 
     GtkWidget *survey_frame = gtk_frame_new("Live CAN ID Survey");
-    gtk_widget_set_size_request(survey_frame, -1, 150);
-    gtk_box_pack_start(GTK_BOX(left), survey_frame, FALSE, FALSE, 0);
+    gtk_widget_set_size_request(survey_frame, -1, GUI_LIST_MIN_H);
+    gtk_box_pack_start(GTK_BOX(left), survey_frame, TRUE, TRUE, 0);
     GtkWidget *survey_view = make_tree(s_ba.target_store);
     add_text_column(survey_view, "Message", SURV_COL_LABEL, 220);
     add_text_column(survey_view, "Mean", SURV_COL_MEAN, 70);
@@ -1859,8 +1895,8 @@ GtkWidget *gui_create_bit_analysis_view(void)
     gtk_container_add(GTK_CONTAINER(survey_frame), survey_scroll);
 
     GtkWidget *seg_frame = gtk_frame_new("Experiment Segments");
-    gtk_widget_set_size_request(seg_frame, -1, 120);
-    gtk_box_pack_start(GTK_BOX(left), seg_frame, FALSE, FALSE, 0);
+    gtk_widget_set_size_request(seg_frame, -1, GUI_LIST_MIN_H);
+    gtk_box_pack_start(GTK_BOX(left), seg_frame, TRUE, TRUE, 0);
     s_ba.segment_store = gtk_list_store_new(SEG_COL_NUM_COLS,
         G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
         G_TYPE_STRING);
@@ -1943,6 +1979,8 @@ GtkWidget *gui_create_bit_analysis_view(void)
     gtk_box_pack_start(GTK_BOX(mode_bar), gtk_label_new("Mode:"), FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(mode_bar), s_ba.mode_combo, FALSE, FALSE, 0);
     s_ba.matrix_area = gtk_drawing_area_new();
+    gtk_widget_set_size_request(s_ba.matrix_area,
+                                BA_MATRIX_MIN_W, BA_MATRIX_MIN_H);
     gtk_widget_set_hexpand(s_ba.matrix_area, TRUE);
     gtk_widget_set_vexpand(s_ba.matrix_area, TRUE);
     gtk_widget_add_events(s_ba.matrix_area, GDK_BUTTON_PRESS_MASK);
@@ -1962,6 +2000,8 @@ GtkWidget *gui_create_bit_analysis_view(void)
     gtk_widget_set_vexpand(timeline_frame, TRUE);
     gtk_box_pack_start(GTK_BOX(right), timeline_frame, TRUE, TRUE, 0);
     s_ba.timeline_area = gtk_drawing_area_new();
+    gtk_widget_set_size_request(s_ba.timeline_area,
+                                BA_TIMELINE_MIN_W, BA_TIMELINE_MIN_H);
     gtk_widget_set_hexpand(s_ba.timeline_area, TRUE);
     gtk_widget_set_vexpand(s_ba.timeline_area, TRUE);
     g_signal_connect(s_ba.timeline_area, "draw",
@@ -2035,13 +2075,20 @@ GtkWidget *gui_create_bit_analysis_view(void)
     gtk_container_add(GTK_CONTAINER(cand_frame), cand_scroll);
 
     GtkWidget *insp_frame = gtk_frame_new("Candidate Inspector");
-    gtk_widget_set_size_request(insp_frame, -1, 170);
+    gtk_widget_set_size_request(insp_frame, -1, GUI_INSPECTOR_MIN_H);
     gtk_paned_pack2(GTK_PANED(cand_paned), insp_frame, FALSE, TRUE);
     s_ba.inspector_label = gtk_label_new("No candidate selected.");
     gtk_label_set_xalign(GTK_LABEL(s_ba.inspector_label), 0.0f);
     gtk_label_set_yalign(GTK_LABEL(s_ba.inspector_label), 0.0f);
     gtk_label_set_line_wrap(GTK_LABEL(s_ba.inspector_label), TRUE);
-    gtk_container_add(GTK_CONTAINER(insp_frame), s_ba.inspector_label);
+    /* A selected candidate produces many wrapped lines; scroll them instead
+     * of letting the label's natural height drive the page. */
+    GtkWidget *insp_scroll = gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(insp_scroll),
+                                   GTK_POLICY_NEVER,
+                                   GTK_POLICY_AUTOMATIC);
+    gtk_container_add(GTK_CONTAINER(insp_scroll), s_ba.inspector_label);
+    gtk_container_add(GTK_CONTAINER(insp_frame), insp_scroll);
 
     s_ba.status_label = gtk_label_new(
         "Passive analysis mode. Use active transmission only on an isolated test bench.");
